@@ -29,7 +29,12 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    bootstrap-sass (2.2.2.0)
+      sass (~> 3.2)
     builder (3.0.4)
+    coffee-filter (0.1.1)
+      coffee-script (>= 2.2.0)
+      haml (>= 3.0.18)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -37,13 +42,29 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.5.0)
+    ejs (1.1.1)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    haml (3.1.8)
+    haml-rails (0.3.5)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (~> 3.1)
+      railties (>= 3.1, < 4.1)
+    haml_assets (0.2.1)
+      haml
+      tilt
+    haml_coffee_assets (1.8.2)
+      coffee-script (>= 1.0.0)
+      sprockets (>= 2.0.3)
+      tilt (>= 1.3.3)
     hike (1.2.1)
     i18n (0.6.2)
+    i18n-js (2.1.2)
+      i18n
     journey (1.0.4)
-    jquery-rails (2.2.1)
+    jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.7)
@@ -51,6 +72,8 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    marionette-rails (1.0.0.rc5)
+      rails (>= 3.1.0)
     mime-types (1.21)
     multi_json (1.6.1)
     polyglot (0.3.3)
@@ -69,6 +92,12 @@ GEM
       activesupport (= 3.2.12)
       bundler (~> 1.0)
       railties (= 3.2.12)
+    rails-backbone (0.9.10)
+      coffee-script (~> 2.2.0)
+      ejs (~> 1.1.1)
+      jquery-rails (~> 2.1.3)
+      railties (>= 3.1.0)
+    rails-backbone-forms (0.10.1)
     railties (3.2.12)
       actionpack (= 3.2.12)
       activesupport (= 3.2.12)
@@ -90,6 +119,10 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.7)
+    strong_parameters (0.1.6)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
+      railties (~> 3.0)
     thor (0.17.0)
     tilt (1.3.3)
     treetop (1.4.12)
@@ -104,9 +137,20 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass (~> 2.2.2.0)
+  coffee-filter
   coffee-rails (~> 3.2.1)
-  jquery-rails
+  execjs
+  haml-rails
+  haml_assets
+  haml_coffee_assets (~> 1.8.2)
+  i18n-js
+  jquery-rails (~> 2.1.3)
+  marionette-rails (~> 1.0.0.rc5)
   rails (= 3.2.12)
+  rails-backbone (~> 0.9.10)
+  rails-backbone-forms
   sass-rails (~> 3.2.3)
   sqlite3
+  strong_parameters
   uglifier (>= 1.0.3)
