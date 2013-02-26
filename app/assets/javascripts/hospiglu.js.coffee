@@ -4,8 +4,12 @@
 #= require_tree ./views
 #= require_tree ./routers
 
-window.Hospiglu =
-  Models: {}
-  Collections: {}
-  Routers: {}
-  Views: {}
+# Set default locale for I18n
+I18n.defaultLocale = "nl"
+
+Backbone.Marionette.Renderer.render = (template, data) ->
+  if !JST[template]
+    throw "Template '" + template + "' not found!"
+  JST[template](data)
+
+@Hospiglu = new Backbone.Marionette.Application
