@@ -1,37 +1,36 @@
-Hospiglu.Views.Shapes ||= {}
+Hospiglu.module "Views.Graffles", ->
+  class @NewView extends Backbone.View
+    template: JST["backbone/templates/shapes/new"]
 
-class Hospiglu.Views.Shapes.NewView extends Backbone.View
-  template: JST["backbone/templates/shapes/new"]
+    events:
+      "submit #new-shape": "save"
 
-  events:
-    "submit #new-shape": "save"
+    constructor: (options) ->
+      super(options)
+      @model = new @collection.model()
 
-  constructor: (options) ->
-    super(options)
-    @model = new @collection.model()
+      @model.bind("change:errors", () =>
+        this.render()
+      )
 
-    @model.bind("change:errors", () =>
-      this.render()
-    )
+    save: (e) ->
+      e.preventDefault()
+      e.stopPropagation()
 
-  save: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
+      @model.unset("errors")
 
-    @model.unset("errors")
+      @collection.create(@model.toJSON(),
+        success: (shape) =>
+          @model = shape
+          window.location.hash = "/#{@model.id}"
 
-    @collection.create(@model.toJSON(),
-      success: (shape) =>
-        @model = shape
-        window.location.hash = "/#{@model.id}"
+        error: (shape, jqXHR) =>
+          @model.set({errors: $.parseJSON(jqXHR.responseText)})
+      )
 
-      error: (shape, jqXHR) =>
-        @model.set({errors: $.parseJSON(jqXHR.responseText)})
-    )
+    render: ->
+      @$el.html(@template(@model.toJSON() ))
 
-  render: ->
-    @$el.html(@template(@model.toJSON() ))
+      this.$("form").backboneLink(@model)
 
-    this.$("form").backboneLink(@model)
-
-    return this
+      return this

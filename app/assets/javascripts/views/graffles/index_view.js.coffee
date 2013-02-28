@@ -1,20 +1,19 @@
-Hospiglu.Views.Graffles ||= {}
+Hospiglu.module "Views.Graffles", ->
+  class @IndexView extends Backbone.View
+    template: JST["backbone/templates/graffles/index"]
 
-class Hospiglu.Views.Graffles.IndexView extends Backbone.View
-  template: JST["backbone/templates/graffles/index"]
+    initialize: () ->
+      @options.graffles.bind('reset', @addAll)
 
-  initialize: () ->
-    @options.graffles.bind('reset', @addAll)
+    addAll: () =>
+      @options.graffles.each(@addOne)
 
-  addAll: () =>
-    @options.graffles.each(@addOne)
+    addOne: (graffle) =>
+      view = new Hospiglu.Views.Graffles.GraffleView({model : graffle})
+      @$("tbody").append(view.render().el)
 
-  addOne: (graffle) =>
-    view = new Hospiglu.Views.Graffles.GraffleView({model : graffle})
-    @$("tbody").append(view.render().el)
+    render: =>
+      @$el.html(@template(graffles: @options.graffles.toJSON() ))
+      @addAll()
 
-  render: =>
-    @$el.html(@template(graffles: @options.graffles.toJSON() ))
-    @addAll()
-
-    return this
+      return this

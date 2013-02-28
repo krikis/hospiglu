@@ -1,24 +1,23 @@
-Hospiglu.Views.Shapes ||= {}
+Hospiglu.module "Views.Shapes", ->
+  class @EditView extends Backbone.View
+    template: JST["backbone/templates/shapes/edit"]
 
-class Hospiglu.Views.Shapes.EditView extends Backbone.View
-  template: JST["backbone/templates/shapes/edit"]
+    events:
+      "submit #edit-shape": "update"
 
-  events:
-    "submit #edit-shape": "update"
+    update: (e) ->
+      e.preventDefault()
+      e.stopPropagation()
 
-  update: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
+      @model.save(null,
+        success: (shape) =>
+          @model = shape
+          window.location.hash = "/#{@model.id}"
+      )
 
-    @model.save(null,
-      success: (shape) =>
-        @model = shape
-        window.location.hash = "/#{@model.id}"
-    )
+    render: ->
+      @$el.html(@template(@model.toJSON() ))
 
-  render: ->
-    @$el.html(@template(@model.toJSON() ))
+      this.$("form").backboneLink(@model)
 
-    this.$("form").backboneLink(@model)
-
-    return this
+      return this

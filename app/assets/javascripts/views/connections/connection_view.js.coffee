@@ -1,19 +1,18 @@
-Hospiglu.Views.Connections ||= {}
+Hospiglu.module "Views.Connections", ->
+  class @ConnectionView extends Backbone.View
+    template: JST["backbone/templates/connections/connection"]
 
-class Hospiglu.Views.Connections.ConnectionView extends Backbone.View
-  template: JST["backbone/templates/connections/connection"]
+    events:
+      "click .destroy" : "destroy"
 
-  events:
-    "click .destroy" : "destroy"
+    tagName: "tr"
 
-  tagName: "tr"
+    destroy: () ->
+      @model.destroy()
+      this.remove()
 
-  destroy: () ->
-    @model.destroy()
-    this.remove()
+      return false
 
-    return false
-
-  render: ->
-    @$el.html(@template(@model.toJSON() ))
-    return this
+    render: ->
+      @$el.html(@template(@model.toJSON() ))
+      return this

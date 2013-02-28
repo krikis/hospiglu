@@ -1,8 +1,10 @@
-class Hospiglu.Models.Connection extends Backbone.Model
-  paramRoot: 'connection'
+Hospiglu.module "Models", ->
+  class @Connection extends Backbone.Model
+    paramRoot: 'connection'
 
-  defaults:
+    defaults: {}
 
-class Hospiglu.Collections.ConnectionsCollection extends Backbone.Collection
-  model: Hospiglu.Models.Connection
-  url: '/connections'
+Hospiglu.module "Collections", ->
+  class @ConnectionsCollection extends Backbone.Collection
+    model: Hospiglu.Models.Connection
+    url: '/connections'

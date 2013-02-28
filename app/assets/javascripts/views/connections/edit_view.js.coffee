@@ -1,24 +1,23 @@
-Hospiglu.Views.Connections ||= {}
+Hospiglu.module "Views.Connections", ->
+  class @EditView extends Backbone.View
+    template: JST["backbone/templates/connections/edit"]
 
-class Hospiglu.Views.Connections.EditView extends Backbone.View
-  template: JST["backbone/templates/connections/edit"]
+    events:
+      "submit #edit-connection": "update"
 
-  events:
-    "submit #edit-connection": "update"
+    update: (e) ->
+      e.preventDefault()
+      e.stopPropagation()
 
-  update: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
+      @model.save(null,
+        success: (connection) =>
+          @model = connection
+          window.location.hash = "/#{@model.id}"
+      )
 
-    @model.save(null,
-      success: (connection) =>
-        @model = connection
-        window.location.hash = "/#{@model.id}"
-    )
+    render: ->
+      @$el.html(@template(@model.toJSON() ))
 
-  render: ->
-    @$el.html(@template(@model.toJSON() ))
+      this.$("form").backboneLink(@model)
 
-    this.$("form").backboneLink(@model)
-
-    return this
+      return this

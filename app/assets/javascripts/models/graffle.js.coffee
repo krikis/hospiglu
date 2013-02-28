@@ -1,8 +1,10 @@
-class Hospiglu.Models.Graffle extends Backbone.Model
-  paramRoot: 'graffle'
+Hospiglu.module "Models", ->
+  class @Graffle extends Backbone.Model
+    paramRoot: 'graffle'
 
-  defaults:
+    defaults: {}
 
-class Hospiglu.Collections.GrafflesCollection extends Backbone.Collection
-  model: Hospiglu.Models.Graffle
-  url: '/graffles'
+Hospiglu.module "Collections", ->
+  class @GrafflesCollection extends Backbone.Collection
+    model: Hospiglu.Models.Graffle
+    url: '/graffles'

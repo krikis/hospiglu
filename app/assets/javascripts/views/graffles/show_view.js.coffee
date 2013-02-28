@@ -1,8 +1,7 @@
-Hospiglu.Views.Graffles ||= {}
+Hospiglu.module "Views.Graffles", ->
+  class @ShowView extends Backbone.View
+    template: JST["backbone/templates/graffles/show"]
 
-class Hospiglu.Views.Graffles.ShowView extends Backbone.View
-  template: JST["backbone/templates/graffles/show"]
-
-  render: ->
-    @$el.html(@template(@model.toJSON() ))
-    return this
+    render: ->
+      @$el.html(@template(@model.toJSON() ))
+      return this
