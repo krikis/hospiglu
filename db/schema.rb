@@ -14,9 +14,12 @@
 ActiveRecord::Schema.define(:version => 20130228150947) do
 
   create_table "connections", :force => true do |t|
+    t.integer  "graffle_id"
+    t.integer  "start_shape_id"
+    t.integer  "end_shape_id"
     t.text     "properties"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "graffles", :force => true do |t|
