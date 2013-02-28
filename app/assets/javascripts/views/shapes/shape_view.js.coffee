@@ -1,18 +1,16 @@
 Hospiglu.module "Views.Shapes", ->
-  class @ShapeView extends Backbone.View
-    template: JST["backbone/templates/shapes/shape"]
-
-    events:
-      "click .destroy" : "destroy"
-
-    tagName: "tr"
-
-    destroy: () ->
-      @model.destroy()
-      this.remove()
-
-      return false
-
+  class @ShapeView extends Marionette.ItemView
     render: ->
-      @$el.html(@template(@model.toJSON() ))
-      return this
+      svg = @options.svg
+      shapeProperties = @model.get('properties')
+      console.log shapeProperties
+      console.log svg[shapeProperties.shape_type]
+      svg[shapeProperties.shape_type].call(
+        svg,
+        shapeProperties.x,
+        shapeProperties.y,
+        shapeProperties.width,
+        shapeProperties.height,
+        shapeProperties.border_radius
+      )
+      @

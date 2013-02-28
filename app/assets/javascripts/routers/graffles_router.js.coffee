@@ -3,21 +3,31 @@ Hospiglu.module "Routers", ->
     initialize: (options) ->
       @graffles = new Hospiglu.Collections.GrafflesCollection()
       @graffles.reset options.graffles
+      @shapes = new Hospiglu.Collections.ShapesCollection()
+      @shapes.reset options.shapes
+      @connections = new Hospiglu.Collections.ConnectionsCollection()
+      @connections.reset options.connections
 
     routes:
-      "new"      : "newGraffle"
-      "index"    : "index"
-      ":id/edit" : "edit"
-      ":id"      : "show"
-      ".*"        : "index"
+      'graffles'          : 'index'
+      'graffles/new'      : 'newGraffle'
+      'graffles/:id/edit' : 'edit'
+      'graffles/:id'      : 'show'
+      '.*'                : 'index'
 
     newGraffle: ->
       @view = new Hospiglu.Views.Graffles.NewView(collection: @graffles)
       $("#graffles").html(@view.render().el)
 
     index: ->
-      @view = new Hospiglu.Views.Graffles.IndexView(graffles: @graffles)
-      $("#graffles").html(@view.render().el)
+      graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles)
+      Hospiglu.sidebar.show(graffleList)
+      graffleView = new Hospiglu.Views.Graffles.ShowView(model: _.first(@graffles.models))
+      Hospiglu.content.show(graffleView)
+      shapesView = new Hospiglu.Views.Shapes.IndexView(collection: @shapes, svg: graffleView.svg)
+      Hospiglu.sandbox.show(shapesView)
+      connectionsView = new Hospiglu.Views.Connections.IndexView(collection: @connections, svg: graffleView.svg)
+      Hospiglu.sandbox.show(connectionsView)
 
     show: (id) ->
       graffle = @graffles.get(id)

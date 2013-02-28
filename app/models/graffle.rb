@@ -11,7 +11,8 @@ class Graffle < ActiveRecord::Base
 
   def as_json(options={})
     {id: id,
-     properties: properties}
+     properties: properties,
+     updated_at: updated_at}
   end
 
 end

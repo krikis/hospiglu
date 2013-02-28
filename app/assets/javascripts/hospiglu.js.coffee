@@ -8,14 +8,18 @@
 I18n.defaultLocale = "nl"
 
 Backbone.Marionette.Renderer.render = (template, data) ->
-  if !JST[template]
-    throw "Template '" + template + "' not found!"
+  throw "Template '#{template}' not found!" unless JST[template]
   JST[template](data)
 
 @Hospiglu = new Backbone.Marionette.Application
 
-Hospiglu.addInitializer ->
-  Hospiglu.addRegions(content: "#content")
+Hospiglu.addInitializer (options)->
+  Hospiglu.addRegions
+    sidebar: '#sidebar'
+    content: '#content'
+    sandbox: '#sandbox'
+  new Hospiglu.Routers.GrafflesRouter options
+  Backbone.history.start
+    pushState: true
+  Backbone.history.navigate 'graffles'
 
-$ ->
-  Hospiglu.start()

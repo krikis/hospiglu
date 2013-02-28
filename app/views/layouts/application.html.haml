@@ -6,5 +6,8 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    #content
-      = yield
+    .row-fluid
+      #sidebar.span3
+      #content.span9
+      #sandbox{css: 'display: none'}
+    = yield

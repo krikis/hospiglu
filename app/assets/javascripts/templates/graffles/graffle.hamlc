@@ -1,0 +1,6 @@
+%td
+  = @properties.name
+%td
+  = @updated_at
+%td
+  %a{:href => "graffles/#{@id}"} Show

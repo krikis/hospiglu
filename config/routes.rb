@@ -1,9 +1,10 @@
 Hospiglu::Application.routes.draw do
+
+  root to: 'graffles#index'
+
   resources :connections
 
-
   resources :shapes
-
 
   resources :graffles
 

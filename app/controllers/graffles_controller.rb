@@ -3,6 +3,9 @@ class GrafflesController < ApplicationController
   # GET /graffles.json
   def index
     @graffles = Graffle.all
+    graffle = @graffles.first
+    @shapes = graffle.shapes
+    @connections = graffle.connections
 
     respond_to do |format|
       format.html # index.html.erb
