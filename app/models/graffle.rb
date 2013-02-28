@@ -9,4 +9,9 @@ class Graffle < ActiveRecord::Base
     self[:properties] ||= {}
   end
 
+  def as_json(options={})
+    {id: id,
+     properties: properties}
+  end
+
 end

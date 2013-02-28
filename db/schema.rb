@@ -23,11 +23,14 @@ ActiveRecord::Schema.define(:version => 20130228150947) do
   end
 
   create_table "graffles", :force => true do |t|
+    t.text     "properties"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "shapes", :force => true do |t|
+    t.integer  "graffle_id"
+    t.text     "properties"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

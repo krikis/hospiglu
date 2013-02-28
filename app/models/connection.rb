@@ -16,4 +16,12 @@ class Connection < ActiveRecord::Base
     self[:properties] ||= {}
   end
 
+  def as_json(options={})
+    {id: id,
+     graffle_id: graffle_id,
+     properties: properties,
+     start_shape_id: start_shape_id,
+     end_shape_id: end_shape_id}
+  end
+
 end
