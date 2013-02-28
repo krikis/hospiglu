@@ -62,8 +62,7 @@ module Hospiglu
     config.generators do |g|
       g.template_engine     :haml
       g.orm                 :active_record
-      g.test_framework      :rspec, :fixture => false
-      g.fixture_replacement :fabrication
+      g.test_framework      false
       g.helper              false
       g.stylesheets         false
       g.javascripts         false

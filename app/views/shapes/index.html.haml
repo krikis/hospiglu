@@ -1,0 +1,17 @@
+%h1 Listing shapes
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @shapes.each do |shape|
+    %tr
+      %td= link_to 'Show', shape
+      %td= link_to 'Edit', edit_shape_path(shape)
+      %td= link_to 'Destroy', shape, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Shape', new_shape_path

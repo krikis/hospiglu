@@ -1,0 +1,17 @@
+%h1 Listing graffles
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @graffles.each do |graffle|
+    %tr
+      %td= link_to 'Show', graffle
+      %td= link_to 'Edit', edit_graffle_path(graffle)
+      %td= link_to 'Destroy', graffle, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Graffle', new_graffle_path

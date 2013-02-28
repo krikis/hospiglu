@@ -1,4 +1,13 @@
 Hospiglu::Application.routes.draw do
+  resources :connections
+
+
+  resources :shapes
+
+
+  resources :graffles
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
