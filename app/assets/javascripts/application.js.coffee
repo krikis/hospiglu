@@ -22,5 +22,6 @@
 #= require backbone-forms-bootstrap
 #= require i18n
 #= require i18n/translations
+#= require raphael
 #
 #= require hospiglu

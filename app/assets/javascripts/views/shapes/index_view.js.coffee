@@ -1,4 +1,4 @@
-Hospiglu.module "Views.Graffles", ->
+Hospiglu.module "Views.Shapes", ->
   class @IndexView extends Backbone.View
     template: JST["backbone/templates/shapes/index"]
 
