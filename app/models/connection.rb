@@ -1,3 +1,9 @@
 class Connection < ActiveRecord::Base
-  # attr_accessible :title, :body
+
+  serialize :properties
+
+  def properties
+    self[:properties] ||= {}
+  end
+  
 end
