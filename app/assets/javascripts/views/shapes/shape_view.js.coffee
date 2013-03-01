@@ -30,7 +30,7 @@ Hospiglu.module "Views.Shapes", ->
 
     render: ->
       paper = @options.paper
-      if paper.isMenu? == @model.get('menu_id')?
+      if paper.isMenu? == @model.get('in_menu')
         shapeProperties = @model.get('properties')
         @shape = paper[shapeProperties.shape_type].call(
           paper,

@@ -13,39 +13,77 @@ Connection.destroy_all
 3.times do |index|
   graffle = Graffle.create properties: {name: "Graffle #{index}"}
 
-  rect1 = Shape.create graffle: graffle,
-                       in_menu: true,
-                       properties: {shape_type: 'rect',
-                                    x: 60,
-                                    y: 50,
-                                    width: 60,
-                                    height: 40,
-                                    border_radius: 10}
+  mrect1 = Shape.create graffle: graffle,
+                        in_menu: true,
+                        properties: {shape_type: 'rect',
+                                     x: 30,
+                                     y: 30,
+                                     width: 60,
+                                     height: 40,
+                                     border_radius: 10}
 
-  rect2 = Shape.create graffle: graffle,
-                       in_menu: true,
-                       properties: {shape_type: 'rect',
-                                    x: 160,
-                                    y: 50,
-                                    width: 60,
-                                    height: 40,
-                                    border_radius: 2}
+  mrect2 = Shape.create graffle: graffle,
+                        in_menu: true,
+                        properties: {shape_type: 'rect',
+                                     x: 130,
+                                     y: 30,
+                                     width: 60,
+                                     height: 40,
+                                     border_radius: 2}
 
-  ellipse1 = Shape.create graffle: graffle,
-                          in_menu: true,
-                          properties: {shape_type: 'ellipse',
-                                       x: 260,
-                                       y: 50,
-                                       width: 30,
-                                       height: 20}
+  mellipse1 = Shape.create graffle: graffle,
+                           in_menu: true,
+                           properties: {shape_type: 'ellipse',
+                                        x: 260,
+                                        y: 50,
+                                        width: 30,
+                                        height: 20}
 
-  ellipse2 = Shape.create graffle: graffle,
-                          in_menu: true,
-                          properties: {shape_type: 'ellipse',
-                                       x: 360,
-                                       y: 50,
-                                       width: 20,
-                                       height: 20}
+  mellipse2 = Shape.create graffle: graffle,
+                           in_menu: true,
+                           properties: {shape_type: 'ellipse',
+                                        x: 350,
+                                        y: 50,
+                                        width: 20,
+                                        height: 20}
+
+  mconnection1 = Connection.create graffle: graffle,
+                                   in_menu: true,
+                                   properties: {line_color: '#fff',
+                                                x: 400,
+                                                y: 40,
+                                                x2: 500,
+                                                y2: 60,
+                                                cx: 450,
+                                                cy: 40,
+                                                cx2: 450,
+                                                cy2: 60}
+
+  mconnection2 = Connection.create graffle: graffle,
+                                   in_menu: true,
+                                   properties: {line_color: '#000',
+                                                background_color: '#fff',
+                                                x: 540,
+                                                y: 40,
+                                                x2: 640,
+                                                y2: 60,
+                                                cx: 590,
+                                                cy: 40,
+                                                cx2: 590,
+                                                cy2: 60}
+
+  mconnection3 = Connection.create graffle: graffle,
+                                   in_menu: true,
+                                   properties: {line_color: '#fff',
+                                                background_color: '#fff|5',
+                                                x: 680,
+                                                y: 40,
+                                                x2: 780,
+                                                y2: 60,
+                                                cx: 730,
+                                                cy: 40,
+                                                cx2: 730,
+                                                cy2: 60}
 
   rect1 = Shape.create graffle: graffle,
                        properties: {shape_type: 'rect',
@@ -88,7 +126,7 @@ Connection.destroy_all
                                   start_shape: rect1,
                                   end_shape: rect2
 
-  connection2 = Connection.create graffle: graffle,
+  connection3 = Connection.create graffle: graffle,
                                   properties: {line_color: '#000',
                                                background_color: '#fff'},
                                   start_shape: rect1,
