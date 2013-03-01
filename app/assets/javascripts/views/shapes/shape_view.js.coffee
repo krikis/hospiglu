@@ -16,10 +16,10 @@ Hospiglu.module "Views.Shapes", ->
         cy: @oy + dy
       )
       @attr att
-      _.each @outgoingConnections, (connection)->
-        @paper.connection connection
-      _.each @incomingConnections, (connection)->
-        @paper.connection connection
+      _.each @model.outgoingConnections(), (connection) =>
+        @paper.connection connection.el
+      _.each @model.incomingConnections(), (connection) =>
+        @paper.connection connection.el
       @paper.safari()
 
     up: ->
@@ -38,6 +38,8 @@ Hospiglu.module "Views.Shapes", ->
         shapeProperties.height,
         shapeProperties.border_radius
       )
+      @shape.model = @model
+      @model.el = @shape
       color = Raphael.getColor()
       @shape.attr
         fill: color
@@ -49,4 +51,4 @@ Hospiglu.module "Views.Shapes", ->
       @
 
     onClose: ->
-      @shape.remove()
+      @shape?.remove()

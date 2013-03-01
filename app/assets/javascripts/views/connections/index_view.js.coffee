@@ -1,3 +1,6 @@
 Hospiglu.module "Views.Connections", ->
   class @IndexView extends Marionette.CollectionView
-    itemView: Hospiglu.Views.Connections.ConnectionView
+    getItemView: -> Hospiglu.Views.Connections.ConnectionView
+    itemViewOptions: ->
+      raphael: @options.raphael
+
