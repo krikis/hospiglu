@@ -3,4 +3,4 @@
 %td
   = @updated_at
 %td
-  %a{:href => "graffles/#{@id}"} Show
+  %a.show_graffle{:href => "graffles/#{@id}"} Show

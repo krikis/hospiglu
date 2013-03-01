@@ -3,3 +3,4 @@ Hospiglu.module "Views.Graffles", ->
     getItemView: -> Hospiglu.Views.Graffles.GraffleView
     itemViewContainer: "tbody",
     template: 'graffles/index'
+

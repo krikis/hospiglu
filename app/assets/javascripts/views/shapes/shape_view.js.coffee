@@ -16,10 +16,11 @@ Hospiglu.module "Views.Shapes", ->
         cy: @oy + dy
       )
       @attr att
-      _.each @model.outgoingConnections(), (connection) =>
-        @paper.connection connection.el
-      _.each @model.incomingConnections(), (connection) =>
-        @paper.connection connection.el
+      Hospiglu.connectionsCallbacks.add =>
+        _.each @model.outgoingConnections(), (connection) =>
+          @paper.connection connection.el
+        _.each @model.incomingConnections(), (connection) =>
+          @paper.connection connection.el
       @paper.safari()
 
     up: ->

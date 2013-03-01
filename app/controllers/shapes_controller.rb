@@ -2,7 +2,11 @@ class ShapesController < ApplicationController
   # GET /shapes
   # GET /shapes.json
   def index
-    @shapes = Shape.all
+    if Graffle.find_by_id(params[:graffle_id])
+      @shapes = Shape.where(graffle_id: params[:graffle_id])
+    else
+      @shapes = Shape.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

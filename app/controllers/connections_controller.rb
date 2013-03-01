@@ -2,7 +2,11 @@ class ConnectionsController < ApplicationController
   # GET /connections
   # GET /connections.json
   def index
-    @connections = Connection.all
+    if Graffle.find_by_id(params[:graffle_id])
+      @connections = Connection.where(graffle_id: params[:graffle_id])
+    else
+      @connections = Connection.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
