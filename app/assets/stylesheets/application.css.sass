@@ -21,19 +21,39 @@ body
   color: #fff
   font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif
 
-#container
-  -moz-border-radius: 100px
-  -webkit-border-radius: 100px
+.rounded-top
+  +border-top-right-radius(50px)
+  +border-top-left-radius(50px)
+
+.rounded-bottom
+  +border-bottom-right-radius(50px)
+  +border-bottom-left-radius(50px)
+
+#content
+  position: relative
+  text-align: center
+
+#menu
+  @extend .rounded-top
   border: solid 1px white
-  height: 480px
-  left: 50%
-  margin: -240px 0 0 -320px
-  position: absolute
-  top: 50%
-  width: 640px
+  border-bottom: none
+  margin: 5%
+  margin-bottom: 0px
+  overflow: hidden
 
   svg
-    -moz-border-radius: 100px
-    -webkit-border-radius: 100px
+    @extend .rounded-top
+    margin: -0.2%
+
+#container
+  @extend .rounded-bottom
+  border: solid 1px white
+  margin: 5%
+  margin-top: 0px
+  overflow: hidden
+
+  svg
+    @extend .rounded-bottom
+    margin: -0.2%
 
 
