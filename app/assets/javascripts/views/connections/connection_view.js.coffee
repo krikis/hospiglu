@@ -11,25 +11,48 @@ Hospiglu.module "Views.Connections", ->
                                            endShape.el,
                                            connectionProperties.line_color,
                                            connectionProperties.background_color)
-            console.log @connection
+            @model.el = @connection
           else if connectionProperties.x?
-            @connection = paper.path("M,#{connectionProperties.x.toFixed(3)},\
-                                        #{connectionProperties.y.toFixed(3)},\
-                                      C,#{connectionProperties.cx.toFixed(3)},\
-                                        #{connectionProperties.cy.toFixed(3)},\
-                                        #{connectionProperties.cx2.toFixed(3)},\
-                                        #{connectionProperties.cy2.toFixed(3)},\
-                                        #{connectionProperties.x2.toFixed(3)},\
-                                        #{connectionProperties.y2.toFixed(3)}")
+            target
+            target = paper.path("M,#{connectionProperties.x.toFixed(3)},\
+                                   #{connectionProperties.y.toFixed(3)},\
+                                 C,#{connectionProperties.cx.toFixed(3)},\
+                                   #{connectionProperties.cy.toFixed(3)},\
+                                   #{connectionProperties.cx2.toFixed(3)},\
+                                   #{connectionProperties.cy2.toFixed(3)},\
+                                   #{connectionProperties.x2.toFixed(3)},\
+                                   #{connectionProperties.y2.toFixed(3)}")
+            target.attr
+              stroke: '#333'
+              fill: 'none'
+              'stroke-width': 10
+              cursor: 'move'
             if _.isString connectionProperties.background_color
-              @connection.attr
+              background = paper.path("M,#{connectionProperties.x.toFixed(3)},\
+                                         #{connectionProperties.y.toFixed(3)},\
+                                       C,#{connectionProperties.cx.toFixed(3)},\
+                                         #{connectionProperties.cy.toFixed(3)},\
+                                         #{connectionProperties.cx2.toFixed(3)},\
+                                         #{connectionProperties.cy2.toFixed(3)},\
+                                         #{connectionProperties.x2.toFixed(3)},\
+                                         #{connectionProperties.y2.toFixed(3)}")
+              background.attr
                 stroke: connectionProperties.background_color.split("|")[0]
                 fill: 'none'
                 'stroke-width': (connectionProperties.background_color.split("|")[1] || 3)
-            @connection.attr
+                cursor: 'move'
+            connection = paper.path("M,#{connectionProperties.x.toFixed(3)},\
+                                       #{connectionProperties.y.toFixed(3)},\
+                                     C,#{connectionProperties.cx.toFixed(3)},\
+                                       #{connectionProperties.cy.toFixed(3)},\
+                                       #{connectionProperties.cx2.toFixed(3)},\
+                                       #{connectionProperties.cy2.toFixed(3)},\
+                                       #{connectionProperties.x2.toFixed(3)},\
+                                       #{connectionProperties.y2.toFixed(3)}")
+            connection.attr
               stroke: connectionProperties.line_color
               fill: 'none'
-          @model.el = @connection
+              cursor: 'move'
       @
 
     onClose: ->
