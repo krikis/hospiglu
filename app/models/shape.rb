@@ -1,6 +1,9 @@
 class Shape < ActiveRecord::Base
 
   belongs_to :graffle
+  belongs_to :menu,
+             class_name: "Shape",
+             foreign_key: "menu_id"
 
   has_many :outgoing_connections,
            class_name: "Connection",

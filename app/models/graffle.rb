@@ -2,6 +2,12 @@ class Graffle < ActiveRecord::Base
 
   has_many :shapes
   has_many :connections
+  has_many :menu_shapes,
+           class_name: "Shape",
+           foreign_key: "menu_id"
+  has_many :menu_connections,
+           class_name: "Shape",
+           foreign_key: "menu_id"
 
   serialize :properties
 
