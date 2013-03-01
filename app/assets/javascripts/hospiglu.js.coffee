@@ -19,7 +19,7 @@ Hospiglu.addInitializer (options)->
     content:     '#content'
     shapes:      '#shapesSandbox'
     connections: '#connectionsSandbox'
-  new Hospiglu.Routers.GrafflesRouter options
+  Hospiglu.router = new Hospiglu.Routers.GrafflesRouter options
   Backbone.history.start
     pushState: true
   Backbone.history.navigate 'graffles'

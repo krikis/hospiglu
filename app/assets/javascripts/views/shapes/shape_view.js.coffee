@@ -16,9 +16,10 @@ Hospiglu.module "Views.Shapes", ->
         cy: @oy + dy
       )
       @attr att
-      # i = connections.length
-      # while i--
-      #   @paper.connection connections[i]
+      _.each @outgoingConnections, (connection)->
+        @paper.connection connection
+      _.each @incomingConnections, (connection)->
+        @paper.connection connection
       @paper.safari()
 
     up: ->
