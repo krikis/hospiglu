@@ -24,10 +24,11 @@ Hospiglu.module "Routers", ->
       Hospiglu.sidebar.show(graffleList)
       graffleView = new Hospiglu.Views.Graffles.ShowView(model: _.first(@graffles.models))
       Hospiglu.content.show(graffleView)
-      shapesView = new Hospiglu.Views.Shapes.IndexView(collection: @shapes, svg: graffleView.svg)
-      Hospiglu.sandbox.show(shapesView)
-      connectionsView = new Hospiglu.Views.Connections.IndexView(collection: @connections, svg: graffleView.svg)
-      Hospiglu.sandbox.show(connectionsView)
+      shapesView = new Hospiglu.Views.Shapes.IndexView(collection: @shapes, raphael: graffleView.raphael)
+      Hospiglu.shapes.show(shapesView)
+      connectionsView = new Hospiglu.Views.Connections
+                                    .IndexView(collection: @connections, raphael: graffleView.raphael)
+      Hospiglu.connections.show(connectionsView)
 
     show: (id) ->
       graffle = @graffles.get(id)
