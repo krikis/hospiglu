@@ -1,8 +1,1 @@
-%h1 Listing graffles
-%table#graffles-table
-  %tr
-    %th
-    %th
-    %th
-%br/
-%a{:href => "graffles/new"} New Graffle
+%h1 Graffles
