@@ -10,20 +10,40 @@ Graffle.destroy_all
 Shape.destroy_all
 Connection.destroy_all
 
-3.times do
-  graffle = Graffle.create properties: {name: 'Graffle'}
+3.times do |index|
+  graffle = Graffle.create properties: {name: "Graffle #{index}"}
+
+  rect1 = Shape.create graffle: graffle,
+                       in_menu: true,
+                       properties: {shape_type: 'rect',
+                                    x: 60,
+                                    y: 50,
+                                    width: 60,
+                                    height: 40,
+                                    border_radius: 10}
+
+  rect2 = Shape.create graffle: graffle,
+                       in_menu: true,
+                       properties: {shape_type: 'rect',
+                                    x: 160,
+                                    y: 50,
+                                    width: 60,
+                                    height: 40,
+                                    border_radius: 2}
 
   ellipse1 = Shape.create graffle: graffle,
+                          in_menu: true,
                           properties: {shape_type: 'ellipse',
-                                       x: 190,
-                                       y: 100,
+                                       x: 260,
+                                       y: 50,
                                        width: 30,
                                        height: 20}
 
   ellipse2 = Shape.create graffle: graffle,
+                          in_menu: true,
                           properties: {shape_type: 'ellipse',
-                                       x: 450,
-                                       y: 100,
+                                       x: 360,
+                                       y: 50,
                                        width: 20,
                                        height: 20}
 
@@ -42,6 +62,20 @@ Connection.destroy_all
                                     width: 60,
                                     height: 40,
                                     border_radius: 2}
+
+  ellipse1 = Shape.create graffle: graffle,
+                          properties: {shape_type: 'ellipse',
+                                       x: 190,
+                                       y: 100,
+                                       width: 30,
+                                       height: 20}
+
+  ellipse2 = Shape.create graffle: graffle,
+                          properties: {shape_type: 'ellipse',
+                                       x: 450,
+                                       y: 100,
+                                       width: 20,
+                                       height: 20}
 
   connection1 = Connection.create graffle: graffle,
                                   properties: {line_color: '#fff'},

@@ -15,10 +15,12 @@ Backbone.Marionette.Renderer.render = (template, data) ->
 
 Hospiglu.addInitializer (options)->
   Hospiglu.addRegions
-    sidebar:     '#sidebar'
-    content:     '#content'
-    shapes:      '#shapesSandbox'
-    connections: '#connectionsSandbox'
+    sidebar:         '#sidebar'
+    content:         '#content'
+    menuShapes:      '#sandbox'
+    menuConnections: '#sandbox'
+    shapes:          '#sandbox'
+    connections:     '#sandbox'
   Hospiglu.router = new Hospiglu.Routers.GrafflesRouter options
   Backbone.history.start
     pushState: true

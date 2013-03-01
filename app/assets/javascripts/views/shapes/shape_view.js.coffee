@@ -29,27 +29,28 @@ Hospiglu.module "Views.Shapes", ->
         , 500
 
     render: ->
-      raphael = @options.raphael
-      shapeProperties = @model.get('properties')
-      @shape = raphael[shapeProperties.shape_type].call(
-        raphael,
-        shapeProperties.x,
-        shapeProperties.y,
-        shapeProperties.width,
-        shapeProperties.height,
-        shapeProperties.border_radius
-      )
-      @shape.model = @model
-      @model.el = @shape
-      color = Raphael.getColor()
-      @shape.attr
-        fill: color
-        stroke: color
-        'fill-opacity': 0
-        'stroke-width': 2
-        cursor: 'move'
-      @shape.drag(@move, @dragger, @up)
-      @
+      paper = @options.paper
+      if paper.isMenu? == @model.get('menu_id')?
+        shapeProperties = @model.get('properties')
+        @shape = paper[shapeProperties.shape_type].call(
+          paper,
+          shapeProperties.x,
+          shapeProperties.y,
+          shapeProperties.width,
+          shapeProperties.height,
+          shapeProperties.border_radius
+        )
+        @shape.model = @model
+        @model.el = @shape
+        color = Raphael.getColor()
+        @shape.attr
+          fill: color
+          stroke: color
+          'fill-opacity': 0
+          'stroke-width': 2
+          cursor: 'move'
+        @shape.drag(@move, @dragger, @up) unless paper.isMenu?
+        @
 
     onClose: ->
       @shape?.remove()

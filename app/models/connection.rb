@@ -1,9 +1,6 @@
 class Connection < ActiveRecord::Base
 
   belongs_to :graffle
-  belongs_to :menu,
-             class_name: "Shape",
-             foreign_key: "menu_id"
 
   belongs_to :start_shape,
              class_name: "Shape",
@@ -22,6 +19,7 @@ class Connection < ActiveRecord::Base
   def as_json(options={})
     {id: id,
      graffle_id: graffle_id,
+     in_menu: in_menu,
      properties: properties,
      start_shape_id: start_shape_id,
      end_shape_id: end_shape_id}
