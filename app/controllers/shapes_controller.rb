@@ -91,6 +91,6 @@ class ShapesController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def shape_params
-      params.require(:shape).permit()
+      params.require(:shape).permit(:graffle_id, :in_menu, :properties)
     end
 end
