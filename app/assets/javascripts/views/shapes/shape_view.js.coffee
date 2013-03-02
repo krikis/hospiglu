@@ -1,17 +1,17 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
-    drag: (x, y, event) ->
+    mousedownHandler: (event) ->
       newModel = @model.clone()
       newModel.unset('id')
       newModel.set('in_menu', false)
       newModel.event = event
-      @model.collection.create newModel
+      @model.collection.add newModel
 
     render: ->
       paper = @options.paper
       @shape = @createShape(@model, paper)
       @shape.events[0].f.call @shape, @model.event if @model.event
-      @shape.drag null, @drag if @model.get('in_menu')
+      @shape.mousedown @mousedownHandler if @model.get('in_menu')
       @model.el = @shape
       @
 
