@@ -1,5 +1,8 @@
 Hospiglu.module "Views.Connections", ->
   class @ConnectionView extends Marionette.ItemView
+    mousedown: (event)->
+      console.log event.target
+
     render: ->
       paper = @options.paper
       if paper.isMenu? == @model.get('in_menu')
@@ -13,20 +16,6 @@ Hospiglu.module "Views.Connections", ->
                                            connectionProperties.background_color)
             @model.el = @connection
           else if connectionProperties.x?
-            target
-            target = paper.path("M,#{connectionProperties.x.toFixed(3)},\
-                                   #{connectionProperties.y.toFixed(3)},\
-                                 C,#{connectionProperties.cx.toFixed(3)},\
-                                   #{connectionProperties.cy.toFixed(3)},\
-                                   #{connectionProperties.cx2.toFixed(3)},\
-                                   #{connectionProperties.cy2.toFixed(3)},\
-                                   #{connectionProperties.x2.toFixed(3)},\
-                                   #{connectionProperties.y2.toFixed(3)}")
-            target.attr
-              stroke: '#333'
-              fill: 'none'
-              'stroke-width': 10
-              cursor: 'move'
             if _.isString connectionProperties.background_color
               background = paper.path("M,#{connectionProperties.x.toFixed(3)},\
                                          #{connectionProperties.y.toFixed(3)},\
@@ -53,6 +42,20 @@ Hospiglu.module "Views.Connections", ->
               stroke: connectionProperties.line_color
               fill: 'none'
               cursor: 'move'
+            target = paper.path("M,#{connectionProperties.x.toFixed(3)},\
+                                   #{connectionProperties.y.toFixed(3)},\
+                                 C,#{connectionProperties.cx.toFixed(3)},\
+                                   #{connectionProperties.cy.toFixed(3)},\
+                                   #{connectionProperties.cx2.toFixed(3)},\
+                                   #{connectionProperties.cy2.toFixed(3)},\
+                                   #{connectionProperties.x2.toFixed(3)},\
+                                   #{connectionProperties.y2.toFixed(3)}")
+            target.attr
+              fill: 'none'
+              'stroke-width': 20
+              'stroke-opacity': 0
+              cursor: 'move'
+            target.mousedown @mousedown
       @
 
     onClose: ->
