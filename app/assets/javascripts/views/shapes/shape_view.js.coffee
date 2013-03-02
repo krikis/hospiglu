@@ -16,6 +16,7 @@ Hospiglu.module "Views.Shapes", ->
       @
 
     createShape: (model, paper) ->
+      in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
       @shape = paper[shapeProperties.shape_type].call(
         paper,
@@ -26,14 +27,17 @@ Hospiglu.module "Views.Shapes", ->
         shapeProperties.border_radius
       )
       @shape.model = model
-      color = Raphael.getColor()
+      color = if in_menu
+        '#fff'
+      else
+        Raphael.getColor()
       @shape.attr
         fill: color
         stroke: color
         'fill-opacity': 0
         'stroke-width': 2
         cursor: 'move'
-      unless model.get('in_menu')
+      unless in_menu
         @shape.drag(paper.move, paper.dragger, paper.up)
       @shape
 

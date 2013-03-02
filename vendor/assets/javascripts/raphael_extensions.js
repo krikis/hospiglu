@@ -19,8 +19,14 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
     j = ((i + 2) % 4) + 4;
     var dx = Math.abs(p[i].x - p[j].x),
         dy = Math.abs(p[i].y - p[j].y);
-    dis.push(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)));
-    d[dis[dis.length - 1]] = [i, j];
+    if ((i == j - 4) ||
+        (((i != 1 && j != 7) || p[i].x < p[j].x) &&
+         ((i != 3 && j != 5) || p[i].x > p[j].x) &&
+         ((i != 0 && j != 6) || p[i].y > p[j].y) &&
+         ((i != 2 && j != 4) || p[i].y < p[j].y))) {
+      dis.push(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)));
+      d[dis[dis.length - 1]] = [i, j];
+    }
   }
   if (dis.length == 0) {
     var res = [0, 4];
