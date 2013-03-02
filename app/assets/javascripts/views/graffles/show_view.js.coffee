@@ -3,18 +3,10 @@ Hospiglu.module "Views.Graffles", ->
     template: 'graffles/show'
     onDomRefresh: ->
       graffleProperties = @model.get('properties')
-      menu = Raphael('menu')
-      menu.isMenu = true
+      paper = Raphael('container', '100%', '90%')
       shapesView = new Hospiglu.Views.Shapes
-                               .IndexView(collection: @options.shapes, paper: menu)
-      Hospiglu.menuShapes.show(shapesView)
-      connectionsView = new Hospiglu.Views.Connections
-                                    .IndexView(collection: @options.connections, paper: menu)
-      Hospiglu.menuConnections.show(connectionsView)
-      container = Raphael('container')
-      shapesView = new Hospiglu.Views.Shapes
-                               .IndexView(collection: @options.shapes, paper: container)
+                               .IndexView(collection: @options.shapes, paper: paper)
       Hospiglu.shapes.show(shapesView)
       connectionsView = new Hospiglu.Views.Connections
-                                    .IndexView(collection: @options.connections, paper: container)
+                                    .IndexView(collection: @options.connections, paper: paper)
       Hospiglu.connections.show(connectionsView)
