@@ -78,14 +78,16 @@ Hospiglu.module "Views.Shapes", ->
       @paper.safari()
 
     initConnection: (x, y, event) ->
-      @ox = event.offsetX
-      @oy = event.offsetY
-      @dummy = @paper.rect(@ox, @oy, 10, 10)#.attr(opacity: 0)
+      @ox = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
+      @oy = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
+      @dummy = @paper.rect(@ox, @oy, 10, 10).attr(opacity: 0)
       @menuItem = Hospiglu.selectedMenuItem
       @connection = @menuItem.view.createConnection(@menuItem.model, @model.el, @dummy, @paper)
 
     snapConnectionTo: (shape) ->
-      if @connection? and @dummy? and shape isnt @connection.from and shape isnt @dummy and shape.type isnt 'path'
+      if @connection? and shape isnt @connection.from and shape isnt @dummy and
+         shape.type isnt 'path' and not shape.model?.get('in_menu')
+        console.log JSON.stringify shape.model?.attributes
         clearTimeout @releaseConnection
         @connection.to = shape
         @paper.connection(@connection)
@@ -98,15 +100,18 @@ Hospiglu.module "Views.Shapes", ->
               @connection.to = @dummy
               @paper.connection(@connection)
               @paper.safari()
-          ), 200
+          ), 100
 
     saveConnection: ->
       clearTimeout @releaseConnection
-      if @connection.to == @dummy
-        @connection.line.remove()
-        @connection.bg?.remove()
+      unless @connection.to == @dummy
+        'test'
+
+      @connection.line.remove()
+      @connection.bg?.remove()
       delete @connection
       @dummy.remove()
+      delete @dummy
       Hospiglu.selectedMenuItem?.remove()
       delete Hospiglu.selectedMenuItem
 

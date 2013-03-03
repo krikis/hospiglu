@@ -8,6 +8,9 @@
 # Set default locale for I18n
 I18n.defaultLocale = "nl"
 
+document.ontouchmove = (event) ->
+  event.preventDefault()
+
 Backbone.Marionette.Renderer.render = (template, data) ->
   throw "Template '#{template}' not found!" unless JST[template]
   JST[template](data)
