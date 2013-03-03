@@ -11,5 +11,5 @@ Raphael.fn.curvedPath = (options) ->
     stroke: options.stroke
     'stroke-width': options.strokeWidth
     'stroke-opacity': options.strokeOpacity
-    cursor: options.pointer
+    cursor: options.cursor
   path

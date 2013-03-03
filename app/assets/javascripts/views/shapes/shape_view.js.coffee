@@ -35,10 +35,10 @@ Hospiglu.module "Views.Shapes", ->
 
     up: ->
       if @x? and @y? and (@x isnt @ox or @y isnt @oy)
-        @shapeProperties = @model.get('properties')
-        @shapeProperties.x = @x
-        @shapeProperties.y = @y
-        @model.set properties: @shapeProperties
+        shapeProperties = @model.get('properties')
+        shapeProperties.x = @x
+        shapeProperties.y = @y
+        @model.set properties: shapeProperties
         @model.save()
       @animate
           "fill-opacity": 0
@@ -46,16 +46,16 @@ Hospiglu.module "Views.Shapes", ->
 
     render: ->
       paper = @options.paper
-      @shape = @createShape(@model, paper)
-      @shape.events[0].f.call @shape, @model.event if @model.event
-      @shape.mousedown @cloneShape if @model.get('in_menu')
-      @model.el = @shape
+      shape = @createShape(@model, paper)
+      shape.events[0].f.call shape, @model.event if @model.event
+      shape.mousedown @cloneShape if @model.get('in_menu')
+      @model.el = shape
       @
 
     createShape: (model, paper) ->
       in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
-      @shape = paper[shapeProperties.shape_type].call(
+      shape = paper[shapeProperties.shape_type].call(
         paper,
         shapeProperties.x,
         shapeProperties.y,
@@ -63,20 +63,23 @@ Hospiglu.module "Views.Shapes", ->
         shapeProperties.height,
         shapeProperties.border_radius
       )
-      @shape.model = model
+      shape.model = model
       color = if in_menu
         '#fff'
       else
         shapeProperties.color || Raphael.getColor()
-      @shape.attr
+      shape.attr
         fill: color
         stroke: color
         'fill-opacity': 0
         'stroke-width': 2
         cursor: 'move'
-      unless in_menu
-        @shape.drag(@move, @dragger, @up)
-      @shape
+      if in_menu
+        shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
+        shape.mouseout -> @glowSet?.remove()
+      else
+        shape.drag(@move, @dragger, @up)
+      shape
 
     onClose: ->
       @shape?.remove()
