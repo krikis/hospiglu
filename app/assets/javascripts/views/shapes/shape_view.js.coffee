@@ -66,7 +66,7 @@ Hospiglu.module "Views.Shapes", ->
       color = if in_menu
         '#fff'
       else
-        Raphael.getColor()
+        shapeProperties.color || Raphael.getColor()
       @shape.attr
         fill: color
         stroke: color
