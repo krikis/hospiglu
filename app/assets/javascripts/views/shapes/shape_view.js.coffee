@@ -1,6 +1,6 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
-    mousedownHandler: (event) ->
+    cloneShape: (event) ->
       newModel = @model.clone()
       newModel.unset('id')
       newModel.set('in_menu', false)
@@ -47,7 +47,7 @@ Hospiglu.module "Views.Shapes", ->
       paper = @options.paper
       @shape = @createShape(@model, paper)
       @shape.events[0].f.call @shape, @model.event if @model.event
-      @shape.mousedown @mousedownHandler if @model.get('in_menu')
+      @shape.mousedown @cloneShape if @model.get('in_menu')
       @model.el = @shape
       @
 
