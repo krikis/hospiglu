@@ -16,7 +16,8 @@ Hospiglu.module "Views.Connections", ->
       connection = paper.connection(start,
                                     end,
                                     connectionProperties.line_color,
-                                    connectionProperties.background_color)
+                                    connectionProperties.background_color,
+                                    connectionProperties.background_stroke_width)
       connection
 
     createMenuItem: (model, paper) ->
@@ -51,7 +52,6 @@ Hospiglu.module "Views.Connections", ->
       @background?.remove()
       @line?.remove()
       @target?.remove()
-
 
     mousedown: (event) =>
       @glowSet?.remove()

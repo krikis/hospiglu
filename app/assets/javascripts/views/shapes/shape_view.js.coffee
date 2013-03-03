@@ -87,7 +87,6 @@ Hospiglu.module "Views.Shapes", ->
     snapConnectionTo: (shape) ->
       if @connection? and shape isnt @connection.from and shape isnt @dummy and
          shape.type isnt 'path' and not shape.model?.get('in_menu')
-        console.log JSON.stringify shape.model?.attributes
         clearTimeout @releaseConnection
         @connection.to = shape
         @paper.connection(@connection)
@@ -105,8 +104,13 @@ Hospiglu.module "Views.Shapes", ->
     saveConnection: ->
       clearTimeout @releaseConnection
       unless @connection.to == @dummy
-        'test'
-
+        newModel = @menuItem.model.clone()
+        newModel.set('properties', _.clone(@menuItem.model.get('properties')))
+        newModel.unset('id')
+        newModel.set('in_menu', false)
+        newModel.set('start_shape_id', @connection.from.model.get('id'))
+        newModel.set('end_shape_id', @connection.to.model.get('id'))
+        @menuItem.model.collection.create newModel
       @connection.line.remove()
       @connection.bg?.remove()
       delete @connection

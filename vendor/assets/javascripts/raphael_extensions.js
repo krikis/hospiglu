@@ -1,4 +1,4 @@
-Raphael.fn.connection = function (obj1, obj2, line, bg) {
+Raphael.fn.connection = function (obj1, obj2, line, bg, sw) {
   if (obj1.line && obj1.from && obj1.to) {
     line = obj1;
     obj1 = line.from;
@@ -50,7 +50,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
   } else {
     var color = typeof line == "string" ? line : "#000";
     return {
-      bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
+      bg: bg && this.path(path).attr({stroke: bg, fill: "none", "stroke-width": sw || 3}),
       line: this.path(path).attr({stroke: color, fill: "none"}),
       from: obj1,
       to: obj2

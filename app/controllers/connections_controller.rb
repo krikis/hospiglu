@@ -91,6 +91,6 @@ class ConnectionsController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def connection_params
-      params.require(:connection).permit(:graffle_id, :in_menu, :properties)
+      params.require(:connection).permit(:graffle_id, :in_menu, :properties, :start_shape_id, :end_shape_id)
     end
 end

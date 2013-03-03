@@ -124,13 +124,15 @@ Connection.destroy_all
 
   connection2 = Connection.create graffle: graffle,
                                   properties: {line_color: '#fff',
-                                               background_color: '#fff|5'},
+                                               background_color: '#fff',
+                                               background_stroke_width: 5},
                                   start_shape: rect1,
                                   end_shape: rect2
 
   connection3 = Connection.create graffle: graffle,
                                   properties: {line_color: '#000',
-                                               background_color: '#fff'},
+                                               background_color: '#fff',
+                                               background_stroke_width: 3},
                                   start_shape: rect1,
                                   end_shape: ellipse2
 end
