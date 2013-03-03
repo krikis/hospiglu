@@ -85,18 +85,27 @@ Hospiglu.module "Views.Shapes", ->
       @connection = @menuItem.view.createConnection(@menuItem.model, @model.el, @dummy, @paper)
 
     snapConnectionTo: (shape) ->
-      if @connection? and shape isnt @connection.from and shape isnt @dummy and shape.type isnt 'path'
+      if @connection? and @dummy? and shape isnt @connection.from and shape isnt @dummy and shape.type isnt 'path'
+        clearTimeout @releaseConnection
         @connection.to = shape
         @paper.connection(@connection)
         @paper.safari()
-
-    unSnapConnection: ->
+        {x: ox, y: oy} = @dummy.getBBox()
+        @releaseConnection = setTimeout (=>
+            {x: x, y: y} = @dummy.getBBox()
+            # did the dummy move out?
+            if Math.sqrt(Math.pow(Math.abs(x - ox), 2) + Math.pow(Math.abs(y - oy), 2)) > 10
+              @connection.to = @dummy
+              @paper.connection(@connection)
+              @paper.safari()
+          ), 200
 
     saveConnection: ->
+      clearTimeout @releaseConnection
       if @connection.to == @dummy
         @connection.line.remove()
         @connection.bg?.remove()
-        delete @connection
+      delete @connection
       @dummy.remove()
       Hospiglu.selectedMenuItem?.remove()
       delete Hospiglu.selectedMenuItem
