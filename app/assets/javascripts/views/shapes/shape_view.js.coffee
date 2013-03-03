@@ -74,12 +74,10 @@ Hospiglu.module "Views.Shapes", ->
 
     moveConnection: (dx, dy) ->
       @dummy.attr x: @ox + dx, y: @oy + dy
-      console.log @connection.to == @dummy
       @paper.connection(@connection)
       @paper.safari()
 
     initConnection: (x, y, event) ->
-      console.log 'init'
       @ox = event.offsetX
       @oy = event.offsetY
       @dummy = @paper.rect(@ox, @oy, 10, 10)#.attr(opacity: 0)
@@ -87,10 +85,8 @@ Hospiglu.module "Views.Shapes", ->
       @connection = @menuItem.view.createConnection(@menuItem.model, @model.el, @dummy, @paper)
 
     snapConnectionTo: (shape) ->
-      if @connection? and shape isnt @connection.from
-        console.log shape
-        console.log @dummy
-        @connection.to = shape.node
+      if @connection? and shape isnt @connection.from and shape isnt @dummy and shape.type isnt 'path'
+        @connection.to = shape
         @paper.connection(@connection)
         @paper.safari()
 
