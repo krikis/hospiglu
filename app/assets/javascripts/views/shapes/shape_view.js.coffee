@@ -2,6 +2,7 @@ Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
     cloneShape: (event) ->
       newModel = @model.clone()
+      newModel.set('properties', _.clone(@model.get('properties')))
       newModel.unset('id')
       newModel.set('in_menu', false)
       newModel.event = event
