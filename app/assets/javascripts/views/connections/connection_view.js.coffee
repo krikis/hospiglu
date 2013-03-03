@@ -15,45 +15,22 @@ Hospiglu.module "Views.Connections", ->
                                          connectionProperties.background_color)
           @model.el = @connection
         else if connectionProperties.x?
-          if _.isString connectionProperties.background_color
-            background = paper.path("M,#{connectionProperties.x.toFixed(3)},\
-                                       #{connectionProperties.y.toFixed(3)},\
-                                     C,#{connectionProperties.cx.toFixed(3)},\
-                                       #{connectionProperties.cy.toFixed(3)},\
-                                       #{connectionProperties.cx2.toFixed(3)},\
-                                       #{connectionProperties.cy2.toFixed(3)},\
-                                       #{connectionProperties.x2.toFixed(3)},\
-                                       #{connectionProperties.y2.toFixed(3)}")
-            background.attr
-              stroke: connectionProperties.background_color.split("|")[0]
-              fill: 'none'
-              'stroke-width': (connectionProperties.background_color.split("|")[1] || 3)
-              cursor: 'move'
-          connection = paper.path("M,#{connectionProperties.x.toFixed(3)},\
-                                     #{connectionProperties.y.toFixed(3)},\
-                                   C,#{connectionProperties.cx.toFixed(3)},\
-                                     #{connectionProperties.cy.toFixed(3)},\
-                                     #{connectionProperties.cx2.toFixed(3)},\
-                                     #{connectionProperties.cy2.toFixed(3)},\
-                                     #{connectionProperties.x2.toFixed(3)},\
-                                     #{connectionProperties.y2.toFixed(3)}")
-          connection.attr
-            stroke: connectionProperties.line_color
-            fill: 'none'
-            cursor: 'move'
-          target = paper.path("M,#{connectionProperties.x.toFixed(3)},\
-                                 #{connectionProperties.y.toFixed(3)},\
-                               C,#{connectionProperties.cx.toFixed(3)},\
-                                 #{connectionProperties.cy.toFixed(3)},\
-                                 #{connectionProperties.cx2.toFixed(3)},\
-                                 #{connectionProperties.cy2.toFixed(3)},\
-                                 #{connectionProperties.x2.toFixed(3)},\
-                                 #{connectionProperties.y2.toFixed(3)}")
-          target.attr
-            fill: 'none'
-            'stroke-width': 20
-            'stroke-opacity': 0
-            cursor: 'move'
+          if connectionProperties.background_color
+            background = paper.curvedPath _.extend(
+              stroke: connectionProperties.background_color
+              strokeWidth: connectionProperties.background_stroke_width,
+              connectionProperties
+            )
+          connection = paper.curvedPath _.extend(
+            stroke: connectionProperties.line_color,
+            connectionProperties
+          )
+          target = paper.curvedPath _.extend(
+            strokeWidth: 20
+            strokeOpacity: 0
+            cursor: 'pointer',
+            connectionProperties
+          )
           target.mousedown @mousedown
       @
 
