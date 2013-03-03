@@ -7,6 +7,42 @@ Hospiglu.module "Views.Shapes", ->
       newModel.event = event
       @model.collection.add newModel
 
+    move: (dx, dy) ->
+      @x = @ox + dx
+      @y = @oy + dy
+      att = (if @type is "rect"
+        x: @x
+        y: @y
+       else
+        cx: @x
+        cy: @y
+      )
+      @attr att
+      Hospiglu.connectionsCallbacks.add =>
+        _.each @model.outgoingConnections(), (connection) =>
+          @paper.connection connection.el
+        _.each @model.incomingConnections(), (connection) =>
+          @paper.connection connection.el
+      @paper.safari()
+
+    dragger: ->
+      @ox = (if @type is "rect" then @attr("x") else @attr("cx"))
+      @oy = (if @type is "rect" then @attr("y") else @attr("cy"))
+      @animate
+        "fill-opacity": .2
+      , 500
+
+    up: ->
+      if @x? and @y? and (@x isnt @ox or @y isnt @oy)
+        @shapeProperties = @model.get('properties')
+        @shapeProperties.x = @x
+        @shapeProperties.y = @y
+        @model.set properties: @shapeProperties
+        @model.save()
+      @animate
+          "fill-opacity": 0
+        , 500
+
     render: ->
       paper = @options.paper
       @shape = @createShape(@model, paper)
@@ -38,7 +74,7 @@ Hospiglu.module "Views.Shapes", ->
         'stroke-width': 2
         cursor: 'move'
       unless in_menu
-        @shape.drag(paper.move, paper.dragger, paper.up)
+        @shape.drag(@move, @dragger, @up)
       @shape
 
     onClose: ->
