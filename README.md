@@ -13,10 +13,10 @@
 * Create views for 'Department A', 'Department B' and 'Your Department' (coupled to user/sporting depA and depB locked)
 * Add vote view sporting all users Departments
 * Add region for navigating through decision process steps
+* [SE] Implement destoying shapes/connections
 * [SE|DONE] Make sure shapes only persist when dragged below menu
 * [SE|DONE] Disallow dragging shapes onto menu
 * [SE|DONE] Fix cursor when creating connections
 * [SE|DONE] Disallow creating connection ontop menu
-* Implement destoying shapes/connections
 * [SE|DONE] Fix mass assignment configuration
 * [SE|DONE] Implement showview for graffles
