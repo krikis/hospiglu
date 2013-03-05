@@ -35,8 +35,8 @@ Hospiglu.module "Views.Shapes", ->
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
       else
-        shape.drag(@moveDelegator, @downDelegator, @upDelegator)
-        shape.onDragOver @snapConnectionTo
+        shape.mousedown(@initDummy)
+        shape.drag(@move, @down, @up)
       shape
 
     onClose: ->
@@ -51,76 +51,13 @@ Hospiglu.module "Views.Shapes", ->
       shape.view = @view
       shape.model = newModel
       shape.collection = @model.collection
-      _.select(shape.events, (event) ->
-        event.name == 'mousedown'
-      )[0].f.call shape, event
-
-    moveDelegator: ->
-      if Hospiglu.selectedMenuItem?
-        @view.moveConnection.apply(@, arguments)
-      else
-        @view.move.apply(@, arguments)
-
-    downDelegator: ->
-      if Hospiglu.selectedMenuItem?
-        @view.initConnection.apply(@, arguments)
-      else
-        @view.down.apply(@, arguments)
-
-    upDelegator: ->
-      if Hospiglu.selectedMenuItem?
-        @view.saveConnection.apply(@, arguments)
-      else
-        @view.up.apply(@, arguments)
-
-    moveConnection: (dx, dy) ->
-      @dummy.attr x: @ox + dx, y: @oy + dy
-      @paper.connection(@connection)
-      @paper.safari()
-
-    initConnection: (x, y, event) ->
-      @ox = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
-      @oy = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
-      @dummy = @paper.rect(@ox, @oy, 10, 10).attr(opacity: 0)
-      @menuItem = Hospiglu.selectedMenuItem
-      @connection = @menuItem.view.createConnection(@menuItem.model, @model.el, @dummy, @paper)
-
-    snapConnectionTo: (shape) ->
-      if @connection? and shape isnt @connection.from and shape isnt @dummy and
-         shape.type isnt 'path' and not shape.model?.get('in_menu')
-        clearTimeout @releaseConnection
-        @connection.to = shape
-        @paper.connection(@connection)
-        @paper.safari()
-        {x: ox, y: oy} = @dummy.getBBox()
-        @releaseConnection = setTimeout (=>
-            {x: x, y: y} = @dummy.getBBox()
-            # did the dummy move out?
-            if Math.sqrt(Math.pow(Math.abs(x - ox), 2) + Math.pow(Math.abs(y - oy), 2)) > 10
-              @connection.to = @dummy
-              @paper.connection(@connection)
-              @paper.safari()
-          ), 100
-
-    saveConnection: ->
-      clearTimeout @releaseConnection
-      unless @connection.to == @dummy
-        newModel = @menuItem.model.clone()
-        newModel.set('properties', _.clone(@menuItem.model.get('properties')))
-        newModel.unset('id')
-        newModel.set('in_menu', false)
-        newModel.set('start_shape_id', @connection.from.model.get('id'))
-        newModel.set('end_shape_id', @connection.to.model.get('id'))
-        @menuItem.model.collection.create newModel
-      @connection.line.remove()
-      @connection.bg?.remove()
-      delete @connection
-      @dummy.remove()
-      delete @dummy
-      Hospiglu.selectedMenuItem?.remove()
-      delete Hospiglu.selectedMenuItem
+      console.log shape.events
+      _.each _.select(shape.events, (e) ->
+        e.name == event.type
+      ), (e) -> e.f.call shape, event
 
     move: (dx, dy) ->
+      return if Hospiglu.selectedMenuItem?
       @x = @ox + dx
       @y = @oy + dy
       if @type is "rect"
@@ -144,6 +81,7 @@ Hospiglu.module "Views.Shapes", ->
       @paper.safari()
 
     down: ->
+      return if Hospiglu.selectedMenuItem?
       @ox = (if @type is "rect" then @attr("x") else @attr("cx"))
       @oy = (if @type is "rect" then @attr("y") else @attr("cy"))
       @animate
@@ -151,6 +89,7 @@ Hospiglu.module "Views.Shapes", ->
       , 500
 
     up: ->
+      return if Hospiglu.selectedMenuItem?
       if @x? and @y? and (@x isnt @ox or @y isnt @oy)
         model = @model
         shapeProperties = model.get('properties')
@@ -169,3 +108,64 @@ Hospiglu.module "Views.Shapes", ->
       @animate
           "fill-opacity": 0
         , 500
+
+    initDummy: (event) ->
+      return unless Hospiglu.selectedMenuItem?
+      x = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
+      y = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
+      dummy = @paper.ellipse(x, y, 5, 5).attr(opacity: 0, fill: '#fff', cursor: 'move')
+      dummy.startShape = @model.el
+      dummy.drag(@view.moveConnection, @view.initConnection, @view.saveConnection)
+      dummy.onDragOver @view.snapConnectionTo
+      _.each _.select(dummy.events, (e) ->
+        e.name == event.type
+      ), (e) -> e.f.call dummy, event
+
+    initConnection: ->
+      @ox = @attr("cx")
+      @oy = @attr("cy")
+      @menuItem = Hospiglu.selectedMenuItem
+      @connection = @menuItem.view.createConnection(@menuItem.model, @startShape, @, @paper)
+      @toFront()
+
+    moveConnection: (dx, dy) ->
+      @y = @oy + dy
+      @attr
+        cx: @ox + dx
+        cy: if @y >= 110 then @y else 110
+      @paper.connection(@connection)
+      @paper.safari()
+
+    saveConnection: ->
+      clearTimeout @releaseConnection
+      unless @connection.to == @
+        newModel = @menuItem.model.clone()
+        newModel.set('properties', _.clone(@menuItem.model.get('properties')))
+        newModel.unset('id')
+        newModel.set('in_menu', false)
+        newModel.set('start_shape_id', @connection.from.model.get('id'))
+        newModel.set('end_shape_id', @connection.to.model.get('id'))
+        @menuItem.model.collection.create newModel
+      @connection.line.remove()
+      @connection.bg?.remove()
+      delete @connection
+      @.remove()
+      Hospiglu.selectedMenuItem?.remove()
+      delete Hospiglu.selectedMenuItem
+
+    snapConnectionTo: (shape) ->
+      if @connection? and shape isnt @connection.from and
+         shape.type isnt 'path' and not shape.model?.get('in_menu')
+        clearTimeout @releaseConnection
+        @connection.to = shape
+        @paper.connection(@connection)
+        @paper.safari()
+        {x: ox, y: oy} = @getBBox()
+        @releaseConnection = setTimeout (=>
+            {x: x, y: y} = @getBBox()
+            # did the dummy move out?
+            if Math.sqrt(Math.pow(Math.abs(x - ox), 2) + Math.pow(Math.abs(y - oy), 2)) > 10
+              @connection.to = @
+              @paper.connection(@connection)
+              @paper.safari()
+          ), 100
