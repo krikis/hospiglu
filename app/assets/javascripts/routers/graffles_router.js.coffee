@@ -27,38 +27,41 @@ Hospiglu.module "Routers", ->
       Hospiglu.connectionsCallbacks.run {}, @connections
       graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles)
       Hospiglu.sidebar.show(graffleList)
-      graffleView = new Hospiglu.Views.Graffles.ShowView
-        model: _.first(@graffles.models)
-        shapes: @shapes
-        connections: @connections
-      Hospiglu.content.show(graffleView)
+      if graffle = _.first(@graffles.models)
+        graffleView = new Hospiglu.Views.Graffles.ShowView
+          model: graffle
+          shapes: @shapes
+          connections: @connections
+        Hospiglu.content.show(graffleView)
 
     show: (id) ->
-      Hospiglu.shapesCallbacks = new Marionette.Callbacks()
-      Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-      if id == @options.graffle_id
-        Hospiglu.shapesCallbacks.run {}, collection
-        Hospiglu.connectionsCallbacks.run {}, collection
-      else
-        @shapes = new Hospiglu.Collections.ShapesCollection()
-        @shapes.fetch
-          data:
-            graffle_id: id
-          success: (collection) ->
-            Hospiglu.shapesCallbacks.run {}, collection
-        @connections = new Hospiglu.Collections.ConnectionsCollection()
-        @connections.fetch
-          data:
-            graffle_id: id
-          success: (collection) ->
-            Hospiglu.connectionsCallbacks.run {}, collection
-      graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles)
-      Hospiglu.sidebar.show(graffleList)
-      graffleView = new Hospiglu.Views.Graffles.ShowView
-        model: @graffles.get(id)
-        shapes: @shapes
-        connections: @connections
-      Hospiglu.content.show(graffleView)
+      if graffle = @graffles.get(id) || @graffles.get(@options.graffle_id) || _.first(@graffles.models)
+        Hospiglu.shapesCallbacks = new Marionette.Callbacks()
+        Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
+        if graffle.id == @options.graffle_id
+          delete @options.graffle_id
+          Hospiglu.shapesCallbacks.run {}, @shapes
+          Hospiglu.connectionsCallbacks.run {}, @connections
+        else
+          @shapes = new Hospiglu.Collections.ShapesCollection()
+          @shapes.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.shapesCallbacks.run {}, collection
+          @connections = new Hospiglu.Collections.ConnectionsCollection()
+          @connections.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.connectionsCallbacks.run {}, collection
+        graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles)
+        Hospiglu.sidebar.show(graffleList)
+        graffleView = new Hospiglu.Views.Graffles.ShowView
+          model: graffle
+          shapes: @shapes
+          connections: @connections
+        Hospiglu.content.show(graffleView)
 
 
     edit: (id) ->

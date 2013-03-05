@@ -1,5 +1,7 @@
 class Shape < ActiveRecord::Base
 
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :graffle
 
   has_many :outgoing_connections,

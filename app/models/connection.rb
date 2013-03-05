@@ -1,5 +1,7 @@
 class Connection < ActiveRecord::Base
 
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :graffle
 
   belongs_to :start_shape,

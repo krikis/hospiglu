@@ -1,5 +1,0 @@
-%h1 New graffle
-%form#new-graffle{:name => "graffle"}
-  .actions
-    %input{:type => "submit", :value => "Create Graffle"}/
-%a{:href => "graffles"} Back

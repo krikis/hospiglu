@@ -26,5 +26,8 @@ Hospiglu.addInitializer (options)->
   Hospiglu.router = new Hospiglu.Routers.GrafflesRouter options
   Backbone.history.start
     pushState: true
-  Backbone.history.navigate 'graffles' unless options.graffle_id
+  if graffle_id = options.graffle_id
+    Backbone.history.navigate "graffles/#{graffle_id}"
+  else
+    Backbone.history.navigate 'graffles'
 

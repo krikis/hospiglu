@@ -1,4 +1,8 @@
-# Hospiglu TODO
+# Coding Guidelines
+
+* Insert two spaces instead of a tab (configure your editor to do this for you)
+
+# TODO
 
 * Add text to shapes
 * Add chat
@@ -14,5 +18,5 @@
 * [SE|DONE] Fix cursor when creating connections
 * [SE|DONE] Disallow creating connection ontop menu
 * Implement destoying shapes/connections
-* Fix mass assignment configuration
+* [SE|DONE] Fix mass assignment configuration
 * [SE|DONE] Implement showview for graffles

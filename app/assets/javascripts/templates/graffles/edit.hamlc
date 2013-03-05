@@ -1,5 +1,0 @@
-%h1 Edit graffle
-%form#edit-graffle{:name => "graffle"}
-  .actions
-    %input{:type => "submit", :value => "Update Graffle"}/
-%a{:href => "graffles"} Back

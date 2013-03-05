@@ -1,7 +1,9 @@
 class Graffle < ActiveRecord::Base
 
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :shapes
-  
+
   has_many :connections
 
   serialize :properties

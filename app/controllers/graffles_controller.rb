@@ -18,9 +18,10 @@ class GrafflesController < ApplicationController
   # GET /graffles/1
   def show
     @graffles = Graffle.all
-    if @graffle = Graffle.find(params[:id])
-      @shapes = @graffle.shapes
-      @connections = @graffle.connections
+    if graffle = Graffle.find_by_id(params[:id]) || @graffles.first
+      @graffle_id = graffle.id
+      @shapes = graffle.shapes || []
+      @connections = graffle.connections || []
     end
 
     respond_to do |format|
