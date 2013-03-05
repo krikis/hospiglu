@@ -43,6 +43,8 @@ Hospiglu.module "Views.Shapes", ->
       @shape?.remove()
 
     cloneShape: (event) ->
+      Hospiglu.selectedMenuItem?.remove()
+      delete Hospiglu.selectedMenuItem
       newModel = @model.clone()
       newModel.set('properties', _.clone(@model.get('properties')))
       newModel.unset('id')
@@ -50,6 +52,7 @@ Hospiglu.module "Views.Shapes", ->
       shape = @view.createShape(newModel, @paper)
       shape.view = @view
       shape.model = newModel
+      newModel.el = shape
       shape.collection = @model.collection
       console.log shape.events
       _.each _.select(shape.events, (e) ->
@@ -111,6 +114,7 @@ Hospiglu.module "Views.Shapes", ->
 
     initDummy: (event) ->
       return unless Hospiglu.selectedMenuItem?
+      return unless @model?.id
       x = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
       y = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
       dummy = @paper.ellipse(x, y, 5, 5).attr(opacity: 0, fill: '#fff', cursor: 'move')
