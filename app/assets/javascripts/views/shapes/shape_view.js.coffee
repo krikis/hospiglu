@@ -13,10 +13,14 @@ Hospiglu.module "Views.Shapes", ->
     createShape: (model, paper) ->
       in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
+      y = if not model.collection or in_menu
+        shapeProperties.y
+      else
+        shapeProperties.y + 100
       shape = paper[shapeProperties.shape_type].call(
         paper,
         shapeProperties.x,
-        shapeProperties.y,
+        y, # move below menu
         shapeProperties.width,
         shapeProperties.height,
         shapeProperties.border_radius
@@ -92,23 +96,20 @@ Hospiglu.module "Views.Shapes", ->
 
     up: ->
       return if Hospiglu.selectedMenuItem?
-      if @x? and @y? and (@x isnt @ox or @y isnt @oy)
-        model = @model
+      model = @model
+      collection = @collection
+      box = @getBBox()
+      [x, y, ox, oy] = [@x, @y, @ox, @oy]
+      @remove() unless model.collection?
+      if x? and y? and (x isnt ox or y isnt oy)
         shapeProperties = model.get('properties')
         # is the new shape position below the menu?
-        if @getBBox().y >= 100
-          shapeProperties.x = @x
-          shapeProperties.y = @y
+        if box.y >= 100
+          shapeProperties.x = x
+          shapeProperties.y = y - 100 # subtract menu
           model.set properties: shapeProperties
-          unless model.collection?
-            @collection.add model
-            @remove()
+          collection.add model
           model.save()
-        else if not model.collection?
-          @remove()
-      else
-        @remove()
-
       @animate
           "fill-opacity": 0
         , 500

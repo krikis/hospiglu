@@ -23,7 +23,7 @@ Hospiglu.addInitializer (options)->
     content:         '#content'
     shapes:          '#sandbox'
     connections:     '#sandbox'
-  Hospiglu.router = new Hospiglu.Routers.GrafflesRouter options
+  Hospiglu.router = new Hospiglu.Routers.GrafflesRouter _.clone options
   Backbone.history.start
     pushState: true
   if graffle_id = options.graffle_id

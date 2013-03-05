@@ -2,48 +2,59 @@ Hospiglu.module "Views.Connections", ->
   class @ConnectionView extends Marionette.ItemView
     render: ->
       paper = @options.paper
-      connectionProperties = @model.get('properties')
       Hospiglu.shapesCallbacks.add =>
-        if (startShape = @model.startShape()) and
-           (endShape = @model.endShape())
-          @model.el = @createConnection(@model, startShape.el, endShape.el, paper)
-        else if connectionProperties.x?
+        if @model.get('in_menu')
           connection = @createMenuItem(@model, paper)
+        else if (startShape = @model.startShape()) and
+                (endShape = @model.endShape())
+          @model.el = @createConnection(@model, startShape.el, endShape.el, paper)
       @
 
     createConnection: (model, start, end, paper) ->
       connectionProperties = model.get('properties')
+      background = connectionProperties.background
       connection = paper.connection(start,
                                     end,
-                                    connectionProperties.line_color,
-                                    connectionProperties.background_color,
-                                    connectionProperties.background_stroke_width)
+                                    connectionProperties.stroke,
+                                    (if background then background.stroke || connectionProperties.stroke),
+                                    background?['stroke-width'])
+      (connection.bg || connection.line).model = @model
+      (connection.bg || connection.line).mousedown @handleDelete
       connection
+
+    handleDelete: ->
+      if Hospiglu.selectedMenuItem?.trash
+        @model.collection.remove @model
+        Hospiglu.selectedMenuItem.remove()
+        delete Hospiglu.selectedMenuItem
 
     createMenuItem: (model, paper) ->
       connectionProperties = model.get('properties')
-      if connectionProperties.background_color
-        @background = paper.curvedPath _.extend(
-          stroke: connectionProperties.background_color
-          strokeWidth: connectionProperties.background_stroke_width,
-          connectionProperties
+      connectionType = connectionProperties.type
+      if background = connectionProperties.background
+        backgroundType = background.type || connectionType
+        @background = paper[backgroundType].call paper, _.extend(
+          {}, connectionProperties, background
         )
-      @line = paper.curvedPath _.extend(
-        stroke: connectionProperties.line_color,
-        connectionProperties
-      )
-      @target = paper.curvedPath _.extend(
+      @line = paper[connectionType].call paper, connectionProperties
+      target = connectionProperties.target || {}
+      targetType = target.type || connectionType
+      @target = paper[targetType].call paper, _.extend(
         stroke: '#fff'
-        strokeWidth: 20
-        strokeOpacity: 0
+        'stroke-width': 20
+        'stroke-opacity': 0
+        fill: '#fff'
+        'fill-opacity': 0
         cursor: 'pointer',
-        connectionProperties
+        connectionProperties,
+        target
       )
+      @target.selectColor = connectionProperties.select_color
       @target.mouseover =>
         unless Hospiglu.selectedMenuItem?.model == @model
           @glowSet = (@background || @line).glow(color: '#0088cc', opacity: 1).toBack()
       @target.mouseout => @glowSet?.remove()
-      @target.mousedown @mousedown
+      @target.mousedown @selectMenuItem
       @target
 
     onClose: ->
@@ -53,11 +64,15 @@ Hospiglu.module "Views.Connections", ->
       @line?.remove()
       @target?.remove()
 
-    mousedown: (event) =>
+    selectMenuItem: (event) =>
       @glowSet?.remove()
       Hospiglu.selectedMenuItem?.remove()
-      Hospiglu.selectedMenuItem = @target.glow(color: '#0088cc', width: 10, opacity: 1)
+      Hospiglu.selectedMenuItem = (@background || @line).glow(
+        color: @target.selectColor || '#0088cc',
+        width: 10, opacity: 1
+      )
       Hospiglu.selectedMenuItem.toBack()
+      Hospiglu.selectedMenuItem.trash = @model.get('properties').type == 'trashcan'
       Hospiglu.selectedMenuItem.model = @model
       Hospiglu.selectedMenuItem.view = @
 

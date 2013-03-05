@@ -23,6 +23,5 @@
 #= require i18n
 #= require i18n/translations
 #= require raphael
-#= require raphael_extensions
 #
 #= require hospiglu
