@@ -2,7 +2,7 @@
 
 * Add text to shapes
 * Add chat
-* Add faye client/server
+* [SE] Add faye client/server
 * Broadcast graffle updates
 * Animate graffle updates
 * Add users
