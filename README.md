@@ -12,4 +12,4 @@
 * Make sure shapes only persist when dragged below menu
 * Implement destoying shapes/connections
 * Fix mass assignment configuration
-* Implement showview for graffles
+* [SE] Implement showview for graffles
