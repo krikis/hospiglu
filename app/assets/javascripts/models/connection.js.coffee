@@ -1,8 +1,5 @@
 Hospiglu.module "Models", ->
   class @Connection extends Backbone.Model
-    paramRoot: 'connection'
-    defaults: {}
-
     startShape: ->
       Hospiglu.router.shapes.get(@get('start_shape_id'))
 
