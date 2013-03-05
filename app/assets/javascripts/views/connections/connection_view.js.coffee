@@ -4,10 +4,11 @@ Hospiglu.module "Views.Connections", ->
       paper = @options.paper
       Hospiglu.shapesCallbacks.add =>
         if @model.get('in_menu')
-          connection = @createMenuItem(@model, paper)
+          @createMenuItem(@model, paper)
         else if (startShape = @model.startShape()) and
                 (endShape = @model.endShape())
-          @model.el = @createConnection(@model, startShape.el, endShape.el, paper)
+          @connection = @createConnection(@model, startShape.el, endShape.el, paper)
+          @model.el = @connection
       @
 
     createConnection: (model, start, end, paper) ->
@@ -19,8 +20,10 @@ Hospiglu.module "Views.Connections", ->
                                     (if background then background.stroke || connectionProperties.stroke),
                                     connectionProperties['stroke-width'],
                                     background?['stroke-width'])
-      (connection.bg || connection.line).model = @model
-      (connection.bg || connection.line).mousedown @handleDelete
+      target = connection.bg || connection.line
+      target.model = @model
+      target.view = @
+      target.mousedown @handleDelete
       connection
 
     handleDelete: ->
