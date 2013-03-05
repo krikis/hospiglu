@@ -55,9 +55,9 @@ Hospiglu.module "Views.Shapes", ->
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
       else
-        shape.mousedown(@handleDelete)
-        shape.drag(@move, @down, @up)
         shape.mousedown(@initDummy)
+        shape.drag(@move, @down, @up)
+        shape.mouseup(@handleDelete)
       shape
 
     onClose: ->
