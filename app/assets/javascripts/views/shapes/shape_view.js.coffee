@@ -5,12 +5,8 @@ Hospiglu.module "Views.Shapes", ->
       shape = @createShape(@model, paper)
       shape.model = @model
       shape.view = @
+      shape.collection = @model.collection
       @model.el = shape
-      if @model.event
-        _.select(
-          shape.events, (event) ->
-            event.name == 'mousedown'
-        )[0].f.call shape, @model.event
       shape.mousedown @cloneShape if @model.get('in_menu')
       @
 
@@ -51,8 +47,13 @@ Hospiglu.module "Views.Shapes", ->
       newModel.set('properties', _.clone(@model.get('properties')))
       newModel.unset('id')
       newModel.set('in_menu', false)
-      newModel.event = event
-      @model.collection.add newModel
+      shape = @view.createShape(newModel, @paper)
+      shape.view = @view
+      shape.model = newModel
+      shape.collection = @model.collection
+      _.select(shape.events, (event) ->
+        event.name == 'mousedown'
+      )[0].f.call shape, event
 
     moveDelegator: ->
       if Hospiglu.selectedMenuItem?
@@ -122,14 +123,19 @@ Hospiglu.module "Views.Shapes", ->
     move: (dx, dy) ->
       @x = @ox + dx
       @y = @oy + dy
-      att = (if @type is "rect"
-        x: @x
-        y: @y
-       else
-        cx: @x
-        cy: @y
-      )
-      @attr att
+      if @type is "rect"
+        @y = if @model.collection? and @y < 100 then 100 else @y
+        @attr
+          x: @x
+          y: @y
+      else
+        @y = if @model.collection? and @y - @attr('ry') < 100
+          100 + @attr('ry')
+        else
+          @y
+        @attr
+          cx: @x
+          cy: @y
       Hospiglu.connectionsCallbacks.add =>
         _.each @model.outgoingConnections(), (connection) =>
           @paper.connection connection.el
@@ -146,11 +152,20 @@ Hospiglu.module "Views.Shapes", ->
 
     up: ->
       if @x? and @y? and (@x isnt @ox or @y isnt @oy)
-        shapeProperties = @model.get('properties')
-        shapeProperties.x = @x
-        shapeProperties.y = @y
-        @model.set properties: shapeProperties
-        @model.save()
+        model = @model
+        shapeProperties = model.get('properties')
+        # is the new shape position below the menu?
+        if @getBBox().y >= 100
+          shapeProperties.x = @x
+          shapeProperties.y = @y
+          model.set properties: shapeProperties
+          unless model.collection?
+            @collection.add model
+            @remove()
+          model.save()
+        else if not model.collection?
+          @remove()
+
       @animate
           "fill-opacity": 0
         , 500
