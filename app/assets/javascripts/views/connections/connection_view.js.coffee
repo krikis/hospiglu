@@ -17,6 +17,7 @@ Hospiglu.module "Views.Connections", ->
                                     end,
                                     connectionProperties.stroke,
                                     (if background then background.stroke || connectionProperties.stroke),
+                                    connectionProperties['stroke-width'],
                                     background?['stroke-width'])
       (connection.bg || connection.line).model = @model
       (connection.bg || connection.line).mousedown @handleDelete
@@ -24,7 +25,7 @@ Hospiglu.module "Views.Connections", ->
 
     handleDelete: ->
       if Hospiglu.selectedMenuItem?.trash
-        @model.collection.remove @model
+        @model.destroy()
         Hospiglu.selectedMenuItem.remove()
         delete Hospiglu.selectedMenuItem
 

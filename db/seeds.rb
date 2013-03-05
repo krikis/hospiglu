@@ -88,7 +88,7 @@ Connection.destroy_all
                                      in_menu: true,
                                      properties: {type: 'curvedpath',
                                                   stroke: '#fff',
-                                                  background: {:'stroke-width' => 5},
+                                                  :'stroke-width' => 5,
                                                   target: {:'stroke-width' => 20},
                                                   x: 600,
                                                   y: 40,
@@ -157,7 +157,7 @@ Connection.destroy_all
 
   connection2 = Connection.create [{graffle: graffle,
                                     properties: {stroke: '#fff',
-                                                 background: {:'stroke-width' => 5}},
+                                                 :'stroke-width' => 5},
                                     start_shape: rect1.first,
                                     end_shape: rect2.first}],
                                   without_protection: true

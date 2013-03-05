@@ -81,7 +81,7 @@ Raphael.fn.trashcan = (options) ->
   path.attr(stroke: options.stroke)
   path
 
-Raphael.fn.connection = (obj1, obj2, line, bg, sw) ->
+Raphael.fn.connection = (obj1, obj2, line, bg, strokeWidth, backgroundStrokeWidth) ->
   if obj1.line and obj1.from and obj1.to
     line = obj1
     obj1 = line.from
@@ -149,10 +149,11 @@ Raphael.fn.connection = (obj1, obj2, line, bg, sw) ->
     bg: bg and @path(path).attr(
       stroke: bg
       fill: "none"
-      "stroke-width": sw or 3
+      "stroke-width": backgroundStrokeWidth or 3
     )
     line: @path(path).attr(
       stroke: color
+      'stroke-width': strokeWidth
       fill: "none"
     )
     from: obj1
