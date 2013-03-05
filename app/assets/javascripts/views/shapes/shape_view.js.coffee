@@ -54,7 +54,6 @@ Hospiglu.module "Views.Shapes", ->
       shape.model = newModel
       newModel.el = shape
       shape.collection = @model.collection
-      console.log shape.events
       _.each _.select(shape.events, (e) ->
         e.name == event.type
       ), (e) -> e.f.call shape, event
@@ -107,6 +106,8 @@ Hospiglu.module "Views.Shapes", ->
           model.save()
         else if not model.collection?
           @remove()
+      else
+        @remove()
 
       @animate
           "fill-opacity": 0
