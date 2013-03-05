@@ -10,6 +10,8 @@
 * Add vote view sporting all users Departments
 * Add region for navigating through decision process steps
 * Make sure shapes only persist when dragged below menu
+* Disallow dragging shapes onto menu
+* Disallow creating connection ontop menu
 * Implement destoying shapes/connections
 * Fix mass assignment configuration
 * [SE|DONE] Implement showview for graffles
