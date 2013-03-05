@@ -144,6 +144,7 @@ Raphael.fn.connection = (obj1, obj2, line, bg, strokeWidth, backgroundStrokeWidt
   if line and line.line
     line.bg and line.bg.attr(path: path)
     line.line.attr path: path
+    line.target.attr path: path
   else
     color = (if typeof line is "string" then line else "#000")
     bg: bg and @path(path).attr(
@@ -154,6 +155,12 @@ Raphael.fn.connection = (obj1, obj2, line, bg, strokeWidth, backgroundStrokeWidt
     line: @path(path).attr(
       stroke: color
       'stroke-width': strokeWidth
+      fill: "none"
+    )
+    target: @path(path).attr(
+      stroke: color
+      'stroke-width': 20
+      opacity: 0
       fill: "none"
     )
     from: obj1

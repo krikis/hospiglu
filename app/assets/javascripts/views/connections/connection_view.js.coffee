@@ -20,10 +20,8 @@ Hospiglu.module "Views.Connections", ->
                                     (if background then background.stroke || connectionProperties.stroke),
                                     connectionProperties['stroke-width'],
                                     background?['stroke-width'])
-      target = connection.bg || connection.line
-      target.model = @model
-      target.view = @
-      target.mousedown @handleDelete
+      connection.target.model = @model
+      connection.target.mousedown @handleDelete
       connection
 
     handleDelete: ->
