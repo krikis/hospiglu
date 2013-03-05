@@ -1,4 +1,5 @@
 class GrafflesController < ApplicationController
+
   # GET /graffles
   # GET /graffles.json
   def index
@@ -15,22 +16,21 @@ class GrafflesController < ApplicationController
   end
 
   # GET /graffles/1
-  # GET /graffles/1.json
   def show
     @graffle = Graffle.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @graffle }
     end
   end
 
   private
 
-    # Use this method to whitelist the permissible parameters. Example:
-    # params.require(:person).permit(:name, :age)
-    # Also, you can specialize this method with per-user checking of permissible attributes.
-    def graffle_params
-      params.require(:graffle).permit()
-    end
+  # Use this method to whitelist the permissible parameters. Example:
+  # params.require(:person).permit(:name, :age)
+  # Also, you can specialize this method with per-user checking of permissible attributes.
+  def graffle_params
+    params.require(:graffle).permit()
+  end
+
 end
