@@ -161,11 +161,14 @@ Hospiglu.module "Views.Shapes", ->
         @paper.connection(@connection)
         @paper.safari()
         {x: ox, y: oy} = @getBBox()
+        @releaseCallbacks = new Marionette.Callbacks()
         @releaseConnection = setTimeout (=>
-            {x: x, y: y} = @getBBox()
-            # did the dummy move out?
-            if Math.sqrt(Math.pow(Math.abs(x - ox), 2) + Math.pow(Math.abs(y - oy), 2)) > 10
-              @connection.to = @
-              @paper.connection(@connection)
-              @paper.safari()
+            @releaseCallbacks.run {}, @
           ), 100
+        @releaseCallbacks.add =>
+          {x: x, y: y} = @getBBox()
+          # did the dummy move out?
+          if Math.sqrt(Math.pow(Math.abs(x - ox), 2) + Math.pow(Math.abs(y - oy), 2)) > 10
+            @connection.to = @
+            @paper.connection(@connection)
+            @paper.safari()
