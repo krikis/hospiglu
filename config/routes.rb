@@ -2,11 +2,11 @@ Hospiglu::Application.routes.draw do
 
   root to: 'graffles#index'
 
-  resources :connections
+  resources :graffles, only: [:index, :show]
 
-  resources :shapes
+  resources :shapes, only: [:index, :create, :update, :destroy]
 
-  resources :graffles
+  resources :connections, only: [:index, :create, :update, :destroy]
 
 
   # The priority is based upon order of creation:

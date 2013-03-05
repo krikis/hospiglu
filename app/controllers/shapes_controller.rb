@@ -14,33 +14,6 @@ class ShapesController < ApplicationController
     end
   end
 
-  # GET /shapes/1
-  # GET /shapes/1.json
-  def show
-    @shape = Shape.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @shape }
-    end
-  end
-
-  # GET /shapes/new
-  # GET /shapes/new.json
-  def new
-    @shape = Shape.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @shape }
-    end
-  end
-
-  # GET /shapes/1/edit
-  def edit
-    @shape = Shape.find(params[:id])
-  end
-
   # POST /shapes
   # POST /shapes.json
   def create

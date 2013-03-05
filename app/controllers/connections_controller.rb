@@ -14,33 +14,6 @@ class ConnectionsController < ApplicationController
     end
   end
 
-  # GET /connections/1
-  # GET /connections/1.json
-  def show
-    @connection = Connection.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @connection }
-    end
-  end
-
-  # GET /connections/new
-  # GET /connections/new.json
-  def new
-    @connection = Connection.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @connection }
-    end
-  end
-
-  # GET /connections/1/edit
-  def edit
-    @connection = Connection.find(params[:id])
-  end
-
   # POST /connections
   # POST /connections.json
   def create
