@@ -10,6 +10,22 @@ Hospiglu.module "Views.Shapes", ->
       shape.mousedown @cloneShape if @model.get('in_menu')
       @
 
+    cloneShape: (event) ->
+      Hospiglu.selectedMenuItem?.remove()
+      delete Hospiglu.selectedMenuItem
+      newModel = @model.clone()
+      newModel.set('properties', _.clone(@model.get('properties')))
+      newModel.unset('id')
+      newModel.set('in_menu', false)
+      shape = @view.createShape(newModel, @paper)
+      shape.view = @view
+      shape.model = newModel
+      newModel.el = shape
+      shape.collection = @model.collection
+      _.each _.select(shape.events, (e) ->
+        e.name == event.type
+      ), (e) -> e.f.call shape, event
+
     createShape: (model, paper) ->
       in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
@@ -39,28 +55,24 @@ Hospiglu.module "Views.Shapes", ->
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
       else
-        shape.mousedown(@initDummy)
+        shape.mousedown(@handleDelete)
         shape.drag(@move, @down, @up)
+        shape.mousedown(@initDummy)
       shape
 
     onClose: ->
       @shape?.remove()
 
-    cloneShape: (event) ->
-      Hospiglu.selectedMenuItem?.remove()
-      delete Hospiglu.selectedMenuItem
-      newModel = @model.clone()
-      newModel.set('properties', _.clone(@model.get('properties')))
-      newModel.unset('id')
-      newModel.set('in_menu', false)
-      shape = @view.createShape(newModel, @paper)
-      shape.view = @view
-      shape.model = newModel
-      newModel.el = shape
-      shape.collection = @model.collection
-      _.each _.select(shape.events, (e) ->
-        e.name == event.type
-      ), (e) -> e.f.call shape, event
+    handleDelete: ->
+      if Hospiglu.selectedMenuItem?.trash
+        Hospiglu.connectionsCallbacks.add =>
+          _.each @model.outgoingConnections(), (connection) ->
+            connection.destroy()
+          _.each @model.incomingConnections(), (connection) ->
+            connection.destroy()
+          @model.destroy()
+        Hospiglu.selectedMenuItem.remove()
+        delete Hospiglu.selectedMenuItem
 
     move: (dx, dy) ->
       return if Hospiglu.selectedMenuItem?
@@ -116,6 +128,7 @@ Hospiglu.module "Views.Shapes", ->
 
     initDummy: (event) ->
       return unless Hospiglu.selectedMenuItem?
+      return if Hospiglu.selectedMenuItem?.trash
       return unless @model?.id
       x = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
       y = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
@@ -178,3 +191,5 @@ Hospiglu.module "Views.Shapes", ->
             @connection.to = @
             @paper.connection(@connection)
             @paper.safari()
+
+
