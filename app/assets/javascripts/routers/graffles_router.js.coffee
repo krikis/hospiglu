@@ -1,6 +1,7 @@
 Hospiglu.module "Routers", ->
   class @GrafflesRouter extends Backbone.Router
     initialize: (options) ->
+      @options = options
       @graffles = new Hospiglu.Collections.GrafflesCollection()
       @graffles.reset options.graffles
       @shapes = new Hospiglu.Collections.ShapesCollection()
@@ -32,21 +33,25 @@ Hospiglu.module "Routers", ->
         connections: @connections
       Hospiglu.content.show(graffleView)
 
-    show: (id) ->  
+    show: (id) ->
       Hospiglu.shapesCallbacks = new Marionette.Callbacks()
       Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-      @shapes = new Hospiglu.Collections.ShapesCollection()
-      @shapes.fetch
-        data:
-          graffle_id: id
-        success: (collection) ->
-          Hospiglu.shapesCallbacks.run {}, collection
-      @connections = new Hospiglu.Collections.ConnectionsCollection()
-      @connections.fetch
-        data:
-          graffle_id: id
-        success: (collection) ->
-          Hospiglu.connectionsCallbacks.run {}, collection
+      if id == @options.graffle_id
+        Hospiglu.shapesCallbacks.run {}, collection
+        Hospiglu.connectionsCallbacks.run {}, collection
+      else
+        @shapes = new Hospiglu.Collections.ShapesCollection()
+        @shapes.fetch
+          data:
+            graffle_id: id
+          success: (collection) ->
+            Hospiglu.shapesCallbacks.run {}, collection
+        @connections = new Hospiglu.Collections.ConnectionsCollection()
+        @connections.fetch
+          data:
+            graffle_id: id
+          success: (collection) ->
+            Hospiglu.connectionsCallbacks.run {}, collection
       graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles)
       Hospiglu.sidebar.show(graffleList)
       graffleView = new Hospiglu.Views.Graffles.ShowView

@@ -1,6 +1,7 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_graffle_path(@graffle)
-\|
-= link_to 'Back', graffles_path
+:coffeescript
+  $ ->
+    Hospiglu.start
+      graffles: #{@graffles.to_json}
+      graffle_id: #{@graffle.id}
+      shapes: #{@shapes.to_json}
+      connections: #{@connections.to_json}
