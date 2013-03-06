@@ -22,9 +22,9 @@ Hospiglu.module "Views.Shapes", ->
       shape.model = newModel
       newModel.el = shape
       shape.collection = @model.collection
-      _.each _.select(shape.events, (e) ->
-        e.name == event.type
-      ), (e) -> e.f.call shape, event
+      _.select(shape.events, (event) ->
+        event.f.name == 'start'
+      )[0].f.call shape, event
 
     createShape: (model, paper) ->
       in_menu = model.get('in_menu')
@@ -136,9 +136,9 @@ Hospiglu.module "Views.Shapes", ->
       dummy.startShape = @model.el
       dummy.drag(@view.moveConnection, @view.initConnection, @view.saveConnection)
       dummy.onDragOver @view.snapConnectionTo
-      _.each _.select(dummy.events, (e) ->
-        e.name == event.type
-      ), (e) -> e.f.call dummy, event
+      _.select(dummy.events, (event) ->
+        event.f.name == 'start'
+      )[0].f.call dummy, event
 
     initConnection: ->
       @ox = @attr("cx")
