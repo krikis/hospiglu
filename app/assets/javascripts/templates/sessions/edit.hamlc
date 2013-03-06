@@ -1,0 +1,10 @@
+<h1>Edit session</h1>
+
+<form id="edit-session" name="session">
+  <div class="actions">
+    <input type="submit" value="Update Session" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>

@@ -1,5 +1,8 @@
 Hospiglu::Application.routes.draw do
 
+  resources :users
+
+
   root to: 'graffles#index'
 
   resources :graffles, only: [:index, :show]

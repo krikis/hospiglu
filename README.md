@@ -5,8 +5,8 @@
 # TODO
 
 * Add text to shapes
-* Add users
-* Add sessions
+* [SE] Add users
+* [SE] Add sessions
 * [SE] Add region for navigating through decision process steps
 * Create views for 'Department A', 'Department B' and 'Your Department' (coupled to user/sporting depA and depB locked)
 * Add vote view sporting all users Departments
