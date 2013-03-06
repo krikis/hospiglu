@@ -2,6 +2,10 @@ class Graffle < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
+  belongs_to :session
+
+  belongs_to :user
+
   has_many :shapes
 
   has_many :connections

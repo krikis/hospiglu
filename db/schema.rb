@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228150947) do
+ActiveRecord::Schema.define(:version => 20130306152218) do
 
   create_table "connections", :force => true do |t|
     t.integer  "graffle_id"
@@ -24,7 +24,16 @@ ActiveRecord::Schema.define(:version => 20130228150947) do
   end
 
   create_table "graffles", :force => true do |t|
+    t.integer  "session_id"
+    t.integer  "user_id"
     t.text     "properties"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.text     "properties"
+    t.string   "state"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -35,6 +44,13 @@ ActiveRecord::Schema.define(:version => 20130228150947) do
     t.text     "properties"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.integer  "session_id"
+    t.text     "properties"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
