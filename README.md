@@ -6,9 +6,11 @@
 
 * Add text to shapes
 * Add users
+* Add sessions
+* [SE] Add region for navigating through decision process steps
 * Create views for 'Department A', 'Department B' and 'Your Department' (coupled to user/sporting depA and depB locked)
 * Add vote view sporting all users Departments
-* Add region for navigating through decision process steps
+* Add view for consolidating brainstorm
 * [SE|DONE] Implement destoying shapes/connections
 * [SE|DONE] Make sure shapes only persist when dragged below menu
 * [SE|DONE] Disallow dragging shapes onto menu

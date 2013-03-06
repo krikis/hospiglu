@@ -10,8 +10,8 @@ Graffle.destroy_all
 Shape.destroy_all
 Connection.destroy_all
 
-3.times do |index|
-  graffle = Graffle.create([{properties: {name: "Graffle #{index}"}}],
+['Department A', 'Department B', 'Your Department'].each do |name|
+  graffle = Graffle.create([{properties: {name: name}}],
                            without_protection: true).first
 
   mrect1 = Shape.create [{graffle: graffle,
