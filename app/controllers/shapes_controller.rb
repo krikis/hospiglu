@@ -42,7 +42,7 @@ class ShapesController < ApplicationController
   # DELETE /shapes/1.json
   def destroy
     @shape = Shape.find(params[:id])
-    @shape.destroy
+    @shape.destroy unless @shape.in_menu
 
     respond_to do |format|
       format.json { head :no_content }

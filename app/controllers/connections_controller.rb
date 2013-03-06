@@ -42,7 +42,7 @@ class ConnectionsController < ApplicationController
   # DELETE /connections/1.json
   def destroy
     @connection = Connection.find(params[:id])
-    @connection.destroy
+    @connection.destroy unless @connection.in_menu
 
     respond_to do |format|
       format.json { head :no_content }
