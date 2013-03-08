@@ -4,23 +4,26 @@ class User < ActiveRecord::Base
 
   belongs_to :brainstorm
 
-  has_one :your_department_graffle
+  has_one :your_department_graffle,
+          class_name: 'Graffle',
+          foreign_key: 'user_id'
 
   serialize :properties
 
   after_create :init_graffle
 
   validates_presence_of :name
+  validates_uniqueness_of :name, scope: :brainstorm_id
 
   def init_graffle
-    your_department_graffle = Graffle.create properties: {name: "#{name}'s Department"}
+    Graffle.create properties: {name: "#{name}'s Department"}, user: self, brainstorm: brainstorm
   end
 
   def properties
     self[:properties] ||= {}
   end
 
-  def as_json
+  def as_json(options={})
     {id: id,
      brainstorm_id: brainstorm_id,
      properties: properties}

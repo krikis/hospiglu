@@ -20,6 +20,7 @@ class Graffle < ActiveRecord::Base
     {id: id,
      brainstorm_id: brainstorm_id,
      user_id: user_id,
+     graffle_type: graffle_type,
      properties: properties,
      updated_at: updated_at}
   end

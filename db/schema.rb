@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130308161337) do
   create_table "graffles", :force => true do |t|
     t.integer  "brainstorm_id"
     t.integer  "user_id"
+    t.string   "graffle_type"
     t.text     "properties"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false

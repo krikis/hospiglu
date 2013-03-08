@@ -8,56 +8,47 @@ class Brainstorm < ActiveRecord::Base
             'voting',
             'consolidation']
 
-  has_many :users
+  has_many :users,
            order: 'name'
 
-  has_one :first_department_graffle,
-           class_name: 'Graffle',
-           foreign_key: 'brainstorm_id'
-
-  has_one :second_department_graffle,
-          class_name: 'Graffle',
-          foreign_key: 'brainstorm_id'
-
-  has_one :consolidation_graffle,
-          class_name: 'Graffle',
-          foreign_key: 'brainstorm_id'
+  has_many :graffles
 
   serialize :properties
 
   after_create :init_graffles
 
+  def phase
+    self[:phase] || PHASES.first
+  end
+
   def next_phase
-    PHASES[PHASES.index(phase) + 1]
+    if phase
+      PHASES[PHASES.index(phase) + 1]
+    else
+      PHASES.first
+    end
   end
 
   def init_graffles
-    first_department_graffle = Graffle.create properties: {name: 'Department A'}
-    second_department_graffle = Graffle.create properties: {name: 'Department B'}
-    consolidation_graffle = Graffle.create properties: {name: 'Consolidation'}
+    Graffle.create graffle_type: 'first_department', brainstorm: self
+    Graffle.create graffle_type: 'second_department', brainstorm: self
+    Graffle.create graffle_type: 'consolidation', brainstorm: self
   end
 
-  def your_department_graffle
-    user.your_department_graffle
-  end
-
-  def graffles
-    [first_department_graffle, second_department_graffle, your_department_graffle, consolidation_graffle]
-  end
-
-  def current_graffle
-    send "#{phase}_graffle"
+  def current_graffle_with(user)
+    graffles.where(graffle_type: phase).first || user.your_department_graffle
   end
 
   def properties
     self[:properties] ||= {}
   end
 
-  def as_json
+  def as_json(options={})
     {id: id,
      phase: phase,
      properties: properties,
-     state: state}
+     state: state,
+     created_at: created_at}
   end
 
 end
