@@ -26,7 +26,7 @@ Hospiglu.module "Routers", ->
       Hospiglu.shapesCallbacks.run {}, @shapes
       Hospiglu.connectionsCallbacks.run {}, @connections
       graffle = _.first(@graffles.models)
-      graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles, current: graffle.id)
+      graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles, current: graffle?.id)
       Hospiglu.sidebar.show(graffleList)
       if graffle
         graffleView = new Hospiglu.Views.Graffles.ShowView
@@ -56,7 +56,7 @@ Hospiglu.module "Routers", ->
               graffle_id: graffle.id
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
-        graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles, current: graffle.id)
+        graffleList = new Hospiglu.Views.Graffles.IndexView(collection: @graffles, current: graffle?.id)
         Hospiglu.sidebar.show(graffleList)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
