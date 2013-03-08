@@ -15,30 +15,44 @@ class BrainstormsController < ApplicationController
       session[:brainstorm_id] ||= @brainstorm.id
       session[:user_id] = @user.id
       @brainstorm.update_attributes phase: 'first_department'
-      redirect_to brainstorms_first_department_path
+      redirect_to next_phase_path
     else
       render action: 'participate'
     end
   end
 
   def first_department
-
+    @graffles = @brainstorm.graffles
+    @shapes = @brainstorm.current_graffle.shapes
+    @connections = @brainstorm.current_graffle.connections
   end
 
   def second_department
-
+    @graffles = @brainstorm.graffles
+    @shapes = @brainstorm.current_graffle.shapes
+    @connections = @brainstorm.current_graffle.connections
   end
 
   def your_department
-
+    @graffles = @brainstorm.graffles
+    @shapes = @brainstorm.current_graffle.shapes
+    @connections = @brainstorm.current_graffle.connections
   end
 
   def voting
-
+    @brainstorm.update_attributes state: 'closed'
+    @users = @brainstorm.users
+    @graffles = @users.map(&:your_department_graffle)
+    if graffle = @graffles.first
+      @shapes = graffle.shapes
+      @connections = graffle.connections
+    end
   end
 
   def consolidation
-
+    @graffles = @brainstorm.graffles
+    @shapes = @brainstorm.current_graffle.shapes
+    @connections = @brainstorm.current_graffle.connections
   end
 
   # GET /brainstorms
@@ -124,6 +138,10 @@ class BrainstormsController < ApplicationController
   end
 
   private
+
+  def next_phase_path
+    send "#{@brainstorm.next_phase}_brainstorms_path"
+  end
 
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
