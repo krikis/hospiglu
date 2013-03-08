@@ -1,0 +1,17 @@
+%h1 Listing brainstorms
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @brainstorms.each do |brainstorm|
+    %tr
+      %td= link_to 'Show', brainstorm
+      %td= link_to 'Edit', edit_brainstorm_path(brainstorm)
+      %td= link_to 'Destroy', brainstorm, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Brainstorm', new_brainstorm_path

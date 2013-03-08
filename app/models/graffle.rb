@@ -2,7 +2,7 @@ class Graffle < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :session
+  belongs_to :brainstorm
 
   belongs_to :user
 

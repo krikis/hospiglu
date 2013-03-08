@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :session
+  belongs_to :brainstorm
 
-  has_one :graffle
+  has_one :your_department_graffle
 
   serialize :properties
 

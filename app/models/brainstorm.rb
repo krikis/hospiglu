@@ -1,20 +1,20 @@
-class Session < ActiveRecord::Base
+class Brainstorm < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
   has_many :users
 
-  has_one :department_a_graffle,
+  has_one :first_department_graffle,
            class_name: 'Graffle',
-           foreign_key: 'session_id'
+           foreign_key: 'brainstorm_id'
 
-  has_one :department_b_graffle,
+  has_one :second_department_graffle,
           class_name: 'Graffle',
-          foreign_key: 'session_id'
+          foreign_key: 'brainstorm_id'
 
   has_one :consolidation_graffle,
           class_name: 'Graffle',
-          foreign_key: 'session_id'
+          foreign_key: 'brainstorm_id'
 
   serialize :properties
 

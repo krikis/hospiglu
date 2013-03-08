@@ -1,12 +1,15 @@
 Hospiglu::Application.routes.draw do
 
-  resources :sessions
+  root to: 'sessions#new'
 
+  resources :brainstorms do
+    member do
+      get 'participate'
+      post 'enroll'
+    end
 
-  resources :users
-
-
-  root to: 'graffles#index'
+    resources :graffles
+  end
 
   resources :graffles, only: [:index, :show]
 

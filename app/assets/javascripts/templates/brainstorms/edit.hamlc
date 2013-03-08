@@ -1,0 +1,10 @@
+<h1>Edit brainstorm</h1>
+
+<form id="edit-brainstorm" name="brainstorm">
+  <div class="actions">
+    <input type="submit" value="Update Brainstorm" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>

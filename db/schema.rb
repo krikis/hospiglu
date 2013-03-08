@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306152218) do
+ActiveRecord::Schema.define(:version => 20130308161337) do
+
+  create_table "brainstorms", :force => true do |t|
+    t.text     "properties"
+    t.string   "state",      :default => "open"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
 
   create_table "connections", :force => true do |t|
     t.integer  "graffle_id"
@@ -27,13 +34,6 @@ ActiveRecord::Schema.define(:version => 20130306152218) do
     t.integer  "session_id"
     t.integer  "user_id"
     t.text     "properties"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "sessions", :force => true do |t|
-    t.text     "properties"
-    t.string   "state"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
