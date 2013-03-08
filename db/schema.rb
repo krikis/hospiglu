@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20130308161337) do
   create_table "brainstorms", :force => true do |t|
     t.text     "properties"
     t.string   "state",      :default => "open"
+    t.string   "phase"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
   end
@@ -31,11 +32,11 @@ ActiveRecord::Schema.define(:version => 20130308161337) do
   end
 
   create_table "graffles", :force => true do |t|
-    t.integer  "session_id"
+    t.integer  "brainstorm_id"
     t.integer  "user_id"
     t.text     "properties"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "shapes", :force => true do |t|
@@ -47,10 +48,11 @@ ActiveRecord::Schema.define(:version => 20130308161337) do
   end
 
   create_table "users", :force => true do |t|
-    t.integer  "session_id"
+    t.integer  "brainstorm_id"
+    t.string   "name"
     t.text     "properties"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
 end

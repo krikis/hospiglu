@@ -1,4 +1,46 @@
 class BrainstormsController < ApplicationController
+
+  before_filter :init_from_session
+
+  layout 'dialog'
+
+  def participate
+    @user = User.new
+  end
+
+  def enroll
+    @brainstorm ||= Brainstorm.where(state: 'open').first || Brainstorm.create
+    @user = User.new(user_params)
+    if @user.save
+      session[:brainstorm_id] ||= @brainstorm.id
+      session[:user_id] = @user.id
+      @brainstorm.update_attributes phase: 'first_department'
+      redirect_to brainstorms_first_department_path
+    else
+      render action: 'participate'
+    end
+  end
+
+  def first_department
+
+  end
+
+  def second_department
+
+  end
+
+  def your_department
+
+  end
+
+  def voting
+
+  end
+
+  def consolidation
+
+  end
+
   # GET /brainstorms
   # GET /brainstorms.json
   def index
@@ -83,10 +125,10 @@ class BrainstormsController < ApplicationController
 
   private
 
-    # Use this method to whitelist the permissible parameters. Example:
-    # params.require(:person).permit(:name, :age)
-    # Also, you can specialize this method with per-user checking of permissible attributes.
-    def brainstorm_params
-      params.require(:brainstorm).permit()
-    end
+  # Use this method to whitelist the permissible parameters. Example:
+  # params.require(:person).permit(:name, :age)
+  # Also, you can specialize this method with per-user checking of permissible attributes.
+  def user_params
+    params.require(:user).permit(:name)
+  end
 end

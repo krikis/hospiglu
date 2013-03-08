@@ -1,5 +1,7 @@
-class Hospiglu.Models.Brainstorm extends Backbone.Model
+Hospiglu.module "Models", ->
+  class @Brainstorm extends Backbone.Model
 
-class Hospiglu.Collections.BrainstormsCollection extends Backbone.Collection
-  model: Hospiglu.Models.Brainstorm
-  url: '/brainstorms'
+Hospiglu.module "Collections", ->
+  class @BrainstormsCollection extends Backbone.Collection
+    model: Hospiglu.Models.Brainstorm
+    url: '/brainstorms'

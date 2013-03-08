@@ -18,6 +18,8 @@ class Graffle < ActiveRecord::Base
 
   def as_json(options={})
     {id: id,
+     brainstorm_id: brainstorm_id,
+     user_id: user_id,
      properties: properties,
      updated_at: updated_at}
   end

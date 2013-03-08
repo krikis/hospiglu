@@ -1,5 +1,7 @@
-class Hospiglu.Models.User extends Backbone.Model
+Hospiglu.module "Models", ->
+  class @User extends Backbone.Model
 
-class Hospiglu.Collections.UsersCollection extends Backbone.Collection
-  model: Hospiglu.Models.User
-  url: '/users'
+Hospiglu.module "Collections", ->
+  class @UsersCollection extends Backbone.Collection
+    model: Hospiglu.Models.User
+    url: '/users'

@@ -18,13 +18,21 @@ class Brainstorm < ActiveRecord::Base
 
   serialize :properties
 
+  after_create :init_graffles
+
+  def init_graffles
+    first_department_graffle = Graffle.create properties: {name: 'Department A'}
+    second_department_graffle = Graffle.create properties: {name: 'Department B'}
+    consolidation_graffle = Graffle.create properties: {name: 'Consolidation'}
+  end
+
   def properties
     self[:properties] ||= {}
   end
 
   def as_json
     {id: id,
-     properties: properties
+     properties: properties,
      state: state}
   end
 

@@ -1,5 +1,7 @@
 class GrafflesController < ApplicationController
 
+  before_filter :init_from_session
+
   # GET /graffles
   # GET /graffles.json
   def index
@@ -11,7 +13,6 @@ class GrafflesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @graffles }
     end
   end
 

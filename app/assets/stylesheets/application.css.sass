@@ -21,8 +21,13 @@ body
   color: #fff
   font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif
 
-.rounded
-  +border-radius(30px)
+.dialog
+  width: 600px
+  position: absolute
+  margin-top: -100px
+  top: 50%
+  margin-left: -300px
+  left: 50%
 
 #sidebar
   padding-left: 2%
@@ -43,6 +48,9 @@ body
     background-color: #fff
     height: 1px
     width: 100%
+
+.rounded
+  +border-radius(30px)
 
 #container
   @extend .rounded

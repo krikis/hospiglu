@@ -1,21 +1,26 @@
 Hospiglu::Application.routes.draw do
 
-  root to: 'sessions#new'
+  root to: 'brainstorms#participate'
 
-  resources :brainstorms do
+  resource :brainstorms do
     member do
       get 'participate'
       post 'enroll'
+      get 'first_department'
+      get 'second_department'
+      get 'your_department'
+      get 'voting'
+      get 'consolidation'
     end
-
-    resources :graffles
   end
 
-  resources :graffles, only: [:index, :show]
+  resources :brainstorms, only: [:index], constraints: lambda { |req| req.xhr? }
 
-  resources :shapes, only: [:index, :create, :update, :destroy]
+  resources :graffles, only: [:index, :show], constraints: lambda { |req| req.xhr? }
 
-  resources :connections, only: [:index, :create, :update, :destroy]
+  resources :shapes, only: [:index, :create, :update, :destroy], constraints: lambda { |req| req.xhr? }
+
+  resources :connections, only: [:index, :create, :update, :destroy], constraints: lambda { |req| req.xhr? }
 
 
   # The priority is based upon order of creation:

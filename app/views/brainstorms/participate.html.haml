@@ -1,0 +1,19 @@
+= form_tag enroll_brainstorms_path, class: 'form-horizontal' do
+  .control-group
+    .controls
+      %h1 HospiGlu
+  .control-group
+    %label.control-label{for: 'user_name'} Name
+    .controls
+      .input-append
+        = text_field_tag 'user[name]', @user.name, size: 20, maxlength: 40, placeholder: 'Your name here'
+        %button.btn.btn-primary{type: 'submit'} Participate!
+  .control-group
+    .controls
+      - @user.errors.full_messages.each do |message|
+        %span.help-text= message
+
+
+:coffeescript
+  $ ->
+    $('#user_name').focus()
