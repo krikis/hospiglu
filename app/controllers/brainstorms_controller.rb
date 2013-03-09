@@ -11,7 +11,7 @@ class BrainstormsController < ApplicationController
 
   def enroll
     @brainstorm ||= Brainstorm.where(state: 'open').first || Brainstorm.create
-    unless @user.name == user_params[:name] and @user.brainstorm == @brainstorm
+    unless @user and @user.name == user_params[:name] and @user.brainstorm == @brainstorm
       @user = User.new(user_params)
     end
     @user.brainstorm = @brainstorm

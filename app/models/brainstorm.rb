@@ -28,7 +28,8 @@ class Brainstorm < ActiveRecord::Base
   end
 
   def init_phases
-    properties[:phases] ||= phases
+    properties[:phases] ||= PHASES
+    save!
   end
 
   def phases

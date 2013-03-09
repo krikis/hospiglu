@@ -6,6 +6,7 @@ gem 'rails', '3.2.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'ryansch-andand', '~> 1.3.2'
 gem 'strong_parameters'
 gem 'rails-backbone', "~> 0.9.10"
 gem 'marionette-rails', "~> 1.0.0.rc5"
