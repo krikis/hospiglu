@@ -1,3 +1,10 @@
+# Setup
+
+* When pulling code from github make sure to drop and rebuild your database when the schema changes
+
+    rake db:drop
+    rake db:migrate
+
 # Coding Guidelines
 
 * Insert two spaces instead of a tab (configure your editor to do this for you)

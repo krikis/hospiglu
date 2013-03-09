@@ -15,18 +15,10 @@ class Brainstorm < ActiveRecord::Base
 
   serialize :properties
 
-  after_create :init_graffles
+  after_create :init_graffles, :init_phases
 
-  def phase
-    self[:phase] || PHASES.first
-  end
-
-  def next_phase
-    if phase
-      PHASES[PHASES.index(phase) + 1]
-    else
-      PHASES.first
-    end
+  def properties
+    self[:properties] ||= {}
   end
 
   def init_graffles
@@ -35,17 +27,34 @@ class Brainstorm < ActiveRecord::Base
     Graffle.create graffle_type: 'consolidation', brainstorm: self
   end
 
-  def current_graffle_with(user)
-    graffles.where(graffle_type: phase).first || user.your_department_graffle
+  def init_phases
+    properties[:phases] ||= phases
   end
 
-  def properties
-    self[:properties] ||= {}
+  def phases
+    properties[:phases]
+  end
+
+  def phase
+    self[:phase] || phases.first
+  end
+
+  def next_phase
+    if phase
+      phases[phases.index(phase) + 1]
+    else
+      phases.first
+    end
+  end
+
+  def current_graffle_with(user)
+    graffles.where(graffle_type: phase).first || user.your_department_graffle
   end
 
   def as_json(options={})
     {id: id,
      phase: phase,
+     phases: phases,
      properties: properties,
      state: state,
      created_at: created_at}

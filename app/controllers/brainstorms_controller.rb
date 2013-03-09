@@ -1,6 +1,7 @@
 class BrainstormsController < ApplicationController
 
   before_filter :init_from_session
+  before_filter :validate_session, except: [:participate, :enroll]
 
   def participate
     @user = User.new
@@ -98,6 +99,17 @@ class BrainstormsController < ApplicationController
   end
 
   private
+
+  def init_from_session
+    @brainstorm = Brainstorm.find_by_id session[:brainstorm_id]
+    @user = User.find_by_id session[:user_id]
+  end
+
+  def validate_session
+    unless @brainstorm and @user
+      redirect_to action: 'participate'
+    end
+  end
 
   def current_phase_path
     send "#{@brainstorm.phase}_brainstorms_path"
