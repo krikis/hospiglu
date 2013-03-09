@@ -23,11 +23,11 @@ Hospiglu.addInitializer (options)->
     content:         '#content'
     shapes:          '#sandbox'
     connections:     '#sandbox'
-  Hospiglu.router = new Hospiglu.Routers.GrafflesRouter _.clone options
+    depAShapes:      '#sandbox'
+    depAConnections: '#sandbox'
+    depBShapes:      '#sandbox'
+    depBConnections: '#sandbox'
+  Hospiglu.router = new Hospiglu.Routers.BrainstormsRouter options
   Backbone.history.start
     pushState: true
-  if graffle_id = options.graffle_id
-    Backbone.history.navigate "graffles/#{graffle_id}"
-  else
-    Backbone.history.navigate 'graffles'
 

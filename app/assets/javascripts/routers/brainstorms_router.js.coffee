@@ -1,32 +1,37 @@
-Hospiglu.module "Routers", ->
+Hospiglu.module 'Routers', ->
   class @BrainstormsRouter extends Backbone.Router
     initialize: (options) ->
+      @options = options
       @brainstorms = new Hospiglu.Collections.BrainstormsCollection()
-      @brainstorms.reset options.brainstorms
+      @brainstorms.reset [options.brainstorm]
+      @brainstorm = @brainstorms.get options.brainstorm.id
+      @users = new Hospiglu.Collections.UsersCollection()
+      @users.reset [options.user]
+      @user = @users.get options.user.id
+      @graffles = new Hospiglu.Collections.GrafflesCollection()
+      @graffles.reset options.graffles
+      @shapes = new Hospiglu.Collections.ShapesCollection()
+      @shapes.reset options.shapes
+      @connections = new Hospiglu.Collections.ConnectionsCollection()
+      @connections.reset options.connections
 
     routes:
-      "new"      : "newBrainstorm"
-      "index"    : "index"
-      ":id/edit" : "edit"
-      ":id"      : "show"
-      ".*"        : "index"
+      'brainstorms/first_department'  : 'firstDepartment'
+      'brainstorms/second_department' : 'secondDepartment'
+      'brainstorms/your_department'   : 'yourDepartment'
+      'brainstorms/voting'            : 'voting'
+      'brainstorms/consolidation'     : 'consolidation'
+      'brainstorms.*'                 : 'currentPhase'
 
-    newBrainstorm: ->
-      @view = new Hospiglu.Views.Brainstorms.NewView(collection: @brainstorms)
-      $("#brainstorms").html(@view.render().el)
+    firstDepartment: ->
 
-    index: ->
-      @view = new Hospiglu.Views.Brainstorms.IndexView(brainstorms: @brainstorms)
-      $("#brainstorms").html(@view.render().el)
+    secondDepartment: ->
 
-    show: (id) ->
-      brainstorm = @brainstorms.get(id)
+    yourDepartment: ->
 
-      @view = new Hospiglu.Views.Brainstorms.ShowView(model: brainstorm)
-      $("#brainstorms").html(@view.render().el)
+    voting: ->
 
-    edit: (id) ->
-      brainstorm = @brainstorms.get(id)
+    consolidation: ->
 
-      @view = new Hospiglu.Views.Brainstorms.EditView(model: brainstorm)
-      $("#brainstorms").html(@view.render().el)
+    currentPhase: ->
+      @[@brainstorm.phase](arguments)
