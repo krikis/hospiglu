@@ -23,4 +23,4 @@
 %ul.nav.nav-pills.nav-stacked
   - _.each @phases, (phase) =>
     %li{class: 'active' if phase == @phase}
-      %a.show_graffle{:href => "brainstorms/#{phase}"}= phase
+      %a.show_graffle{href: phase}= phase
