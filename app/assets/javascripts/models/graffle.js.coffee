@@ -6,13 +6,19 @@ Hospiglu.module "Models", ->
     shapes: ->
       shapes = new Hospiglu.Collections.ShapesCollection()
       Hospiglu.shapesCallbacks.add =>
-        shapes.reset Hospiglu.router.shapes.where(graffle_id: @id)
+        shapes.reset _.map(Hospiglu.router.shapes.where(graffle_id: @id), (shape) ->
+          shape.collection = shapes
+          shape
+        )
       shapes
 
     connections: ->
       connections = new Hospiglu.Collections.ConnectionsCollection()
       Hospiglu.connectionsCallbacks.add =>
-        connections.reset Hospiglu.router.connections.where(graffle_id: @id)
+        connections.reset _.map(Hospiglu.router.connections.where(graffle_id: @id), (connection) ->
+          connection.collection = connections
+          connection
+        )
       connections
 
 
