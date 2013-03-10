@@ -23,4 +23,4 @@
 %ul.nav.nav-pills.nav-stacked
   - _.each @phases, (phase) =>
     %li{class: 'active' if phase == @phase}
-      %a{href: phase, class: phase}= phase
+      %a.phase{href: '#'}= phase

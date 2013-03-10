@@ -14,7 +14,7 @@ Hospiglu::Application.routes.draw do
     end
   end
 
-  resources :brainstorms, only: [:index], constraints: lambda { |req| req.xhr? }
+  resources :brainstorms, only: [:index, :create, :update, :destroy], constraints: lambda { |req| req.xhr? }
 
   resources :graffles, only: [:index, :show], constraints: lambda { |req| req.xhr? }
 

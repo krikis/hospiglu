@@ -3,11 +3,18 @@ Hospiglu.module "Views.Brainstorms", ->
     template: 'brainstorms/phases'
 
     triggers:
-      'click .first_department': 'show:firstDepartment'
-      'click .second_department': 'show:secondDepartment'
+      'click .phase': 'noYouCant'
+      'click #next_phase': 'toNextPhase'
+      'click #previous_phase': 'toPreviousPhase'
 
-    onShowFirstDepartment: ->
-      Backbone.history.navigate "brainstorms/first_department", trigger: true
+    onNoYouCant: ->
 
-    onShowSecondDepartment: ->
-      Backbone.history.navigate "brainstorms/second_department", trigger: true
+    onToNextPhase: (event) ->
+      nextPhase = event.model.nextPhase()
+      event.model.save(phase: nextPhase)
+      Backbone.history.navigate "brainstorms/#{nextPhase}", trigger: true
+
+    onToPreviousPhase: (event) ->
+      previousPhase = event.model.previousPhase()
+      event.model.save(phase: previousPhase)
+      Backbone.history.navigate "brainstorms/#{previousPhase}", trigger: true

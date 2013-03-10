@@ -25,43 +25,60 @@ Hospiglu.module 'Routers', ->
       'brainstorms.*'                 : 'currentPhase'
 
     firstDepartment: ->
-      Hospiglu.shapesCallbacks = new Marionette.Callbacks()
-      Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-      if @noXhr
-        Hospiglu.shapesCallbacks.run {}, @shapes
-        Hospiglu.connectionsCallbacks.run {}, @connections
-      else
-        @shapes = new Hospiglu.Collections.ShapesCollection()
-        @shapes.fetch
-          data:
-            graffle_id: graffle.id
-          success: (collection) ->
-            Hospiglu.shapesCallbacks.run {}, collection
-        @connections = new Hospiglu.Collections.ConnectionsCollection()
-        @connections.fetch
-          data:
-            graffle_id: graffle.id
-          success: (collection) ->
-            Hospiglu.connectionsCallbacks.run {}, collection
-      graffle = @brainstorm.currentGraffleWith(@user)
-      phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-      Hospiglu.sidebar.show(phases)
-      graffleView = new Hospiglu.Views.Graffles.ShowView
-        model: graffle
-        shapes: @shapes
-        connections: @connections
-      Hospiglu.content.show(graffleView)
+      if @sessionValid()
+        Hospiglu.shapesCallbacks = new Marionette.Callbacks()
+        Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
+        graffle = @brainstorm.currentGraffleWith(@user)
+        if @noXhr
+          @noXhr = false
+          Hospiglu.shapesCallbacks.run {}, @shapes
+          Hospiglu.connectionsCallbacks.run {}, @connections
+        else
+          @shapes = new Hospiglu.Collections.ShapesCollection()
+          @shapes.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.shapesCallbacks.run {}, collection
+          @connections = new Hospiglu.Collections.ConnectionsCollection()
+          @connections.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.connectionsCallbacks.run {}, collection
+        phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
+        Hospiglu.sidebar.show(phases)
+        graffleView = new Hospiglu.Views.Graffles.ShowView
+          model: graffle
+          shapes: @shapes
+          connections: @connections
+        Hospiglu.content.show(graffleView)
 
     secondDepartment: ->
+      if @sessionValid()
+        console.log 'test'
 
     yourDepartment: ->
+      if @sessionValid()
+        console.log 'test'
 
     voting: ->
-      Hospiglu.usersCallbacks = new Marionette.Callbacks()
-      Hospiglu.grafflesCallbacks = new Marionette.Callbacks()
-      @brainstorm.save(state: 'closed')
+      if @sessionValid()
+        Hospiglu.usersCallbacks = new Marionette.Callbacks()
+        Hospiglu.grafflesCallbacks = new Marionette.Callbacks()
+        @brainstorm.save(state: 'closed')
 
     consolidation: ->
+      if @sessionValid()
+        console.log 'test'
 
     currentPhase: ->
-      @[@brainstorm.phase](arguments)
+      Backbone.history.navigate @currentPhasePath(), trigger: true
+
+    currentPhasePath: ->
+      "brainstorms/#{@brainstorm.get('phase')}"
+
+    sessionValid: ->
+      return true if Backbone.history.fragment == @currentPhasePath()
+      Backbone.history.navigate @currentPhasePath(), trigger: true
+      false

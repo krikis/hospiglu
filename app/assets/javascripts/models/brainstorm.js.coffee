@@ -1,8 +1,14 @@
 Hospiglu.module "Models", ->
   class @Brainstorm extends Backbone.Model
     nextPhase: ->
-      currentIndex = _.indexOf(@get(phases), @get('phase'))
-      phases[ if currentIndex >= 0 then currentIndex else 0 ]
+      phases = @get('phases')
+      nextIndex = _.indexOf(phases, @get('phase')) + 1
+      phases[ Math.min(nextIndex, phases.length - 1) ]
+
+    previousPhase: ->
+      phases = @get('phases')
+      previousIndex = _.indexOf(phases, @get('phase')) - 1
+      phases[ Math.max(0, previousIndex) ]
 
     currentGraffleWith: (user)->
       if @get('phase') == 'your_department'

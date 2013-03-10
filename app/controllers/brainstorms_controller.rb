@@ -1,7 +1,6 @@
 class BrainstormsController < ApplicationController
 
   before_filter :init_from_session
-  before_filter :validate_session, except: [:participate, :enroll]
 
   def participate
     @user = User.new
@@ -26,24 +25,28 @@ class BrainstormsController < ApplicationController
   end
 
   def first_department
+    validate_session
     @graffles = @brainstorm.graffles
     @shapes = @brainstorm.current_graffle_with(@user).shapes
     @connections = @brainstorm.current_graffle_with(@user).connections
   end
 
   def second_department
+    validate_session
     @graffles = @brainstorm.graffles
     @shapes = @brainstorm.current_graffle_with(@user).shapes
     @connections = @brainstorm.current_graffle_with(@user).connections
   end
 
   def your_department
+    validate_session
     @graffles = @brainstorm.graffles
     @shapes = @brainstorm.current_graffle_with(@user).shapes
     @connections = @brainstorm.current_graffle_with(@user).connections
   end
 
   def voting
+    validate_session
     @brainstorm.update_attributes state: 'closed'
     @users = @brainstorm.users
     @graffles = @users.map(&:your_department_graffle)
@@ -54,6 +57,7 @@ class BrainstormsController < ApplicationController
   end
 
   def consolidation
+    validate_session
     @graffles = @brainstorm.graffles
     @shapes = @brainstorm.current_graffle_with(@user).shapes
     @connections = @brainstorm.current_graffle_with(@user).connections
@@ -106,7 +110,11 @@ class BrainstormsController < ApplicationController
   end
 
   def validate_session
-    unless @brainstorm and @user
+    if @brainstorm and @user
+      unless @brainstorm.phase == params[:action]
+        redirect_to current_phase_path
+      end
+    else
       redirect_to action: 'participate'
     end
   end
@@ -115,10 +123,14 @@ class BrainstormsController < ApplicationController
     send "#{@brainstorm.phase}_brainstorms_path"
   end
 
-  # Use this method to whitelist the permissible parameters. Example:
+  # Use this methods to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def user_params
     params.require(:user).permit(:name)
+  end
+
+  def brainstorm_params
+    params.require(:brainstorm).permit(:phase, :state)
   end
 end
