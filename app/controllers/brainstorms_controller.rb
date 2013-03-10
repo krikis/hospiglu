@@ -27,22 +27,22 @@ class BrainstormsController < ApplicationController
   def first_department
     validate_session
     @graffles = @brainstorm.graffles
-    @shapes = @brainstorm.current_graffle_with(@user).shapes
-    @connections = @brainstorm.current_graffle_with(@user).connections
+    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def second_department
     validate_session
     @graffles = @brainstorm.graffles
-    @shapes = @brainstorm.current_graffle_with(@user).shapes
-    @connections = @brainstorm.current_graffle_with(@user).connections
+    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def your_department
     validate_session
     @graffles = @brainstorm.graffles
-    @shapes = @brainstorm.current_graffle_with(@user).shapes
-    @connections = @brainstorm.current_graffle_with(@user).connections
+    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def voting
@@ -59,8 +59,8 @@ class BrainstormsController < ApplicationController
   def consolidation
     validate_session
     @graffles = @brainstorm.graffles
-    @shapes = @brainstorm.current_graffle_with(@user).shapes
-    @connections = @brainstorm.current_graffle_with(@user).connections
+    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   # GET /brainstorms

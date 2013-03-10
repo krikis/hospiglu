@@ -1,1 +1,0 @@
-%a.show_graffle{:href => "graffles/#{@id}"}= @properties.name

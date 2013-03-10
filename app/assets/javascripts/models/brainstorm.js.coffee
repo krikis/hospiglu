@@ -10,13 +10,13 @@ Hospiglu.module "Models", ->
       previousIndex = _.indexOf(phases, @get('phase')) - 1
       phases[ Math.max(0, previousIndex) ]
 
-    currentGraffleWith: (user)->
+    currentGrafflesWith: (user)->
       if @get('phase') == 'your_department'
-        [Hospiglu.router.graffles.where(graffle_type: 'first_department'),
-         Hospiglu.router.graffles.where(graffle_type: 'second_department'),
+        [_.first(Hospiglu.router.graffles.where(graffle_type: 'first_department')),
+         _.first(Hospiglu.router.graffles.where(graffle_type: 'second_department')),
          user.yourDepartmentGraffle()]
       else
-        _.first Hospiglu.router.graffles.where(graffle_type: @get('phase'))
+        Hospiglu.router.graffles.where(graffle_type: @get('phase'))
 
 Hospiglu.module "Collections", ->
   class @BrainstormsCollection extends Backbone.Collection

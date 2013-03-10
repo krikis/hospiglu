@@ -28,7 +28,7 @@ Hospiglu.module 'Routers', ->
       if @sessionValid()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-        graffle = @brainstorm.currentGraffleWith(@user)
+        graffle = _.first @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
           Hospiglu.shapesCallbacks.run {}, @shapes
@@ -37,28 +37,26 @@ Hospiglu.module 'Routers', ->
           @shapes = new Hospiglu.Collections.ShapesCollection()
           @shapes.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: [graffle.id]
             success: (collection) ->
               Hospiglu.shapesCallbacks.run {}, collection
           @connections = new Hospiglu.Collections.ConnectionsCollection()
           @connections.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: [graffle.id]
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
-          shapes: @shapes
-          connections: @connections
         Hospiglu.content.show(graffleView)
 
     secondDepartment: ->
       if @sessionValid()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-        graffle = @brainstorm.currentGraffleWith(@user)
+        graffle = _.first @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
           Hospiglu.shapesCallbacks.run {}, @shapes
@@ -67,29 +65,26 @@ Hospiglu.module 'Routers', ->
           @shapes = new Hospiglu.Collections.ShapesCollection()
           @shapes.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: [graffle.id]
             success: (collection) ->
               Hospiglu.shapesCallbacks.run {}, collection
           @connections = new Hospiglu.Collections.ConnectionsCollection()
           @connections.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: [graffle.id]
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
-          shapes: @shapes
-          connections: @connections
         Hospiglu.content.show(graffleView)
 
     yourDepartment: ->
       if @sessionValid()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
-        graffles = @brainstorm.currentGraffleWith(@user)
-        graffle = _.last(graffles)
+        graffles = @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
           Hospiglu.shapesCallbacks.run {}, @shapes
@@ -98,21 +93,19 @@ Hospiglu.module 'Routers', ->
           @shapes = new Hospiglu.Collections.ShapesCollection()
           @shapes.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: _.map(graffles, (graffle) -> graffle.id)
             success: (collection) ->
               Hospiglu.shapesCallbacks.run {}, collection
           @connections = new Hospiglu.Collections.ConnectionsCollection()
           @connections.fetch
             data:
-              graffle_id: graffle.id
+              graffle_ids: _.map(graffles, (graffle) -> graffle.id)
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
-        graffleView = new Hospiglu.Views.Graffles.ShowView
-          model: graffle
-          shapes: @shapes
-          connections: @connections
+        graffleView = new Hospiglu.Views.Graffles.IntegrationView
+          graffles: graffles
         Hospiglu.content.show(graffleView)
 
     voting: ->

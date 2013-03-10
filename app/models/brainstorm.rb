@@ -48,8 +48,14 @@ class Brainstorm < ActiveRecord::Base
     end
   end
 
-  def current_graffle_with(user)
-    graffles.where(graffle_type: phase).first || user.your_department_graffle
+  def current_graffles_with(user)
+    if phase == 'your_department'
+      [graffles.where(graffle_type: 'first_department').first,
+       graffles.where(graffle_type: 'second_department').first,
+       user.your_department_graffle]
+    else
+      graffles.where(graffle_type: phase)
+    end
   end
 
   def as_json(options={})

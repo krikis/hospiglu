@@ -1,15 +1,10 @@
 Hospiglu.module "Models", ->
   class @Shape extends Backbone.Model
     outgoingConnections: ->
-      connections = Hospiglu.router.connections
-      _.select connections.models, (connection) =>
-        connection.get('start_shape_id') == @get('id')
+      Hospiglu.router.connections.where(start_shape_id: @id)
 
     incomingConnections: ->
-      connections = Hospiglu.router.connections
-      _.select connections.models, (connection) =>
-        connection.get('end_shape_id') == @get('id')
-
+      Hospiglu.router.connections.where(end_shape_id: @id)
 
 Hospiglu.module "Collections", ->
   class @ShapesCollection extends Backbone.Collection

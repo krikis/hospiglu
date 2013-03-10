@@ -2,8 +2,8 @@ class ShapesController < ApplicationController
 
   # GET /shapes.json
   def index
-    if Graffle.find_by_id(params[:graffle_id])
-      @shapes = Shape.where(graffle_id: params[:graffle_id])
+    if Graffle.find_by_id(params[:graffle_ids])
+      @shapes = Shape.where(graffle_id: params[:graffle_ids])
     else
       @shapes = Shape.all
     end
