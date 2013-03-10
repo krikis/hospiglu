@@ -86,7 +86,34 @@ Hospiglu.module 'Routers', ->
 
     yourDepartment: ->
       if @sessionValid()
-        console.log 'test'
+        Hospiglu.shapesCallbacks = new Marionette.Callbacks()
+        Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
+        graffles = @brainstorm.currentGraffleWith(@user)
+        graffle = _.last(graffles)
+        if @noXhr
+          @noXhr = false
+          Hospiglu.shapesCallbacks.run {}, @shapes
+          Hospiglu.connectionsCallbacks.run {}, @connections
+        else
+          @shapes = new Hospiglu.Collections.ShapesCollection()
+          @shapes.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.shapesCallbacks.run {}, collection
+          @connections = new Hospiglu.Collections.ConnectionsCollection()
+          @connections.fetch
+            data:
+              graffle_id: graffle.id
+            success: (collection) ->
+              Hospiglu.connectionsCallbacks.run {}, collection
+        phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
+        Hospiglu.sidebar.show(phases)
+        graffleView = new Hospiglu.Views.Graffles.ShowView
+          model: graffle
+          shapes: @shapes
+          connections: @connections
+        Hospiglu.content.show(graffleView)
 
     voting: ->
       if @sessionValid()

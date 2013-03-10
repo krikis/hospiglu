@@ -12,7 +12,9 @@ Hospiglu.module "Models", ->
 
     currentGraffleWith: (user)->
       if @get('phase') == 'your_department'
-        user.yourDepartmentGraffle()
+        [Hospiglu.router.graffles.where(graffle_type: 'first_department'),
+         Hospiglu.router.graffles.where(graffle_type: 'second_department'),
+         user.yourDepartmentGraffle()]
       else
         _.first Hospiglu.router.graffles.where(graffle_type: @get('phase'))
 
