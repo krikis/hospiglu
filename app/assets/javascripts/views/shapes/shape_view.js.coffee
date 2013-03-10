@@ -1,13 +1,14 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
     render: ->
-      paper = @options.paper
-      shape = @createShape(@model, paper)
-      shape.model = @model
-      shape.view = @
-      shape.collection = @model.collection
-      @model.el = shape
-      shape.mousedown @cloneShape if @model.get('in_menu')
+      unless @options.noEditing and @model.get('in_menu')
+        paper = @options.paper
+        shape = @createShape(@model, paper)
+        shape.model = @model
+        shape.view = @
+        shape.collection = @model.collection
+        @model.el = shape
+        shape.mousedown @cloneShape if @model.get('in_menu')
       @
 
     cloneShape: (event) ->

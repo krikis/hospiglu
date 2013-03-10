@@ -1,5 +1,8 @@
 Hospiglu.module "Models", ->
   class @Graffle extends Backbone.Model
+    getContainer: ->
+      @get('graffle_type') || "container#{@get('user_id')}"
+
     shapes: ->
       shapes = new Hospiglu.Collections.ShapesCollection()
       Hospiglu.shapesCallbacks.add =>

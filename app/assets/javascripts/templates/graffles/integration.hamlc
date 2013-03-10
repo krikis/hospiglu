@@ -1,5 +1,5 @@
-#departmentA
-#departmentB
-.menu-separator
-  .line
-#container
+.rounded-border-box
+  .row-fluid.top-box
+    #firstDepartment.span6.top-left-box
+    #secondDepartment.span6.top-right-box
+  #yourDepartment.bottom-box

@@ -19,14 +19,17 @@ Backbone.Marionette.Renderer.render = (template, data) ->
 
 Hospiglu.addInitializer (options)->
   Hospiglu.addRegions
-    sidebar:         '#sidebar'
-    content:         '#content'
-    shapes:          '#sandbox'
-    connections:     '#sandbox'
-    depAShapes:      '#sandbox'
-    depAConnections: '#sandbox'
-    depBShapes:      '#sandbox'
-    depBConnections: '#sandbox'
+    sidebar:           '#sidebar'
+    content:           '#content'
+    firstDepartment:   '#firstDepartment'
+    secondDepartment:  '#secondDepartment'
+    yourDepartment:    '#yourDepartment'
+    shapes:            '#sandbox'
+    connections:       '#sandbox'
+    firstShapes:       '#sandbox'
+    firstConnections:  '#sandbox'
+    secondShapes:      '#sandbox'
+    secondConnections: '#sandbox'
   Hospiglu.router = new Hospiglu.Routers.BrainstormsRouter options
   Backbone.history.start
     pushState: true

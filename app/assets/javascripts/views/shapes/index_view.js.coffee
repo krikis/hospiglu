@@ -3,5 +3,7 @@ Hospiglu.module "Views.Shapes", ->
     getItemView: -> Hospiglu.Views.Shapes.ShapeView
 
     itemViewOptions: ->
+      scale: @options.scale
+      noEditing: @options.noEditing
       paper: @options.paper
 

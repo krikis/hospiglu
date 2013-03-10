@@ -4,7 +4,7 @@ Hospiglu.module "Views.Connections", ->
       paper = @options.paper
       Hospiglu.shapesCallbacks.add =>
         if @model.get('in_menu')
-          @createMenuItem(@model, paper)
+          @createMenuItem(@model, paper) unless @options.noEditing
         else if (startShape = @model.startShape()) and
                 (endShape = @model.endShape())
           @connection = @createConnection(@model, startShape.el, endShape.el, paper)

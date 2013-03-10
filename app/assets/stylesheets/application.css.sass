@@ -39,28 +39,86 @@ body
 
 #content
   padding-right: 2%
+  padding-top: 30px
   min-width: 720px
 
+.border-box
+  border: solid 1px white
+  overflow: hidden
+
+.border-menu-box
+  margin-top: -100px
+  @extend .border-box
+
+.rounded
+  +border-radius(30px)
+
+.rounded-border-box
+  @extend .border-box
+  @extend .rounded
+
 .menu-separator
-  margin-top: 130px
+  margin-top: 100px
 
   .line
     background-color: #fff
     height: 1px
     width: 100%
 
-.rounded
-  +border-radius(30px)
-
-#container
+.graffle-box
   @extend .rounded
-  margin-top: -100px
-  border: solid 1px white
-  overflow: hidden
+  @extend .border-menu-box
 
   svg
     @extend .rounded
     min-width: 800px
     margin-bottom: -1%
+
+.rounded-top
+  +border-radius(0px)
+  +border-top-left-radius(30px)
+  +border-top-right-radius(30px)
+
+.rounded-top-right
+  +border-radius(0px)
+  +border-top-right-radius(30px)
+
+.rounded-top-left
+  +border-radius(0px)
+  +border-top-left-radius(30px)
+
+.top-box
+  border-bottom: 1px solid white
+
+.top-left-box
+  border-right: 1px solid white
+
+  .graffle-box
+    border: none
+
+  svg
+    @extend .rounded-top-left
+    min-width: none
+
+.top-right-box
+  .graffle-box
+    border: none
+
+  svg
+    @extend .rounded-top-right
+    min-width: none
+
+.rounded-bottom
+  +border-radius(0px)
+  +border-bottom-left-radius(30px)
+  +border-bottom-right-radius(30px)
+
+.bottom-box
+  .graffle-box
+    border: none
+
+    svg
+      @extend .rounded-bottom
+
 
 

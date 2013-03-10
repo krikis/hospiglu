@@ -1,3 +1,4 @@
-.menu-separator
-  .line
-#container
+- unless @properties.noEditing
+  .menu-separator
+    .line
+.graffle-box{id: @container()}

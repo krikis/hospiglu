@@ -12,8 +12,7 @@ class User < ActiveRecord::Base
 
   after_create :init_graffle
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, scope: :brainstorm_id
+  validates :name, presence: true, uniqueness: {scope: [:brainstorm_id]}
 
   def init_graffle
     Graffle.create properties: {name: "#{name}'s Department"}, user: self, brainstorm: brainstorm
