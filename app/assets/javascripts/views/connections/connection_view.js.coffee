@@ -1,6 +1,7 @@
 Hospiglu.module "Views.Connections", ->
   class @ConnectionView extends Marionette.ItemView
     render: ->
+      @options.scale ||= 1
       paper = @options.paper
       Hospiglu.shapesCallbacks.add =>
         if @model.get('in_menu')
@@ -18,8 +19,8 @@ Hospiglu.module "Views.Connections", ->
                                     end,
                                     connectionProperties.stroke,
                                     (if background then background.stroke || connectionProperties.stroke),
-                                    connectionProperties['stroke-width'],
-                                    background?['stroke-width'])
+                                    connectionProperties['stroke-width'] * @options.scale,
+                                    (background['stroke-width'] * @options.scale) if background?)
       connection.target.model = @model
       connection.target.mouseup @handleDelete unless @options.noEditing
       connection

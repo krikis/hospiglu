@@ -1,6 +1,7 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
     render: ->
+      @options.scale ||= 1
       unless @options.noEditing and @model.get('in_menu')
         paper = @options.paper
         shape = @createShape(@model, paper)
@@ -31,16 +32,16 @@ Hospiglu.module "Views.Shapes", ->
       in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
       y = if not model.collection or in_menu
-        shapeProperties.y
+        shapeProperties.y * @options.scale
       else
-        shapeProperties.y + 100
+        shapeProperties.y * @options.scale + 100 # move below menu
       shape = paper[shapeProperties.shape_type].call(
         paper,
-        shapeProperties.x,
+        shapeProperties.x * @options.scale,
         y, # move below menu
-        shapeProperties.width,
-        shapeProperties.height,
-        shapeProperties.border_radius
+        shapeProperties.width * @options.scale,
+        shapeProperties.height * @options.scale,
+        shapeProperties.border_radius * @options.scale
       )
       color = if in_menu
         '#fff'
