@@ -63,6 +63,7 @@ Hospiglu.module "Views.Connections", ->
     onClose: ->
       @connection?.line.remove()
       @connection?.bg?.remove()
+      @connection?.target.remove()
       @background?.remove()
       @line?.remove()
       @target?.remove()

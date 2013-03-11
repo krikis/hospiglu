@@ -171,6 +171,7 @@ Hospiglu.module "Views.Shapes", ->
         @menuItem.model.collection.create newModel
       @connection.line.remove()
       @connection.bg?.remove()
+      @connection.target.remove()
       delete @connection
       @.remove()
       Hospiglu.selectedMenuItem?.remove()
