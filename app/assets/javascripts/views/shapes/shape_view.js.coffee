@@ -51,11 +51,11 @@ Hospiglu.module "Views.Shapes", ->
         stroke: color
         'fill-opacity': 0
         'stroke-width': 2
-        cursor: 'move'
+        cursor: 'move' unless @options.noEditing
       if in_menu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
-      else
+      else if not @options.noEditing
         shape.mousedown(@initDummy)
         shape.drag(@move, @down, @up)
         shape.mouseup(@handleDelete)
