@@ -30,7 +30,10 @@ Hospiglu.module "Views.Shapes", ->
     createShape: (model, paper) ->
       in_menu = model.get('in_menu')
       shapeProperties = model.get('properties')
-      y = shapeProperties.y
+      y = if not model.collection or in_menu
+        shapeProperties.y
+      else
+        shapeProperties.y + 100
       shape = paper[shapeProperties.shape_type].call(
         paper,
         shapeProperties.x,
@@ -116,7 +119,7 @@ Hospiglu.module "Views.Shapes", ->
         # is the new shape position below the menu?
         if box.y >= 100
           shapeProperties.x = x
-          shapeProperties.y = y
+          shapeProperties.y = y - 100 # subtract menu
           model.set properties: shapeProperties
           collection.add model
           model.save()
