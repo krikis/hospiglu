@@ -71,7 +71,7 @@ Hospiglu.module "Views.Connections", ->
       Hospiglu.selectedMenuItem?.remove()
       Hospiglu.selectedMenuItem = (@background || @line).glow(
         color: @target.selectColor || '#0088cc',
-        width: 10, opacity: 1
+        width: 20, opacity: 1
       )
       Hospiglu.selectedMenuItem.toBack()
       Hospiglu.selectedMenuItem.trash = @model.get('properties').type == 'trashcan'
