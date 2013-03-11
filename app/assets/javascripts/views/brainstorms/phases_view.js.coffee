@@ -2,6 +2,12 @@ Hospiglu.module "Views.Brainstorms", ->
   class @PhasesView extends Marionette.ItemView
     template: 'brainstorms/phases'
 
+    templateHelpers:
+      humanize: (phase)->
+        _.map(phase.split('_'), (str) ->
+          str[0].toUpperCase() + str[1..-1]
+        ).join(' ')
+
     triggers:
       'click .phase': 'noYouCant'
       'click #next_phase': 'toNextPhase'
