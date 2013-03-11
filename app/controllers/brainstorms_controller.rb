@@ -25,28 +25,28 @@ class BrainstormsController < ApplicationController
   end
 
   def first_department
-    validate_session
+    return unless validate_session
     @graffles = @brainstorm.graffles
     @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
     @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def second_department
-    validate_session
+    return unless validate_session
     @graffles = @brainstorm.graffles
     @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
     @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def your_department
-    validate_session
+    return unless validate_session
     @graffles = @brainstorm.graffles
     @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
     @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def voting
-    validate_session
+    return unless validate_session
     @brainstorm.update_attributes state: 'closed'
     @users = @brainstorm.users
     @graffles = @users.map(&:your_department_graffle)
@@ -57,7 +57,7 @@ class BrainstormsController < ApplicationController
   end
 
   def consolidation
-    validate_session
+    return unless validate_session
     @graffles = @brainstorm.graffles
     @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
     @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
@@ -113,9 +113,13 @@ class BrainstormsController < ApplicationController
     if @brainstorm and @user
       unless @brainstorm.phase == params[:action]
         redirect_to current_phase_path
+        false
+      else
+        true
       end
     else
       redirect_to action: 'participate'
+      false
     end
   end
 

@@ -4,24 +4,24 @@ Hospiglu.module "Models", ->
       @get('graffle_type') || "container#{@get('user_id')}"
 
     shapes: ->
-      shapes = new Hospiglu.Collections.ShapesCollection()
+      return @shapesCollection if @shapesCollection?
+      @shapesCollection = new Hospiglu.Collections.ShapesCollection()
       Hospiglu.shapesCallbacks.add =>
-        shapes.reset _.map(Hospiglu.router.shapes.where(graffle_id: @id), (shape) ->
-          shape.collection = shapes
+        @shapesCollection.reset _.map(Hospiglu.router.shapes.where(graffle_id: @id), (shape) =>
+          shape.collection = @shapesCollection
           shape
         )
-      shapes
+      @shapesCollection
 
     connections: ->
-      connections = new Hospiglu.Collections.ConnectionsCollection()
+      return @connectionsCollection if @connectionsCollection?
+      @connectionsCollection = new Hospiglu.Collections.ConnectionsCollection()
       Hospiglu.connectionsCallbacks.add =>
-        connections.reset _.map(Hospiglu.router.connections.where(graffle_id: @id), (connection) ->
-          connection.collection = connections
+        @connectionsCollection.reset _.map(Hospiglu.router.connections.where(graffle_id: @id), (connection) =>
+          connection.collection = @connectionsCollection
           connection
         )
-      connections
-
-
+      @connectionsCollection
 
 Hospiglu.module "Collections", ->
   class @GrafflesCollection extends Backbone.Collection

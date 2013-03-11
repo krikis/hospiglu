@@ -1,10 +1,13 @@
 Hospiglu.module "Models", ->
   class @Shape extends Backbone.Model
+    graffle: ->
+      @shapeGraffle ?= Hospiglu.router.graffles.get(@get('graffle_id'))
+
     outgoingConnections: ->
-      Hospiglu.router.connections.where(start_shape_id: @id)
+      @graffle().connections().where(start_shape_id: @id)
 
     incomingConnections: ->
-      Hospiglu.router.connections.where(end_shape_id: @id)
+      @graffle().connections().where(end_shape_id: @id)
 
 Hospiglu.module "Collections", ->
   class @ShapesCollection extends Backbone.Collection
