@@ -34,3 +34,10 @@ Hospiglu.addInitializer (options)->
   Backbone.history.start
     pushState: true
 
+Hospiglu.getSemaphore = ->
+  return false if @semaphore
+  @semaphore = true
+  setTimeout (=>
+      @semaphore = false
+    ), 100
+

@@ -66,13 +66,14 @@ Hospiglu.module "Views.Shapes", ->
       @shape?.remove()
 
     handleDelete: ->
-      if Hospiglu.selectedMenuItem?.trash
+      if Hospiglu.selectedMenuItem?.trash and Hospiglu.getSemaphore()
         Hospiglu.connectionsCallbacks.add =>
           _.each @model.outgoingConnections(), (connection) ->
             connection.destroy()
           _.each @model.incomingConnections(), (connection) ->
             connection.destroy()
           @model.destroy()
+          @model.el.remove()
         Hospiglu.selectedMenuItem.remove()
         delete Hospiglu.selectedMenuItem
 
@@ -110,23 +111,24 @@ Hospiglu.module "Views.Shapes", ->
 
     up: ->
       return if Hospiglu.selectedMenuItem?
-      model = @model
-      collection = @collection
-      box = @getBBox()
-      [x, y, ox, oy] = [@x, @y, @ox, @oy]
-      @remove() unless model.collection?
-      if x? and y? and (x isnt ox or y isnt oy)
-        shapeProperties = model.get('properties')
-        # is the new shape position below the menu?
-        if box.y >= 100
-          shapeProperties.x = x
-          shapeProperties.y = y - 100 # subtract menu
-          model.set properties: shapeProperties
-          collection.add model
-          model.save()
-      @animate
-          "fill-opacity": 0
-        , 500
+      if Hospiglu.getSemaphore()
+        model = @model
+        collection = @collection
+        box = @getBBox()
+        [x, y, ox, oy] = [@x, @y, @ox, @oy]
+        @remove() unless model.collection?
+        if x? and y? and (x isnt ox or y isnt oy)
+          shapeProperties = model.get('properties')
+          # is the new shape position below the menu?
+          if box.y >= 100
+            shapeProperties.x = x
+            shapeProperties.y = y - 100 # subtract menu
+            model.set properties: shapeProperties
+            collection.add model
+            model.save()
+        @animate
+            "fill-opacity": 0
+          , 500
 
     initDummy: (event) ->
       return unless Hospiglu.selectedMenuItem?
