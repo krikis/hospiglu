@@ -4,12 +4,12 @@ Hospiglu.module "Views.Shapes", ->
       @options.scale ||= 1
       unless @options.noEditing and @model.get('in_menu')
         paper = @options.paper
-        shape = @createShape(@model, paper)
-        shape.model = @model
-        shape.view = @
-        shape.collection = @model.collection
-        @model.el = shape
-        shape.mousedown @cloneShape if @model.get('in_menu')
+        @shape = @createShape(@model, paper)
+        @shape.model = @model
+        @shape.view = @
+        @shape.collection = @model.collection
+        @model.el = @shape
+        @shape.mousedown @cloneShape if @model.get('in_menu')
       @
 
     cloneShape: (event) ->
@@ -73,7 +73,6 @@ Hospiglu.module "Views.Shapes", ->
           _.each @model.incomingConnections(), (connection) ->
             connection.destroy()
           @model.destroy()
-          @model.el.remove()
         Hospiglu.selectedMenuItem.remove()
         delete Hospiglu.selectedMenuItem
 
