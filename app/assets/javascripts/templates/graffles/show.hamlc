@@ -1,4 +1,5 @@
 - unless @properties.noEditing
   .menu-separator
     .line
+  .ipad-box
 .graffle-box{id: @container()}
