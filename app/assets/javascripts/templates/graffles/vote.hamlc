@@ -1,18 +1,25 @@
 .row-fluid.vote
-  .span6.graffle-details
+  .span6
     .row-fluid
       .title= @properties.name
-    .row-fluid
-      .btn-group
-        .btn{class: 'btn-primary' if @userVote() == 1} 1
-        .btn{class: 'btn-primary' if @userVote() == 2} 2
-        .btn{class: 'btn-primary' if @userVote() == 3} 3
-        .btn{class: 'btn-primary' if @userVote() == 4} 4
-        .btn{class: 'btn-primary' if @userVote() == 5} 5
-        .btn{class: 'btn-primary' if @userVote() == 6} 6
-        .btn{class: 'btn-primary' if @userVote() == 7} 7
-    .average-vote
-      Average Vote:
-      .badge{class: @voteClass()}= @properties.average_vote
+    .well.well-small.graffle-details
+      .row-fluid
+        .btn-group
+          .btn{class: 'btn-primary' if @userVote() == 1} 1
+          .btn{class: 'btn-primary' if @userVote() == 2} 2
+          .btn{class: 'btn-primary' if @userVote() == 3} 3
+          .btn{class: 'btn-primary' if @userVote() == 4} 4
+          .btn{class: 'btn-primary' if @userVote() == 5} 5
+          .btn{class: 'btn-primary' if @userVote() == 6} 6
+          .btn{class: 'btn-primary' if @userVote() == 7} 7
+      - if @properties.average_vote?
+        .row-fluid.average-vote
+          Average Vote:
+          .badge{class: @voteClass()}= @properties.average_vote
+    .row-fluid.consolidate
+      #consolidate.btn.btn-primary
+        %i.icon-ok.icon-white
+        Consolidate
+
   .span6
     .graffle-preview

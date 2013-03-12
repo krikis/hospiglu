@@ -2,14 +2,6 @@ Hospiglu.module "Views.Graffles", ->
   class @IntegrationView extends Marionette.CompositeView
     template: 'graffles/integration'
 
-    onBeforeRender: ->
-      properties = @options.graffles[0].get('properties')
-      properties.noEditing = true
-      @options.graffles[0].set properties: properties
-      properties = @options.graffles[1].get('properties')
-      properties.noEditing = true
-      @options.graffles[1].set properties: properties
-
     onDomRefresh: ->
       # render first department graffle
       graffleView = new Hospiglu.Views.Graffles.ShowView
@@ -39,12 +31,6 @@ Hospiglu.module "Views.Graffles", ->
       Hospiglu.yourDepartment.show(graffleView)
 
     onClose: ->
-      properties = @options.graffles[0].get('properties')
-      delete properties.noEditing
-      @options.graffles[0].set properties: properties
-      properties = @options.graffles[1].get('properties')
-      delete properties.noEditing
-      @options.graffles[1].set properties: properties
       Hospiglu.firstDepartment.close()
       Hospiglu.secondDepartment.close()
       Hospiglu.yourDepartment.close()

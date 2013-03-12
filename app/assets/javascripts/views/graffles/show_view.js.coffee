@@ -10,6 +10,11 @@ Hospiglu.module "Views.Graffles", ->
           str[0].toUpperCase() + str[1..-1]
         ).join(' ') if string?
 
+    serializeData: ->
+      _.extend
+        noEditing: @options.noEditing,
+        @model.toJSON()
+
     onDomRefresh: ->
       graffleProperties = @model.get('properties')
       @paper = Raphael(@model.getContainer(), @options.width || '100%', @options.height || '62%')

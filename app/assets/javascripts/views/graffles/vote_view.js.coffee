@@ -23,14 +23,13 @@ Hospiglu.module "Views.Graffles", ->
       scale: 0.5
 
     initialize: ->
-      properties = @model.get('properties')
-      properties.noEditing = true
-      properties.userOnly = true
-      @model.set properties: properties
       @collection = new Hospiglu.Collections.GrafflesCollection [@model]
 
     events:
       'click .btn': 'registerVote'
+
+    modelEvents:
+      'change': 'render'
 
     registerVote: (event) ->
       event.preventDefault()
@@ -44,15 +43,8 @@ Hospiglu.module "Views.Graffles", ->
         memo + value
       ), 0
       properties.average_vote = sum / _.values(properties.votes).length
-      delete properties.noEditing
-      delete properties.userOnly
-      @model.save(properties: properties)
-      properties.noEditing = true
-      properties.userOnly = true
-      @model.set(properties: properties)
-
-    onClose: ->
-      properties = @model.get('properties')
-      delete properties.noEditing
       @model.set properties: properties
+      # make sure to trigger change event
+      @model.set Hospiglu.router.user.id, properties.votes[Hospiglu.router.user.id]
+      @model.save()
 
