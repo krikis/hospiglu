@@ -1,6 +1,5 @@
-- unless @properties.userOnly and not @user_id
-  - unless @properties.noEditing
-    .menu-separator
-      .line
-    .ipad-box
-  .graffle-box{id: @container()}
+- unless @properties.noEditing
+  .menu-separator
+    .line
+  .ipad-box
+.graffle-box{id: @container()}

@@ -114,6 +114,7 @@ Hospiglu.module 'Routers', ->
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         @brainstorm.save(state: 'closed')
+        graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
           Hospiglu.grafflesCallbacks.run {}, @graffles
@@ -141,7 +142,7 @@ Hospiglu.module 'Routers', ->
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
         votingView = new Hospiglu.Views.Graffles.VotingView
-          collection: @graffles
+          collection: graffles
         Hospiglu.content.show(votingView)
 
     consolidation: ->
