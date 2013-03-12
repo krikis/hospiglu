@@ -53,6 +53,8 @@ class Brainstorm < ActiveRecord::Base
       [graffles.where(graffle_type: 'first_department').first,
        graffles.where(graffle_type: 'second_department').first,
        user.your_department_graffle]
+    elsif phase == 'voting'
+      graffles.where('user_id is not null')
     else
       graffles.where(graffle_type: phase)
     end

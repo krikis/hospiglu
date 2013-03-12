@@ -1,11 +1,13 @@
 class GrafflesController < ApplicationController
 
-  before_filter :init_from_session
-
   # GET /graffles
   # GET /graffles.json
   def index
-    @graffles = Graffle.all
+    if params[:brainstorm_id].present?
+      @graffles = Graffle.where(brainstorm_id: params[:brainstorm_id])
+    else
+      @graffles = Graffle.all
+    end
     if graffle = @graffles.first
       @shapes = graffle.shapes
       @connections = graffle.connections

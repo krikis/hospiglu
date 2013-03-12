@@ -2,8 +2,10 @@ class ShapesController < ApplicationController
 
   # GET /shapes.json
   def index
-    if Graffle.find_by_id(params[:graffle_ids])
+    if params[:graffle_ids].present?
       @shapes = Shape.where(graffle_id: params[:graffle_ids])
+    elsif params[:brainstorm_id].present?
+      @shapes = Shape.includes(:graffle).where('graffles.brainstorm_id = ?', params[:brainstorm_id])
     else
       @shapes = Shape.all
     end

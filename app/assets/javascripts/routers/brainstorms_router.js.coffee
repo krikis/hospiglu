@@ -110,9 +110,46 @@ Hospiglu.module 'Routers', ->
 
     voting: ->
       if @sessionValid()
-        Hospiglu.usersCallbacks = new Marionette.Callbacks()
         Hospiglu.grafflesCallbacks = new Marionette.Callbacks()
+        Hospiglu.shapesCallbacks = new Marionette.Callbacks()
+        Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         @brainstorm.save(state: 'closed')
+        if @noXhr
+          @noXhr = false
+          Hospiglu.grafflesCallbacks.run {}, @graffles
+          Hospiglu.shapesCallbacks.run {}, @shapes
+          Hospiglu.connectionsCallbacks.run {}, @connections
+        else
+          @graffles = new Hospiglu.Collections.GrafflesCollection()
+          @graffles.fetch
+            data:
+              brainstorm_id: @brainstorm.id
+            success: (collection) ->
+              Hospiglu.grafflesCallbacks.run {}, collection
+          @shapes = new Hospiglu.Collections.ShapesCollection()
+          @shapes.fetch
+            data:
+              brainstorm_id: @brainstorm.id
+            success: (collection) ->
+              Hospiglu.shapesCallbacks.run {}, collection
+          @connections = new Hospiglu.Collections.ConnectionsCollection()
+          @connections.fetch
+            data:
+              brainstorm_id: @brainstorm.id
+            success: (collection) ->
+              Hospiglu.connectionsCallbacks.run {}, collection
+        phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
+        Hospiglu.sidebar.show(phases)
+        graffles = new Hospiglu.Collections.GrafflesCollection()
+        Hospiglu.grafflesCallbacks.add =>
+          graffles.reset _.map(@brainstorm.currentGrafflesWith(@user), (graffle) ->
+              newGraffle = graffle.clone()
+              newGraffle.collection = graffles
+              newGraffle
+          )
+        votingView = new Hospiglu.Views.Graffles.VotingView
+          collection: graffles
+        Hospiglu.content.show(votingView)
 
     consolidation: ->
       if @sessionValid()

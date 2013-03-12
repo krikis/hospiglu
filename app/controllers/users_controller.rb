@@ -2,7 +2,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if params[:brainstorm_id].present?
+      @users = User.where(brainstorm_id: params[:brainstorm_id])
+    else
+      @users = User.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

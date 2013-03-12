@@ -1,6 +1,8 @@
 class BrainstormsController < ApplicationController
 
   before_filter :init_from_session
+  before_filter :validate_session,
+                only: [:first_department, :second_department, :your_department, :voting, :consolidation]
 
   def participate
     @user = User.new
@@ -25,42 +27,24 @@ class BrainstormsController < ApplicationController
   end
 
   def first_department
-    return unless validate_session
-    @graffles = @brainstorm.graffles
-    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
-    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    render template: 'brainstorms/start_application'
   end
 
   def second_department
-    return unless validate_session
-    @graffles = @brainstorm.graffles
-    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
-    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    render template: 'brainstorms/start_application'
   end
 
   def your_department
-    return unless validate_session
-    @graffles = @brainstorm.graffles
-    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
-    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    render template: 'brainstorms/start_application'
   end
 
   def voting
-    return unless validate_session
     @brainstorm.update_attributes state: 'closed'
-    @users = @brainstorm.users
-    @graffles = @users.map(&:your_department_graffle)
-    if graffle = @graffles.first
-      @shapes = graffle.shapes
-      @connections = graffle.connections
-    end
+    render template: 'brainstorms/start_application'
   end
 
   def consolidation
-    return unless validate_session
-    @graffles = @brainstorm.graffles
-    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
-    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    render template: 'brainstorms/start_application'
   end
 
   # GET /brainstorms
@@ -107,19 +91,19 @@ class BrainstormsController < ApplicationController
   def init_from_session
     @brainstorm = Brainstorm.find_by_id session[:brainstorm_id]
     @user = User.find_by_id session[:user_id]
+    @users = @brainstorm.users
+    @graffles = @brainstorm.graffles
+    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
   end
 
   def validate_session
     if @brainstorm and @user
       unless @brainstorm.phase == params[:action]
         redirect_to current_phase_path
-        false
-      else
-        true
       end
     else
       redirect_to action: 'participate'
-      false
     end
   end
 

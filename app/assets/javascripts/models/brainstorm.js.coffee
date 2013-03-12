@@ -15,6 +15,8 @@ Hospiglu.module "Models", ->
         [_.first(Hospiglu.router.graffles.where(graffle_type: 'first_department')),
          _.first(Hospiglu.router.graffles.where(graffle_type: 'second_department')),
          user.yourDepartmentGraffle()]
+      else if @get('phase') == 'voting'
+        _.select Hospiglu.router.graffles.models, (graffle) -> graffle.get('user_id')?
       else
         Hospiglu.router.graffles.where(graffle_type: @get('phase'))
 

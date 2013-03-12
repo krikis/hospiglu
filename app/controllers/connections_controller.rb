@@ -2,8 +2,10 @@ class ConnectionsController < ApplicationController
 
   # GET /connections.json
   def index
-    if Graffle.find_by_id(params[:graffle_id])
+    if params[:graffle_id].present?
       @connections = Connection.where(graffle_id: params[:graffle_id])
+    elsif params[:brainstorm_id].present?
+      @connections = Connection.includes(:graffle).where('graffles.brainstorm_id = ?', params[:brainstorm_id])
     else
       @connections = Connection.all
     end
