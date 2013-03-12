@@ -18,7 +18,7 @@ Hospiglu::Application.routes.draw do
 
   resources :users, only: [:index, :show], constraints: lambda { |req| req.xhr? }
 
-  resources :graffles, only: [:index, :show], constraints: lambda { |req| req.xhr? }
+  resources :graffles, only: [:index, :show, :create, :update, :destroy], constraints: lambda { |req| req.xhr? }
 
   resources :shapes, only: [:index, :create, :update, :destroy], constraints: lambda { |req| req.xhr? }
 

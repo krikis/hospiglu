@@ -1,5 +1,18 @@
 .row-fluid.vote
-  .span6
-    .title= @properties.name
+  .span6.graffle-details
+    .row-fluid
+      .title= @properties.name
+    .row-fluid
+      .btn-group
+        .btn{class: 'btn-primary' if @userVote() == 1} 1
+        .btn{class: 'btn-primary' if @userVote() == 2} 2
+        .btn{class: 'btn-primary' if @userVote() == 3} 3
+        .btn{class: 'btn-primary' if @userVote() == 4} 4
+        .btn{class: 'btn-primary' if @userVote() == 5} 5
+        .btn{class: 'btn-primary' if @userVote() == 6} 6
+        .btn{class: 'btn-primary' if @userVote() == 7} 7
+    .average-vote
+      Average Vote:
+      .badge{class: @voteClass()}= @properties.average_vote
   .span6
     .graffle-preview

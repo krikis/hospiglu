@@ -33,13 +33,49 @@ class GrafflesController < ApplicationController
     end
   end
 
+  # POST /graffles.json
+  def create
+    @graffle = Graffle.new(graffle_params)
+
+    respond_to do |format|
+      if @graffle.save
+        format.json { render json: @graffle, status: :created, location: @graffle }
+      else
+        format.json { render json: @graffle.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /graffles/1.json
+  def update
+    @graffle = Graffle.find(params[:id])
+
+    respond_to do |format|
+      if @graffle.update_attributes(graffle_params)
+        format.json { head :no_content }
+      else
+        format.json { render json: @graffle.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /graffles/1.json
+  def destroy
+    @graffle = Graffle.find(params[:id])
+    @graffle.destroy unless @graffle.in_menu
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   # Use this method to whitelist the permissible parameters. Example:
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def graffle_params
-    params.require(:graffle).permit()
+    params.require(:graffle).permit(:properties)
   end
 
 end
