@@ -5,19 +5,23 @@ Hospiglu.module "Views.Graffles", ->
     getItemView: -> Hospiglu.Views.Graffles.ShowView
 
     itemViewOptions: ->
+      noEditing: true
+      userOnly: true
       height: '30%'
       scale: 0.5
 
-    onBeforeRender: ->
+    initialize: ->
       _.each @collection.models, (graffle) ->
         properties = graffle.get('properties')
         properties.noEditing = true
+        properties.userOnly = true
         graffle.set properties: properties
 
     onClose: ->
       _.each @collection.models, (graffle) ->
         properties = graffle.get('properties')
         delete properties.noEditing
+        delete properties.userOnly
         graffle.set properties: properties
 
 

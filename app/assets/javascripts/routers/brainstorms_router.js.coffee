@@ -140,15 +140,8 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
-        graffles = new Hospiglu.Collections.GrafflesCollection()
-        Hospiglu.grafflesCallbacks.add =>
-          graffles.reset _.map(@brainstorm.currentGrafflesWith(@user), (graffle) ->
-              newGraffle = graffle.clone()
-              newGraffle.collection = graffles
-              newGraffle
-          )
         votingView = new Hospiglu.Views.Graffles.VotingView
-          collection: graffles
+          collection: @graffles
         Hospiglu.content.show(votingView)
 
     consolidation: ->
