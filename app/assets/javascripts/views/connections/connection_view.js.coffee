@@ -3,7 +3,7 @@ Hospiglu.module "Views.Connections", ->
     render: ->
       @options.scale ||= 1
       paper = @options.paper
-      Hospiglu.shapesCallbacks.add =>
+      @model.graffle().graffleShapesCallbacks.add =>
         if @model.get('in_menu')
           @createMenuItem(@model, paper) unless @options.noEditing
         else if (startShape = @model.startShape()) and

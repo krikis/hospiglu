@@ -1,1 +1,3 @@
-.vote
+.row-fluid
+  .vote.span6
+  .graffle-preview.span6

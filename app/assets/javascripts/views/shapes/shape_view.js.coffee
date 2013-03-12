@@ -29,9 +29,9 @@ Hospiglu.module "Views.Shapes", ->
       )[0].f.call shape, event
 
     createShape: (model, paper) ->
-      in_menu = model.get('in_menu')
+      inMenu = model.get('in_menu')
       shapeProperties = model.get('properties')
-      y = if not model.collection or in_menu
+      y = if not model.collection or inMenu
         shapeProperties.y * @options.scale
       else
         shapeProperties.y * @options.scale + 100 # move below menu
@@ -43,7 +43,7 @@ Hospiglu.module "Views.Shapes", ->
         shapeProperties.height * @options.scale,
         shapeProperties.border_radius * @options.scale
       )
-      color = if in_menu
+      color = if inMenu
         '#fff'
       else
         shapeProperties.color || Raphael.getColor()
@@ -53,7 +53,7 @@ Hospiglu.module "Views.Shapes", ->
         'fill-opacity': 0
         'stroke-width': 2
         cursor: 'move' unless @options.noEditing
-      if in_menu
+      if inMenu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
       else if not @options.noEditing

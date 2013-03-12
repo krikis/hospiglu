@@ -114,14 +114,12 @@ Hospiglu.module 'Routers', ->
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         @brainstorm.save(state: 'closed')
-        graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
           Hospiglu.grafflesCallbacks.run {}, @graffles
           Hospiglu.shapesCallbacks.run {}, @shapes
           Hospiglu.connectionsCallbacks.run {}, @connections
         else
-          @graffles = new Hospiglu.Collections.GrafflesCollection()
           @graffles.fetch
             data:
               brainstorm_id: @brainstorm.id
@@ -141,9 +139,11 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.sidebar.show(phases)
-        votingView = new Hospiglu.Views.Graffles.VotingView
-          collection: graffles
-        Hospiglu.content.show(votingView)
+        Hospiglu.grafflesCallbacks.add =>
+          graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
+          votingView = new Hospiglu.Views.Graffles.VotingView
+            collection: graffles
+          Hospiglu.content.show(votingView)
 
     consolidation: ->
       if @sessionValid()

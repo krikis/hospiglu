@@ -1,5 +1,8 @@
 Hospiglu.module "Models", ->
   class @Graffle extends Backbone.Model
+    initialize: ->
+      @graffleShapesCallbacks = new Marionette.Callbacks()
+
     getContainer: ->
       @get('graffle_type') || "container#{@get('user_id')}"
 
@@ -11,6 +14,7 @@ Hospiglu.module "Models", ->
           shape.collection = @shapesCollection
           shape
         )
+        @graffleShapesCallbacks.run()
       @shapesCollection
 
     connections: ->
