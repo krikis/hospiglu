@@ -1,5 +1,7 @@
-- unless @properties.noEditing
+- if @properties.noEditing
+  .graffle-label= @humanize @graffle_type
+- else
   .menu-separator
     .line
   .ipad-box
-.graffle-box{id: @container()}
+.graffle-box{id: @container(), class: 'no-editing' if @properties.noEditing}

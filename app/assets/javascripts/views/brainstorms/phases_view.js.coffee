@@ -3,10 +3,10 @@ Hospiglu.module "Views.Brainstorms", ->
     template: 'brainstorms/phases'
 
     templateHelpers:
-      humanize: (phase)->
-        _.map(phase.split('_'), (str) ->
+      humanize: (string) ->
+        _.map(string.split('_'), (str) ->
           str[0].toUpperCase() + str[1..-1]
-        ).join(' ')
+        ).join(' ') if string?
 
     triggers:
       'click .phase': 'noYouCant'

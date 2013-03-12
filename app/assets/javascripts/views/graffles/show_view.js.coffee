@@ -5,6 +5,10 @@ Hospiglu.module "Views.Graffles", ->
     templateHelpers:
       container: ->
         @graffle_type || "container#{@user_id}"
+      humanize: (string) ->
+        _.map(string.split('_'), (str) ->
+          str[0].toUpperCase() + str[1..-1]
+        ).join(' ') if string?
 
     onDomRefresh: ->
       graffleProperties = @model.get('properties')

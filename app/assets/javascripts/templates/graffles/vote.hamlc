@@ -1,3 +1,4 @@
-.row-fluid
-  .vote.span6
-  .graffle-preview.span6
+.row-fluid.vote
+  .span6
+    .title= @properties.name
+  .span6.graffle-preview

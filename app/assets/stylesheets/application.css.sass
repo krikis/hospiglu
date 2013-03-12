@@ -105,24 +105,33 @@ body
   border-bottom: 1px solid white
 
 .top-left-box
-  border-right: 1px solid white
 
   .graffle-box
+    +border-radius(0px)
     border: none
-    margin-top: -100px
+    border-right: 1px solid white
+    margin-top: -130px
+    margin-right: -2.56%
     min-width: 0px
 
   svg
     @extend .rounded-top-left
 
 .top-right-box
+
   .graffle-box
     border: none
-    margin-top: -100px
+    margin-top: -130px
+    margin-left: -2.56%
     min-width: 0px
 
   svg
     @extend .rounded-top-right
+
+.graffle-label
+  text-align: center
+  height: 30px
+  padding-top: 10px
 
 .bottom-box
   .ipad-box
@@ -138,6 +147,7 @@ body
 
 .voting
   .vote
+    margin-bottom: 30px
 
   .graffle-preview
     @extend .rounded-border-box
@@ -148,6 +158,10 @@ body
     border: none
     min-width: 0px
     margin-top: -100px
+
+.title
+  text-align: center
+  padding: 1em
 
 
 
