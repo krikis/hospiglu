@@ -31,7 +31,7 @@ Hospiglu.module "Views.Shapes", ->
     createShape: (model, paper) ->
       inMenu = model.get('in_menu')
       shapeProperties = model.get('properties')
-      y = if not model.collection or inMenu
+      y = if not model.collection or inMenu or @options.noEditing
         shapeProperties.y * @options.scale
       else
         shapeProperties.y * @options.scale + 100 # move below menu
