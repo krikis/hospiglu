@@ -45,4 +45,7 @@ Hospiglu.module "Views.Graffles", ->
       properties = @options.graffles[1].get('properties')
       delete properties.noEditing
       @options.graffles[1].set properties: properties
+      Hospiglu.firstDepartment.close()
+      Hospiglu.secondDepartment.close()
+      Hospiglu.yourDepartment.close()
 

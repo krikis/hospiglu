@@ -18,13 +18,18 @@ Hospiglu.module "Views.Graffles", ->
         scale: @options.scale
         noEditing: @options.noEditing
         paper: @paper
-      (@options.shapesRegion || Hospiglu.shapes).show(shapesView)
+      @shapesRegion = new Marionette.Region el: '#sandbox'
+      @shapesRegion.show(shapesView)
       connectionsView = new Hospiglu.Views.Connections.IndexView
         collection: @model.connections()
         scale: @options.scale
         noEditing: @options.noEditing
         paper: @paper
-      (@options.connectionsRegion || Hospiglu.connections).show(connectionsView)
+      @connectionsRegion = new Marionette.Region el: '#sandbox'
+      @connectionsRegion.show(connectionsView)
 
     onClose: ->
       @paper?.remove()
+      @shapesRegion?.close()
+      @connectionsRegion?.close()
+

@@ -24,12 +24,6 @@ Hospiglu.addInitializer (options)->
     firstDepartment:   '#firstDepartment'
     secondDepartment:  '#secondDepartment'
     yourDepartment:    '#yourDepartment'
-    shapes:            '#sandbox'
-    connections:       '#sandbox'
-    firstShapes:       '#sandbox'
-    firstConnections:  '#sandbox'
-    secondShapes:      '#sandbox'
-    secondConnections: '#sandbox'
   Hospiglu.router = new Hospiglu.Routers.BrainstormsRouter options
   Backbone.history.start
     pushState: true

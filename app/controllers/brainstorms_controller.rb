@@ -91,10 +91,12 @@ class BrainstormsController < ApplicationController
   def init_from_session
     @brainstorm = Brainstorm.find_by_id session[:brainstorm_id]
     @user = User.find_by_id session[:user_id]
-    @users = @brainstorm.users
-    @graffles = @brainstorm.graffles
-    @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
-    @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    if @brainstorm
+      @users = @brainstorm.users
+      @graffles = @brainstorm.graffles
+      @shapes = Shape.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+      @connections = Connection.where graffle_id: @brainstorm.current_graffles_with(@user).map(&:id)
+    end
   end
 
   def validate_session
