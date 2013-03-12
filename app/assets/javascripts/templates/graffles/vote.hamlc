@@ -15,7 +15,7 @@
       - if @properties.average_vote?
         .row-fluid.average-vote
           Average Vote:
-          .badge{class: @voteClass()}= @properties.average_vote
+          .badge{class: @voteClass()}= @averageVote()
     .row-fluid.consolidate
       #consolidate.btn.btn-primary
         %i.icon-ok.icon-white

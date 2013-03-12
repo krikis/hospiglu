@@ -17,6 +17,9 @@ Hospiglu.module "Views.Graffles", ->
         @properties.votes ||= {}
         @properties.votes[Hospiglu.router.user.id]
 
+      averageVote: ->
+        Math.round(10 * @properties.average_vote) / 10
+
     itemViewOptions: ->
       noEditing: true
       height: '26%'
