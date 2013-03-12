@@ -6,7 +6,7 @@ Hospiglu.module "Views.Graffles", ->
 
     itemViewOptions: ->
       noEditing: true
-      height: '22%'
+      height: '26%'
       scale: 0.5
 
     initialize: ->

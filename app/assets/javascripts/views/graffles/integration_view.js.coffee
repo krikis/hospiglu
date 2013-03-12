@@ -14,8 +14,8 @@ Hospiglu.module "Views.Graffles", ->
       # render first department graffle
       graffleView = new Hospiglu.Views.Graffles.ShowView
         model: @options.graffles[0]
-        height: '36%'
-        scale: 0.45
+        height: '27%'
+        scale: 0.5
         noEditing: true
         shapesRegion: Hospiglu.firstShapes
         connectionsRegion: Hospiglu.firstConnections
@@ -24,8 +24,8 @@ Hospiglu.module "Views.Graffles", ->
       # render second department graffle
       graffleView = new Hospiglu.Views.Graffles.ShowView
         model: @options.graffles[1]
-        height: '36%'
-        scale: 0.45
+        height: '27%'
+        scale: 0.5
         noEditing: true
         shapesRegion: Hospiglu.secondShapes
         connectionsRegion: Hospiglu.secondConnections
@@ -34,7 +34,7 @@ Hospiglu.module "Views.Graffles", ->
       # render your department graffle
       graffleView = new Hospiglu.Views.Graffles.ShowView
         model: @options.graffles[2]
-        height: '55%'
+        height: '62%'
       Hospiglu.yourDepartment.reset()
       Hospiglu.yourDepartment.show(graffleView)
 

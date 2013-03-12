@@ -12,7 +12,7 @@ Hospiglu.module "Views.Graffles", ->
 
     onDomRefresh: ->
       graffleProperties = @model.get('properties')
-      @paper = Raphael(@model.getContainer(), @options.width || '100%', @options.height || '90%')
+      @paper = Raphael(@model.getContainer(), @options.width || '100%', @options.height || '62%')
       $(@paper.canvas).click (event) ->
         if event.target == @
           Hospiglu.selectedMenuItem?.remove()
