@@ -86,6 +86,8 @@ Hospiglu.module "Views.Graffles", ->
         'badge-important'
       else
         'badge-info'
+      voteBox.show()
+      @$el.find('.average-vote').show()
 
     onConsolidateGraffle: ->
       brainstorm = Hospiglu.router.brainstorm

@@ -6,9 +6,8 @@
           %li{class: 'active' if graffle.id == @id}
             %a.grafflesItem{id: graffle.id, href: '#'}
               = graffle.name
-              - if graffle.average?
-                .badge.average{class: "#{@voteClass(graffle.average)} #{graffle.id}"}
-                  = @roundedVote(graffle.average)
+              .badge.average{class: "#{@voteClass(graffle.average)} #{graffle.id}", style: ('display: none' unless graffle.average?)}
+                = @roundedVote(graffle.average)
   .span9
     .graffle-preview
       .row-fluid.preview-box
@@ -23,11 +22,10 @@
             .btn.vote{class: 'btn-primary' if @userVote() == 5} 5
             .btn.vote{class: 'btn-primary' if @userVote() == 6} 6
             .btn.vote{class: 'btn-primary' if @userVote() == 7} 7
-        - if @properties.average_vote?
-          .row-fluid.average-vote
-            Average Vote:
-            .badge.average{class: "#{@voteClass(@properties.average_vote)} #{@id}"}
-              = @roundedVote(@properties.average_vote)
+        .row-fluid.average-vote{style: ('display: none' unless @properties.average_vote?)}
+          Average Vote:
+          .badge.average{class: "#{@voteClass(@properties.average_vote)} #{@id}"}
+            = @roundedVote(@properties.average_vote)
       .row-fluid
         .btn.btn-primary#consolidate
           %i.icon-ok.icon-white
