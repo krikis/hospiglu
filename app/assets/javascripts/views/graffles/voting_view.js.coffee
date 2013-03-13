@@ -1,7 +1,7 @@
 Hospiglu.module "Views.Graffles", ->
   class @VotingView extends Marionette.CompositeView
     template: 'graffles/voting'
-    itemViewContainer: '.graffle-preview'
+    itemViewContainer: '.preview-box'
     getItemView: -> Hospiglu.Views.Graffles.ShowView
 
     serializeData: ->
