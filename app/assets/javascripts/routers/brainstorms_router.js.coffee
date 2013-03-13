@@ -142,7 +142,7 @@ Hospiglu.module 'Routers', ->
         Hospiglu.grafflesCallbacks.add =>
           graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
           votingView = new Hospiglu.Views.Graffles.VotingView
-            collection: graffles
+            graffles: graffles
           Hospiglu.content.show(votingView)
 
     consolidation: ->
