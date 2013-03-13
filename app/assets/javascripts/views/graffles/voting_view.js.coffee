@@ -92,8 +92,8 @@ Hospiglu.module "Views.Graffles", ->
       user = Hospiglu.router.user
       brainstorm.save(phase: 'consolidation')
       graffle = _.first brainstorm.currentGrafflesWith(user)
-      @model.save(brainstorm_id: brainstorm.id, graffle_type: 'consolidation')
-      graffle.save(brainstorm_id: null, graffle_type: null)
+      @model.save(graffle_type: 'consolidation')
+      graffle.save(graffle_type: null)
       Backbone.history.navigate "brainstorms/#{brainstorm.get('phase')}", trigger: true
 
 
