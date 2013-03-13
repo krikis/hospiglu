@@ -13,6 +13,7 @@ gem 'marionette-rails', "~> 1.0.0.rc5"
 gem 'rails-backbone-forms'
 gem 'coffee-filter'
 gem 'i18n-js'
+gem 'faye'
 
 # Gems used only for assets and not required
 # in production environments by default.
