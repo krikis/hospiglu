@@ -10,6 +10,7 @@
       .row-fluid.preview-box
       .well.well-small.graffle-details
         .row-fluid
+          Cast your vote:
           .btn-group
             .btn.vote{class: 'btn-primary' if @userVote() == 1} 1
             .btn.vote{class: 'btn-primary' if @userVote() == 2} 2

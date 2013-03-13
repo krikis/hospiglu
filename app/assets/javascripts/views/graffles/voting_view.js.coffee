@@ -39,6 +39,7 @@ Hospiglu.module "Views.Graffles", ->
 
     events:
       'click .vote': 'registerVote'
+      'click .grafflesItem': 'reRender'
 
     modelEvents:
       'change': 'showVote'
@@ -60,9 +61,25 @@ Hospiglu.module "Views.Graffles", ->
       @model.set Hospiglu.router.user.id, properties.votes[Hospiglu.router.user.id]
       @model.save()
 
+    reRender: (event) ->
+      event.preventDefault()
+      event.stopPropagation()
+      @model = @options.graffles.get($(event.target).attr('id'))
+      @collection = new Hospiglu.Collections.GrafflesCollection [@model]
+      @render()
+
     showVote: ->
-      @$el.find('.average-vote .badge').html(
-        Math.round(10 * @model.get('properties').average_vote) / 10
+      averageVote = @model.get('properties').average_vote
+      voteBox = @$el.find('.average-vote .badge')
+      voteBox.html(
+        Math.round(10 * averageVote) / 10
       )
+      voteBox.removeClass('badge-success badge-important badge-info')
+      voteBox.addClass if averageVote > 5
+        'badge-success'
+      else if averageVote < 3
+        'badge-important'
+      else
+        'badge-info'
 
 
