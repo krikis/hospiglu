@@ -37,7 +37,7 @@ Hospiglu.module "Views.Graffles", ->
     registerVote: (event) ->
       event.preventDefault()
       event.stopPropagation()
-      @$el.find('.btn-primary').removeClass('btn-primary')
+      @$el.find('.vote').removeClass('btn-primary')
       @$el.find(event.target).addClass('btn-primary')
       properties = @model.get('properties')
       properties.votes ||= {}
