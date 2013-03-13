@@ -29,10 +29,10 @@ Hospiglu.module "Views.Graffles", ->
       @collection = new Hospiglu.Collections.GrafflesCollection [@model]
 
     events:
-      'click .btn': 'registerVote'
+      'click .vote': 'registerVote'
 
     modelEvents:
-      'change': 'render'
+      'change': 'showVote'
 
     registerVote: (event) ->
       event.preventDefault()
@@ -50,4 +50,9 @@ Hospiglu.module "Views.Graffles", ->
       # make sure to trigger change event
       @model.set Hospiglu.router.user.id, properties.votes[Hospiglu.router.user.id]
       @model.save()
+
+    showVote: ->
+      @$el.find('.average-vote .badge').html(
+        Math.round(10 * @model.get('properties').average_vote) / 10
+      )
 

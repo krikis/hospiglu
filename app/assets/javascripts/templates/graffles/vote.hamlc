@@ -1,17 +1,17 @@
-.row-fluid.vote
+.row-fluid
   .span6
     .row-fluid
       .title= @properties.name
     .well.well-small.graffle-details
       .row-fluid
         .btn-group
-          .btn{class: 'btn-primary' if @userVote() == 1} 1
-          .btn{class: 'btn-primary' if @userVote() == 2} 2
-          .btn{class: 'btn-primary' if @userVote() == 3} 3
-          .btn{class: 'btn-primary' if @userVote() == 4} 4
-          .btn{class: 'btn-primary' if @userVote() == 5} 5
-          .btn{class: 'btn-primary' if @userVote() == 6} 6
-          .btn{class: 'btn-primary' if @userVote() == 7} 7
+          .btn.vote{class: 'btn-primary' if @userVote() == 1} 1
+          .btn.vote{class: 'btn-primary' if @userVote() == 2} 2
+          .btn.vote{class: 'btn-primary' if @userVote() == 3} 3
+          .btn.vote{class: 'btn-primary' if @userVote() == 4} 4
+          .btn.vote{class: 'btn-primary' if @userVote() == 5} 5
+          .btn.vote{class: 'btn-primary' if @userVote() == 6} 6
+          .btn.vote{class: 'btn-primary' if @userVote() == 7} 7
       - if @properties.average_vote?
         .row-fluid.average-vote
           Average Vote:
