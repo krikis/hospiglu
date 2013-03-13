@@ -84,6 +84,7 @@ Hospiglu.module 'Routers', ->
       if @sessionValid()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
+        @brainstorm.save(state: 'open')
         graffles = @brainstorm.currentGrafflesWith(@user)
         if @noXhr
           @noXhr = false
