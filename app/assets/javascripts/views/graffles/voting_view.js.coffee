@@ -7,7 +7,10 @@ Hospiglu.module "Views.Graffles", ->
     serializeData: ->
       _.extend
         graffles: _.map(@options.graffles.models, (graffle) ->
-          name: graffle.get('properties').name
+          name: if graffle.get('user_id') is Hospiglu.router.user.id
+            'Your Department'
+          else
+            graffle.get('properties').name
           id: graffle.id
           average: graffle.get('properties').average_vote
         ),
