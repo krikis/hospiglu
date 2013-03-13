@@ -19,7 +19,6 @@ class BrainstormsController < ApplicationController
     if @user.save
       session[:brainstorm_id] = @brainstorm.id
       session[:user_id] = @user.id
-      @brainstorm.update_attributes phase: 'first_department'
       redirect_to current_phase_path
     else
       render action: 'participate', layout: 'dialog'
