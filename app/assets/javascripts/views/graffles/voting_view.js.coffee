@@ -45,6 +45,9 @@ Hospiglu.module "Views.Graffles", ->
     modelEvents:
       'change': 'showVote'
 
+    triggers:
+      'click .consolidate': 'consolidateGraffle'
+
     registerVote: (event) ->
       event.preventDefault()
       event.stopPropagation()
@@ -83,5 +86,17 @@ Hospiglu.module "Views.Graffles", ->
         'badge-important'
       else
         'badge-info'
+
+    consolidateGraffle: ->
+      brainstorm = Hospiglu.router.brainstorm
+      user = Hospiglu.router.user
+      brainstorm.save(phase: 'consolidation')
+      graffle = _.first brainstorm.currentGrafflesWith(user)
+      @model.save(brainstorm_id: braistorm.id, graffle_type: 'consolidation')
+      graffle.save(brainstorm_id: null, graffle_type: null)
+      Backbone.history.navigate "brainstorms/#{brainstorm.phase}", trigger: true
+
+
+
 
 
