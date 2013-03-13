@@ -9,14 +9,15 @@ Hospiglu.module "Views.Graffles", ->
         graffles: _.map(@options.graffles.models, (graffle) ->
           name: graffle.get('properties').name
           id: graffle.id
+          average: graffle.get('properties').average_vote
         ),
         @model.toJSON()
 
     templateHelpers:
-      voteClass: ->
-        if @properties.average_vote > 5
+      voteClass: (vote) ->
+        if vote > 5
           'badge-success'
-        else if @properties.average_vote < 3
+        else if vote < 3
           'badge-important'
         else
           'badge-info'
@@ -25,8 +26,8 @@ Hospiglu.module "Views.Graffles", ->
         @properties.votes ||= {}
         @properties.votes[Hospiglu.router.user.id]
 
-      averageVote: ->
-        Math.round(10 * @properties.average_vote) / 10
+      roundedVote: (vote) ->
+        Math.round(10 * vote) / 10
 
     itemViewOptions: ->
       noEditing: true
@@ -70,7 +71,7 @@ Hospiglu.module "Views.Graffles", ->
 
     showVote: ->
       averageVote = @model.get('properties').average_vote
-      voteBox = @$el.find('.average-vote .badge')
+      voteBox = @$el.find(".average.#{@model.id}")
       voteBox.html(
         Math.round(10 * averageVote) / 10
       )

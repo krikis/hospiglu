@@ -4,7 +4,11 @@
       %ul.nav.nav-pills.nav-stacked
         - _.each @graffles, (graffle) =>
           %li{class: 'active' if graffle.id == @id}
-            %a.grafflesItem{id: graffle.id, href: '#'}= graffle.name
+            %a.grafflesItem{id: graffle.id, href: '#'}
+              = graffle.name
+              - if graffle.average?
+                .badge.average{class: "#{@voteClass(graffle.average)} #{graffle.id}"}
+                  = @roundedVote(graffle.average)
   .span9
     .graffle-preview
       .row-fluid.preview-box
@@ -22,7 +26,8 @@
         - if @properties.average_vote?
           .row-fluid.average-vote
             Average Vote:
-            .badge{class: @voteClass()}= @averageVote()
+            .badge.average{class: "#{@voteClass(@properties.average_vote)} #{@id}"}
+              = @roundedVote(@properties.average_vote)
       .row-fluid.consolidate
         #consolidate.btn.btn-primary
           %i.icon-ok.icon-white
