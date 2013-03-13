@@ -66,6 +66,7 @@ Hospiglu.module "Views.Graffles", ->
       event.preventDefault()
       event.stopPropagation()
       @model = @options.graffles.get($(event.target).attr('id'))
+      Marionette.bindEntityEvents(@, @model, Marionette.getOption(@, "modelEvents"));
       @collection = new Hospiglu.Collections.GrafflesCollection [@model]
       @render()
 
