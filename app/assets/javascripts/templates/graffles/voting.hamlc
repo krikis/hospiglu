@@ -29,6 +29,6 @@
             .badge.average{class: "#{@voteClass(@properties.average_vote)} #{@id}"}
               = @roundedVote(@properties.average_vote)
       .row-fluid
-        .btn.btn-primary.consolidate
+        .btn.btn-primary#consolidate
           %i.icon-ok.icon-white
           Consolidate!

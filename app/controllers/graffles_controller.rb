@@ -75,7 +75,7 @@ class GrafflesController < ApplicationController
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def graffle_params
-    params.require(:graffle).permit(:properties)
+    params.require(:graffle).permit(:brainstorm_id, :graffle_type, :properties)
   end
 
 end
