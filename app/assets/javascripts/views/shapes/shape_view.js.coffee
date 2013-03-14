@@ -60,6 +60,9 @@ Hospiglu.module "Views.Shapes", ->
         shape.mousedown(@initDummy)
         shape.drag(@move, @down, @up)
         shape.mouseup(@handleDelete)
+        shape.dblclick(@editText)
+        shape.mousedown(@initEditGesture)
+        shape.mouseup(@detectEditGesture)
       shape
 
     onClose: ->
@@ -78,6 +81,8 @@ Hospiglu.module "Views.Shapes", ->
 
     move: (dx, dy) ->
       return if Hospiglu.selectedMenuItem?
+      @dx = Math.max Math.abs(dx), @dx || 0
+      @dy = Math.max Math.abs(dy), @dy || 0
       @x = @ox + dx
       @y = @oy + dy
       if @type is "rect"
@@ -102,6 +107,7 @@ Hospiglu.module "Views.Shapes", ->
 
     down: ->
       return if Hospiglu.selectedMenuItem?
+      @dx = @dy = 0
       @ox = (if @type is "rect" then @attr("x") else @attr("cx"))
       @oy = (if @type is "rect" then @attr("y") else @attr("cy"))
       @animate
@@ -160,7 +166,7 @@ Hospiglu.module "Views.Shapes", ->
 
     saveConnection: ->
       clearTimeout @releaseConnection
-      unless @connection.to == @
+      if @connection.to isnt @ and Hospiglu.getSemaphore()
         newModel = @menuItem.model.clone()
         newModel.set('properties', _.clone(@menuItem.model.get('properties')))
         newModel.unset('id')
@@ -168,13 +174,13 @@ Hospiglu.module "Views.Shapes", ->
         newModel.set('start_shape_id', @connection.from.model.get('id'))
         newModel.set('end_shape_id', @connection.to.model.get('id'))
         @menuItem.model.collection.create newModel
+        Hospiglu.selectedMenuItem?.remove()
+        delete Hospiglu.selectedMenuItem
       @connection.line.remove()
       @connection.bg?.remove()
       @connection.target.remove()
       delete @connection
       @.remove()
-      Hospiglu.selectedMenuItem?.remove()
-      delete Hospiglu.selectedMenuItem
 
     snapConnectionTo: (shape) ->
       if @connection? and shape isnt @connection.from and
@@ -195,5 +201,21 @@ Hospiglu.module "Views.Shapes", ->
             @connection.to = @
             @paper.connection(@connection)
             @paper.safari()
+
+    initEditGesture: ->
+      @gestureStart = new Date().getTime()
+
+    detectEditGesture: ->
+      return if Hospiglu.selectedMenuItem?
+      if Hospiglu.getSemaphore()
+        duration = new Date().getTime() - @gestureStart
+        distance = Math.sqrt(Math.pow(@dx, 2) + Math.pow(@dy, 2))
+        if duration > 500 and distance == 0
+          @view.editText.apply(@, arguments)
+
+    editText: ->
+      $('#editor').modal()
+
+
 
 

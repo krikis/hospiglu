@@ -25,6 +25,7 @@ Hospiglu.addInitializer (options)->
     firstDepartment:   '#firstDepartment'
     secondDepartment:  '#secondDepartment'
     yourDepartment:    '#yourDepartment'
+    editor:            '#editor'
   Hospiglu.router = new Hospiglu.Routers.BrainstormsRouter options
   Backbone.history.start
     pushState: true

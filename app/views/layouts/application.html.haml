@@ -11,4 +11,10 @@
         #navigation
         #chat
       #content.span9
+    #editor.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'myModalLabel', :'aria-hidden' => true}
+      %form{url: '#'}
+        %input{type: 'text'}
+        %input{type: 'submit'}
+          Submit
+
     = yield
