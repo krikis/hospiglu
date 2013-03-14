@@ -48,6 +48,7 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.navigation.show(phases)
+        # render chat here!
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
@@ -76,6 +77,7 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.navigation.show(phases)
+        # render chat here!
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
@@ -105,6 +107,7 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.navigation.show(phases)
+        # render chat here!
         integrationView = new Hospiglu.Views.Graffles.IntegrationView
           graffles: graffles
         Hospiglu.content.show(integrationView)
@@ -140,6 +143,7 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.navigation.show(phases)
+        # render chat here!
         Hospiglu.grafflesCallbacks.add =>
           graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
           votingView = new Hospiglu.Views.Graffles.VotingView
@@ -170,6 +174,7 @@ Hospiglu.module 'Routers', ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
         Hospiglu.navigation.show(phases)
+        # render chat here!
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
