@@ -61,8 +61,6 @@ Hospiglu.module "Views.Shapes", ->
         shape.drag(@move, @down, @up)
         shape.mouseup(@handleDelete)
         shape.dblclick(@editText)
-        shape.mousedown(@initEditGesture)
-        shape.mouseup(@detectEditGesture)
       shape
 
     onClose: ->
@@ -107,6 +105,7 @@ Hospiglu.module "Views.Shapes", ->
 
     down: ->
       return if Hospiglu.selectedMenuItem?
+      @gestureStart = new Date().getTime()
       @dx = @dy = 0
       @ox = (if @type is "rect" then @attr("x") else @attr("cx"))
       @oy = (if @type is "rect" then @attr("y") else @attr("cy"))
@@ -117,20 +116,25 @@ Hospiglu.module "Views.Shapes", ->
     up: ->
       return if Hospiglu.selectedMenuItem?
       if Hospiglu.getSemaphore()
-        model = @model
-        collection = @collection
-        box = @getBBox()
-        [x, y, ox, oy] = [@x, @y, @ox, @oy]
-        @remove() unless model.collection?
-        if x? and y? and (x isnt ox or y isnt oy)
-          shapeProperties = model.get('properties')
-          # is the new shape position below the menu?
-          if box.y >= 100
-            shapeProperties.x = x
-            shapeProperties.y = y - 100 # subtract menu
-            model.set properties: shapeProperties
-            collection.add model
-            model.save()
+        duration = new Date().getTime() - @gestureStart
+        distance = Math.sqrt(Math.pow(@dx, 2) + Math.pow(@dy, 2))
+        if duration > 500 and distance == 0
+          @view.editText.apply(@, arguments)
+        else
+          model = @model
+          collection = @collection
+          box = @getBBox()
+          [x, y, ox, oy] = [@x, @y, @ox, @oy]
+          @remove() unless model.collection?
+          if x? and y? and (x isnt ox or y isnt oy)
+            shapeProperties = model.get('properties')
+            # is the new shape position below the menu?
+            if box.y >= 100
+              shapeProperties.x = x
+              shapeProperties.y = y - 100 # subtract menu
+              model.set properties: shapeProperties
+              collection.add model
+              model.save()
         @animate
             "fill-opacity": 0
           , 500
@@ -201,17 +205,6 @@ Hospiglu.module "Views.Shapes", ->
             @connection.to = @
             @paper.connection(@connection)
             @paper.safari()
-
-    initEditGesture: ->
-      @gestureStart = new Date().getTime()
-
-    detectEditGesture: ->
-      return if Hospiglu.selectedMenuItem?
-      if Hospiglu.getSemaphore()
-        duration = new Date().getTime() - @gestureStart
-        distance = Math.sqrt(Math.pow(@dx, 2) + Math.pow(@dy, 2))
-        if duration > 500 and distance == 0
-          @view.editText.apply(@, arguments)
 
     editText: ->
       $('#editor').modal()
