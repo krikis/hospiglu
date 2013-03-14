@@ -19,7 +19,8 @@ Backbone.Marionette.Renderer.render = (template, data) ->
 
 Hospiglu.addInitializer (options)->
   Hospiglu.addRegions
-    sidebar:           '#sidebar'
+    navigation:        '#navigation'
+    chat:              '#chat'
     content:           '#content'
     firstDepartment:   '#firstDepartment'
     secondDepartment:  '#secondDepartment'

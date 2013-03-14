@@ -47,7 +47,7 @@ Hospiglu.module 'Routers', ->
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-        Hospiglu.sidebar.show(phases)
+        Hospiglu.navigation.show(phases)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
@@ -75,7 +75,7 @@ Hospiglu.module 'Routers', ->
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-        Hospiglu.sidebar.show(phases)
+        Hospiglu.navigation.show(phases)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
@@ -104,7 +104,7 @@ Hospiglu.module 'Routers', ->
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-        Hospiglu.sidebar.show(phases)
+        Hospiglu.navigation.show(phases)
         integrationView = new Hospiglu.Views.Graffles.IntegrationView
           graffles: graffles
         Hospiglu.content.show(integrationView)
@@ -139,7 +139,7 @@ Hospiglu.module 'Routers', ->
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-        Hospiglu.sidebar.show(phases)
+        Hospiglu.navigation.show(phases)
         Hospiglu.grafflesCallbacks.add =>
           graffles = new Hospiglu.Collections.GrafflesCollection @brainstorm.currentGrafflesWith(@user)
           votingView = new Hospiglu.Views.Graffles.VotingView
@@ -169,7 +169,7 @@ Hospiglu.module 'Routers', ->
             success: (collection) ->
               Hospiglu.connectionsCallbacks.run {}, collection
         phases = new Hospiglu.Views.Brainstorms.PhasesView(model: @brainstorm)
-        Hospiglu.sidebar.show(phases)
+        Hospiglu.navigation.show(phases)
         graffleView = new Hospiglu.Views.Graffles.ShowView
           model: graffle
         Hospiglu.content.show(graffleView)
