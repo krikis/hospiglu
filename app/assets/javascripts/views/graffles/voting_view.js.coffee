@@ -12,7 +12,7 @@ Hospiglu.module "Views.Graffles", ->
           else
             graffle.get('properties').name
           id: graffle.id
-          average: graffle.get('properties').average_vote
+          average: graffle.averageVote()
         ),
         @model.toJSON()
 
@@ -28,6 +28,12 @@ Hospiglu.module "Views.Graffles", ->
       userVote: ->
         @properties.votes ||= {}
         @properties.votes[Hospiglu.router.user.id]
+
+      averageVote: ->
+        sum = _.reduce @properties.votes, ((memo, value) ->
+          memo + value
+        ), 0
+        sum / _.values(@properties.votes).length
 
       roundedVote: (vote) ->
         Math.round(10 * vote) / 10
@@ -59,10 +65,6 @@ Hospiglu.module "Views.Graffles", ->
       properties = @model.get('properties')
       properties.votes ||= {}
       properties.votes[Hospiglu.router.user.id] = parseInt $(event.target).html()
-      sum = _.reduce properties.votes, ((memo, value) ->
-        memo + value
-      ), 0
-      properties.average_vote = sum / _.values(properties.votes).length
       @model.set properties: properties
       # make sure to trigger change event
       @model.set Hospiglu.router.user.id, properties.votes[Hospiglu.router.user.id]
@@ -77,7 +79,7 @@ Hospiglu.module "Views.Graffles", ->
       @render()
 
     showVote: ->
-      averageVote = @model.get('properties').average_vote
+      averageVote = @model.averageVote()
       voteBox = @$el.find(".average.#{@model.id}")
       voteBox.html(
         Math.round(10 * averageVote) / 10

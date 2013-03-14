@@ -22,10 +22,10 @@
             .btn.vote{class: 'btn-primary' if @userVote() == 5} 5
             .btn.vote{class: 'btn-primary' if @userVote() == 6} 6
             .btn.vote{class: 'btn-primary' if @userVote() == 7} 7
-        .row-fluid.average-vote{style: ('display: none' unless @properties.average_vote?)}
+        .row-fluid.average-vote{style: ('display: none' unless @averageVote()?)}
           Average Vote:
-          .badge.average{class: "#{@voteClass(@properties.average_vote)} #{@id}"}
-            = @roundedVote(@properties.average_vote)
+          .badge.average{class: "#{@voteClass(@averageVote())} #{@id}"}
+            = @roundedVote(@averageVote())
       .row-fluid
         .btn.btn-primary#consolidate
           %i.icon-ok.icon-white

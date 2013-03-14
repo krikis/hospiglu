@@ -49,6 +49,12 @@ class GrafflesController < ApplicationController
   # PATCH/PUT /graffles/1.json
   def update
     @graffle = Graffle.find(params[:id])
+    # make sure not to overwrite previous votes
+    if votes = params[:graffle][:properties][:votes] and @graffle.properties[:votes]
+      voter_id = votes.keys.select{|key| params[key] == votes[key]}.first
+      @graffle.properties[:votes][voter_id] = votes[voter_id]
+      params[:graffle][:properties][:votes] = @graffle.properties[:votes]
+    end
 
     respond_to do |format|
       if @graffle.update_attributes(graffle_params)

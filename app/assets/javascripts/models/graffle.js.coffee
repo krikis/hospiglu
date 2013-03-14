@@ -6,6 +6,13 @@ Hospiglu.module "Models", ->
     getContainer: ->
       @get('graffle_type') || "container#{@get('user_id')}"
 
+    averageVote: ->
+      if votes = @get('properties').votes
+        sum = _.reduce votes, ((memo, value) ->
+          memo + value
+        ), 0
+        sum / _.values(votes).length
+
     shapes: ->
       return @shapesCollection if @shapesCollection?
       @shapesCollection = new Hospiglu.Collections.ShapesCollection()
