@@ -30,10 +30,12 @@ Hospiglu.module "Views.Graffles", ->
         @properties.votes[Hospiglu.router.user.id]
 
       averageVote: ->
-        sum = _.reduce @properties.votes, ((memo, value) ->
-          memo + value
-        ), 0
-        sum / _.values(@properties.votes).length
+        if (votes = @properties.votes) and _.values(votes).length > 0
+          console.log votes
+          sum = _.reduce votes, ((memo, value) ->
+            memo + value
+          ), 0
+          sum / _.values(votes).length
 
       roundedVote: (vote) ->
         Math.round(10 * vote) / 10

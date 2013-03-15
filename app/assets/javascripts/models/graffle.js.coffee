@@ -7,7 +7,7 @@ Hospiglu.module "Models", ->
       @get('graffle_type') || "container#{@get('user_id')}"
 
     averageVote: ->
-      if votes = @get('properties').votes
+      if (votes = @get('properties').votes) and _.values(votes).length > 0
         sum = _.reduce votes, ((memo, value) ->
           memo + value
         ), 0
