@@ -11,10 +11,21 @@
         #navigation
         #chat
       #content.span9
-    #editor.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'myModalLabel', :'aria-hidden' => true}
-      %form{url: '#'}
-        %input{type: 'text'}
-        %input{type: 'submit'}
-          Submit
+    #editor.modal.hide.fade{tabindex: -1, role: 'dialog', :'aria-labelledby' => 'editorLabel', :'aria-hidden' => true}
+      %form.form-horizontal{url: '#'}
+        .modal-header
+          .button.close{:'data-dismiss' => 'modal', :'aria-hidden' => true} x
+          %h3#editorLabel Details
+        .modal-body
+          .control-group
+            %label.control-label{for: 'shape_label'} Label
+            .controls
+              %input#shape_label{type: 'text', name: 'shape[label]', maxlength: 15, placeholder: 'Put the label here'}
+          .control-group.last
+            %label.control-label{for: 'shape_description'} Description
+            .controls
+              %textarea#shape_description{name: 'shape[description]', rows: 4, placeholder: 'Add some description'}
+        .modal-footer
+          %input.btn.btn-primary{type: 'submit', value: 'Save'}
 
     = yield

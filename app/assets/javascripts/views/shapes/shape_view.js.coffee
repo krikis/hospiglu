@@ -208,6 +208,8 @@ Hospiglu.module "Views.Shapes", ->
 
     editText: ->
       $('#editor').modal()
+      $('#editor').on 'shown', ->
+        $('#shape_label').focus()
 
 
 
