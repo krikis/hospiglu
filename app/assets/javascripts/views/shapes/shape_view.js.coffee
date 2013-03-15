@@ -115,9 +115,10 @@ Hospiglu.module "Views.Shapes", ->
         @attr
           x: @x
           y: @y
-        @text.attr
-          x: @x + (@attr('width') / 2)
-          y: @y + (@attr('height') / 2)
+        if @text
+          @text.attr
+            x: @x + (@attr('width') / 2)
+            y: @y + (@attr('height') / 2)
       else
         @y = if @model.collection? and @y - @attr('ry') < 100
           100 + @attr('ry')
@@ -126,9 +127,10 @@ Hospiglu.module "Views.Shapes", ->
         @attr
           cx: @x
           cy: @y
-        @text.attr
-          x: @x
-          y: @y
+        if @text
+          @text.attr
+            x: @x
+            y: @y
       @view.redrawConnections(@model, @paper)
 
     down: ->
