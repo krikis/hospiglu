@@ -1,7 +1,7 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
     modelEvents:
-      'change': 'render'
+      'change:details': 'render'
 
     render: ->
       @shape?.remove()
@@ -213,6 +213,7 @@ Hospiglu.module "Views.Shapes", ->
     editText: ->
       $('#editor #save_details').unbind('click')
       $('#editor #save_details').click @view.updateDetails
+      $('#editor').keydown @view.handleKeystroke
       properties = @model.get('properties')
       $('#editor #shape_label').attr('value', properties.label)
       $('#editor #shape_description').attr('value', properties.description)
@@ -223,6 +224,10 @@ Hospiglu.module "Views.Shapes", ->
         $('#editor #shape_label').attr('value', null)
         $('#editor #shape_description').attr('value', null)
 
+    handleKeystroke: (event) =>
+      if event.keyCode == 13
+        @updateDetails(event)
+
     updateDetails: (event) =>
       event.stopPropagation()
       event.preventDefault()
@@ -230,7 +235,7 @@ Hospiglu.module "Views.Shapes", ->
       properties.label =  $('#editor #shape_label').attr('value')
       properties.description =  $('#editor #shape_description').attr('value')
       @model.save(properties: properties)
-      @model.trigger('change', @model, {})
+      @model.trigger('change:details', @model, {})
       $('#editor').modal('hide')
 
 
