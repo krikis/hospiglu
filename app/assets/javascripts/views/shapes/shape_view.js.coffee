@@ -70,6 +70,16 @@ Hospiglu.module "Views.Shapes", ->
         'fill-opacity': 0
         'stroke-width': 2
         cursor: 'move' unless @options.noEditing
+      if shapeProperties.description?.length > 0 or (shapeProperties.label?.length > 0 and @options.noEditing)
+        tooltip = if shapeProperties.description?.length == 0
+          shapeProperties.label
+        else if shapeProperties.label?.length == 0
+          shapeProperties.description
+        else
+          "#{shapeProperties.label}: #{shapeProperties.description}"
+        $(shape.node).attr('title', tooltip)
+        placement = if @options.noEditing then 'bottom' else 'top'
+        $(shape.node).tooltip placement: placement, container: 'body'
       @redrawConnections(model, paper)
       if inMenu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
@@ -134,6 +144,7 @@ Hospiglu.module "Views.Shapes", ->
       @view.redrawConnections(@model, @paper)
 
     down: ->
+      $('.tooltip').hide()
       return if Hospiglu.selectedMenuItem?
       @gestureStart = new Date().getTime()
       @dx = @dy = 0
@@ -260,7 +271,7 @@ Hospiglu.module "Views.Shapes", ->
       event.preventDefault()
       properties = @model.get('properties')
       properties.label =  $('#editor #shape_label').attr('value')
-      properties.description =  $('#editor #shape_description').attr('value')
+      properties.description =  $('#editor #shape_description').attr('value').substring(0, 255)
       @model.save(properties: properties)
       @model.trigger('change:details', @model, {})
       $('#editor').modal('hide')
