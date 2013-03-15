@@ -1,6 +1,10 @@
 Hospiglu.module "Views.Shapes", ->
   class @ShapeView extends Marionette.ItemView
+    modelEvents:
+      'change': 'render'
+
     render: ->
+      @shape?.remove()
       @options.scale ||= 1
       unless @options.noEditing and @model.get('in_menu')
         paper = @options.paper
@@ -226,6 +230,7 @@ Hospiglu.module "Views.Shapes", ->
       properties.label =  $('#editor #shape_label').attr('value')
       properties.description =  $('#editor #shape_description').attr('value')
       @model.save(properties: properties)
+      @model.trigger('change', @model, {})
       $('#editor').modal('hide')
 
 
