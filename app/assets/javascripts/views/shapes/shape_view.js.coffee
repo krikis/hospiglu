@@ -207,9 +207,26 @@ Hospiglu.module "Views.Shapes", ->
             @paper.safari()
 
     editText: ->
-      $('#editor').modal()
+      $('#editor #save_details').unbind('click')
+      $('#editor #save_details').click @view.updateDetails
+      properties = @model.get('properties')
+      $('#editor #shape_label').attr('value', properties.label)
+      $('#editor #shape_description').attr('value', properties.description)
+      $('#editor').modal('show')
       $('#editor').on 'shown', ->
         $('#shape_label').focus()
+      $('#editor').on 'hidden', ->
+        $('#editor #shape_label').attr('value', null)
+        $('#editor #shape_description').attr('value', null)
+
+    updateDetails: (event) =>
+      event.stopPropagation()
+      event.preventDefault()
+      properties = @model.get('properties')
+      properties.label =  $('#editor #shape_label').attr('value')
+      properties.description =  $('#editor #shape_description').attr('value')
+      @model.save(properties: properties)
+      $('#editor').modal('hide')
 
 
 
