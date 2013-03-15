@@ -71,15 +71,11 @@ Hospiglu.module "Views.Shapes", ->
         'stroke-width': 2
         cursor: 'move' unless @options.noEditing
       if shapeProperties.description?.length > 0 or (shapeProperties.label?.length > 0 and @options.noEditing)
-        tooltip = if shapeProperties.description?.length == 0
-          shapeProperties.label
-        else if shapeProperties.label?.length == 0
-          shapeProperties.description
-        else
-          "#{shapeProperties.label}: #{shapeProperties.description}"
-        $(shape.node).attr('title', tooltip)
+        $(shape.node).attr('title', shapeProperties.label)
+        $(shape.node).attr('data-content', shapeProperties.description)
+        $(shape.node).attr('href', '#')
         placement = if @options.noEditing then 'bottom' else 'top'
-        $(shape.node).tooltip placement: placement, container: 'body', trigger: 'hover click'
+        $(shape.node).popover placement: placement, container: 'body', trigger: 'hover'
       @redrawConnections(model, paper)
       if inMenu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
@@ -116,7 +112,7 @@ Hospiglu.module "Views.Shapes", ->
 
     move: (dx, dy) ->
       return if Hospiglu.selectedMenuItem?
-      $('.tooltip').hide()
+      $('.popover').hide()
       @dx = Math.max Math.abs(dx), @dx || 0
       @dy = Math.max Math.abs(dy), @dy || 0
       @x = @ox + dx
@@ -204,7 +200,7 @@ Hospiglu.module "Views.Shapes", ->
       @toFront()
 
     moveConnection: (dx, dy) ->
-      $('.tooltip').hide()
+      $('.popover').hide()
       @y = @oy + dy
       @attr
         cx: @ox + dx
