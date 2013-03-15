@@ -26,6 +26,7 @@ Hospiglu.module 'Routers', ->
 
     firstDepartment: ->
       if @sessionValid()
+        Raphael.getColor.reset()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         graffle = _.first @brainstorm.currentGrafflesWith(@user)
@@ -54,6 +55,7 @@ Hospiglu.module 'Routers', ->
 
     secondDepartment: ->
       if @sessionValid()
+        Raphael.getColor.reset()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         graffle = _.first @brainstorm.currentGrafflesWith(@user)
@@ -82,6 +84,7 @@ Hospiglu.module 'Routers', ->
 
     yourDepartment: ->
       if @sessionValid()
+        Raphael.getColor.reset()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         @brainstorm.save(state: 'open')
@@ -111,6 +114,7 @@ Hospiglu.module 'Routers', ->
 
     voting: ->
       if @sessionValid()
+        Raphael.getColor.reset()
         Hospiglu.grafflesCallbacks = new Marionette.Callbacks()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
@@ -148,6 +152,7 @@ Hospiglu.module 'Routers', ->
 
     consolidation: ->
       if @sessionValid()
+        Raphael.getColor.reset()
         Hospiglu.shapesCallbacks = new Marionette.Callbacks()
         Hospiglu.connectionsCallbacks = new Marionette.Callbacks()
         graffle = _.first @brainstorm.currentGrafflesWith(@user)
