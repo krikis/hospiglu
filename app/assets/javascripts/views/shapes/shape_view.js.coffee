@@ -4,6 +4,7 @@ Hospiglu.module "Views.Shapes", ->
       'change:details': 'render'
 
     render: ->
+      @shape?.text?.remove()
       @shape?.remove()
       @options.scale ||= 1
       unless @options.noEditing and @model.get('in_menu')
@@ -12,7 +13,6 @@ Hospiglu.module "Views.Shapes", ->
         @shape.model = @model
         @shape.view = @
         @shape.collection = @model.collection
-        @model.el = @shape
         @shape.mousedown @cloneShape if @model.get('in_menu')
       @
 
@@ -35,18 +35,31 @@ Hospiglu.module "Views.Shapes", ->
     createShape: (model, paper) ->
       inMenu = model.get('in_menu')
       shapeProperties = model.get('properties')
+      x = shapeProperties.x * @options.scale
       y = if not model.collection or inMenu or @options.noEditing
         shapeProperties.y * @options.scale
       else
         shapeProperties.y * @options.scale + 100 # move below menu
-      shape = paper[shapeProperties.shape_type].call(
-        paper,
-        shapeProperties.x * @options.scale,
-        y, # move below menu
-        shapeProperties.width * @options.scale,
-        shapeProperties.height * @options.scale,
-        shapeProperties.border_radius * @options.scale
-      )
+      width = shapeProperties.width * @options.scale
+      height = shapeProperties.height * @options.scale
+      radius = shapeProperties.border_radius * @options.scale
+      if label = shapeProperties.label
+        [textX, textY] = if shapeProperties.shape_type == 'rect'
+          [x + (width / 2), y + (height / 2)]
+        else
+          [x, y]
+        fontSize = 15 * @options.scale
+        text = paper.text(textX, textY, label).attr(fill: '#fff', font: "#{fontSize}px \"Helvetica Neue\"")
+        textWidth = text.node.offsetWidth + (20 * @options.scale)
+        textWidth = textWidth / 2 unless shapeProperties.shape_type == 'rect'
+      shapeWidth = Math.max(width, textWidth || 0)
+      shapeX = if shapeProperties.shape_type == 'rect'
+        x + (width / 2) - (shapeWidth / 2)
+      else
+        x
+      shape = paper[shapeProperties.shape_type].call(paper, shapeX, y, shapeWidth, height, radius)
+      model.el = shape
+      shape.text = text
       color = if inMenu
         '#fff'
       else
@@ -57,6 +70,7 @@ Hospiglu.module "Views.Shapes", ->
         'fill-opacity': 0
         'stroke-width': 2
         cursor: 'move' unless @options.noEditing
+      @redrawConnections(model, paper)
       if inMenu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
         shape.mouseout -> @glowSet?.remove()
@@ -67,7 +81,16 @@ Hospiglu.module "Views.Shapes", ->
         shape.dblclick(@editText)
       shape
 
+    redrawConnections: (model, paper) ->
+      Hospiglu.connectionsCallbacks.add =>
+        _.each model.outgoingConnections(), (connection) =>
+          paper.connection connection.el if connection.el
+        _.each model.incomingConnections(), (connection) =>
+          paper.connection connection.el if connection.el
+      paper.safari()
+
     onClose: ->
+      @shape?.text?.remove()
       @shape?.remove()
 
     handleDelete: ->
@@ -100,12 +123,7 @@ Hospiglu.module "Views.Shapes", ->
         @attr
           cx: @x
           cy: @y
-      Hospiglu.connectionsCallbacks.add =>
-        _.each @model.outgoingConnections(), (connection) =>
-          @paper.connection connection.el
-        _.each @model.incomingConnections(), (connection) =>
-          @paper.connection connection.el
-      @paper.safari()
+      @view.redrawConnections(@model, @paper)
 
     down: ->
       return if Hospiglu.selectedMenuItem?
