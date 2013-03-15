@@ -2,8 +2,10 @@
 
 * When pulling code from github make sure to drop and rebuild your database when the schema changes
 
-    rake db:drop
-    rake db:migrate
+```shell
+bundle exec rake db:drop
+bundle exec rake db:migrate
+```
 
 # Coding Guidelines
 
