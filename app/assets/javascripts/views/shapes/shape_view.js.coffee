@@ -79,7 +79,7 @@ Hospiglu.module "Views.Shapes", ->
           "#{shapeProperties.label}: #{shapeProperties.description}"
         $(shape.node).attr('title', tooltip)
         placement = if @options.noEditing then 'bottom' else 'top'
-        $(shape.node).tooltip placement: placement, container: 'body'
+        $(shape.node).tooltip placement: placement, container: 'body', trigger: 'hover click'
       @redrawConnections(model, paper)
       if inMenu
         shape.mouseover -> @glowSet = @glow(color: '#0088cc', opacity: 1)
@@ -116,35 +116,35 @@ Hospiglu.module "Views.Shapes", ->
 
     move: (dx, dy) ->
       return if Hospiglu.selectedMenuItem?
+      $('.tooltip').hide()
       @dx = Math.max Math.abs(dx), @dx || 0
       @dy = Math.max Math.abs(dy), @dy || 0
       @x = @ox + dx
       @y = @oy + dy
       if @type is "rect"
         @y = if @model.collection? and @y < 100 then 100 else @y
-        @attr
-          x: @x
-          y: @y
         if @text
           @text.attr
             x: @x + (@attr('width') / 2)
             y: @y + (@attr('height') / 2)
+        @attr
+          x: @x
+          y: @y
       else
         @y = if @model.collection? and @y - @attr('ry') < 100
           100 + @attr('ry')
         else
           @y
-        @attr
-          cx: @x
-          cy: @y
         if @text
           @text.attr
             x: @x
             y: @y
+        @attr
+          cx: @x
+          cy: @y
       @view.redrawConnections(@model, @paper)
 
     down: ->
-      $('.tooltip').hide()
       return if Hospiglu.selectedMenuItem?
       @gestureStart = new Date().getTime()
       @dx = @dy = 0
@@ -169,6 +169,8 @@ Hospiglu.module "Views.Shapes", ->
           @remove() unless model.collection?
           if x? and y? and (x isnt ox or y isnt oy)
             shapeProperties = model.get('properties')
+            if @type is "rect"
+              x += Math.abs(@attr('width') - shapeProperties.width) / 2
             # is the new shape position below the menu?
             if box.y >= 100
               shapeProperties.x = x
@@ -202,6 +204,7 @@ Hospiglu.module "Views.Shapes", ->
       @toFront()
 
     moveConnection: (dx, dy) ->
+      $('.tooltip').hide()
       @y = @oy + dy
       @attr
         cx: @ox + dx
