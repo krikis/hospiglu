@@ -150,7 +150,7 @@ Hospiglu.module "Views.Shapes", ->
       x = event.offsetX || (event.clientX - @paper.canvas.offsetLeft)
       y = event.offsetY || (event.clientY - @paper.canvas.offsetTop)
       dummy = @paper.ellipse(x, y, 5, 5).attr(opacity: 0, fill: '#fff', cursor: 'move')
-      dummy.startShape = @model.el
+      dummy.startShape = @model
       dummy.drag(@view.moveConnection, @view.initConnection, @view.saveConnection)
       dummy.onDragOver @view.snapConnectionTo
       _.select(dummy.events, (event) ->
@@ -179,8 +179,8 @@ Hospiglu.module "Views.Shapes", ->
         newModel.set('properties', _.clone(@menuItem.model.get('properties')))
         newModel.unset('id')
         newModel.set('in_menu', false)
-        newModel.set('start_shape_id', @connection.from.model.get('id'))
-        newModel.set('end_shape_id', @connection.to.model.get('id'))
+        newModel.set('start_shape_id', @connection.from.get('id'))
+        newModel.set('end_shape_id', @connection.to.get('id'))
         @menuItem.model.collection.create newModel
         Hospiglu.selectedMenuItem?.remove()
         delete Hospiglu.selectedMenuItem
@@ -191,10 +191,10 @@ Hospiglu.module "Views.Shapes", ->
       @.remove()
 
     snapConnectionTo: (shape) ->
-      if @connection? and shape isnt @connection.from and
+      if @connection? and shape isnt @connection.from.el and
          shape.type isnt 'path' and not shape.model?.get('in_menu')
         clearTimeout @releaseConnection
-        @connection.to = shape
+        @connection.to = shape.model
         @paper.connection(@connection)
         @paper.safari()
         {x: ox, y: oy} = @getBBox()
@@ -213,6 +213,7 @@ Hospiglu.module "Views.Shapes", ->
     editText: ->
       $('#editor #save_details').unbind('click')
       $('#editor #save_details').click @view.updateDetails
+      $('#editor').unbind('keydown')
       $('#editor').keydown @view.handleKeystroke
       properties = @model.get('properties')
       $('#editor #shape_label').attr('value', properties.label)

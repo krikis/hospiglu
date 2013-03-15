@@ -8,7 +8,7 @@ Hospiglu.module "Views.Connections", ->
           @createMenuItem(@model, paper) unless @options.noEditing
         else if (startShape = @model.startShape()) and
                 (endShape = @model.endShape())
-          @connection = @createConnection(@model, startShape.el, endShape.el, paper)
+          @connection = @createConnection(@model, startShape, endShape, paper)
           @model.el = @connection
       @
 
