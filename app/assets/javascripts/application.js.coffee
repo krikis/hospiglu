@@ -24,5 +24,7 @@
 #= require i18n
 #= require i18n/translations
 #= require raphael
+#= require client_chat
+#= require socket.io.js
 #
 #= require hospiglu
