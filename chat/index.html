@@ -26,7 +26,7 @@
 	socket.on('updateusers', function(data) {
 		$('#users').empty();
 		$.each(data, function(key, value) {
-			$('#users').append('<div><b>' + key + '</b></div>');
+			$('#users').append(key);
 		});
 	});
 
