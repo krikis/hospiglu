@@ -54,7 +54,14 @@ body
 #chat
   height: 400px
   overflow-y: auto
-  overflow-x: invisible
+  overflow-x: hidden
+  padding: 0.2em
+
+  .table-striped tbody > tr:nth-child(odd) > td
+    background-color: #0088cc
+
+  table
+    border-color: #0088cc
 
 #content
   padding-right: 2%
